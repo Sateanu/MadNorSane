@@ -40,6 +40,7 @@ namespace MadNorSane.Screens
         private int mNumVerticalHulls=10;
         Camera camera;
         Archer my_archer = null;
+        Archer my_archer2 = null;
 
         #endregion
 
@@ -71,7 +72,7 @@ namespace MadNorSane.Screens
 
             world = new World(new Vector2(0, 9.8f));
             my_archer = new Archer(world, content, 0, -10);
-            
+            my_archer2 = new Archer(world, content, -3, -20);
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
             camera.Follow(my_archer.my_body);
@@ -89,15 +90,17 @@ namespace MadNorSane.Screens
             Light2D light = new Light2D()
             {
                 Texture = mLightTexture,
-                Range = 100f,
+                Range = 1000f,
                 Color = Color.White,
-                Intensity = 1f,
+                Intensity = 0.8f,
                 X = 0,
-                Y = 0,
+                Y = -350,
+                Angle=1f,
+                Fov = MathHelper.PiOver2 ,
             };
             krypton.Lights.Add(light);
             for (int i = -20; i <= 20;i++)
-                addObject(i*20, 50, 20, 20);
+                addObject(i*20, 50, 10, 10);
             // Create some lights and hulls
           //  this.CreateLights(mLightTexture, this.mNumLights);
            // this.CreateHulls(this.mNumHorzontalHulls, this.mNumVerticalHulls);
@@ -266,30 +269,35 @@ namespace MadNorSane.Screens
             {
                 // Otherwise move the player position.
                 Vector2 movement = Vector2.Zero;
-
-                if (keyboardState.IsKeyDown(Keys.Left))
+                Vector2 movement2 = Vector2.Zero;
+                PlayerIndex piout;
+                Console.WriteLine((int)playerIndex);
+                if (input.IsKeyPress(Keys.Left, ControllingPlayer.Value, out piout))
                     movement.X--;
 
-                if (keyboardState.IsKeyDown(Keys.Right))
+                if (input.IsKeyPress(Keys.Right, ControllingPlayer.Value, out piout))
                     movement.X++;
 
-                if (keyboardState.IsKeyDown(Keys.Up))
+                if (input.IsKeyPress(Keys.Up, ControllingPlayer.Value, out piout))
                     movement.Y--;
 
-                if (keyboardState.IsKeyDown(Keys.Down))
+                if (input.IsKeyPress(Keys.Down, ControllingPlayer.Value, out piout))
                     movement.Y++;
 
-                
 
-                Vector2 thumbstick = gamePadState.ThumbSticks.Left;
 
-                movement.X += thumbstick.X;
-                movement.Y -= thumbstick.Y;
+                Vector2 thumbstick = input.CurrentGamePadStates[playerIndex].ThumbSticks.Left;
+
+                movement2.X += thumbstick.X;
+                movement2.Y -= thumbstick.Y;
 
                 if (movement.Length() > 1)
                     movement.Normalize();
+                if (movement2.Length() > 1)
+                    movement2.Normalize();
 
-                playerPosition += movement * 2;
+                my_archer.my_body.ApplyLinearImpulse(movement);
+                my_archer2.my_body.ApplyLinearImpulse(movement2);
             }
         }
 
@@ -318,6 +326,7 @@ namespace MadNorSane.Screens
             // By drawing here, you ensure that your scene is properly lit by krypton.
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camera.View);
             my_archer.Draw(spriteBatch);
+            my_archer2.Draw(spriteBatch);
             spriteBatch.End();
             // Drawing after KryptonEngine.Draw will cause you objects to be drawn on top of the lightmap (can be useful, fyi)
             // ----- DRAW STUFF HERE ----- //
