@@ -1,2 +1,7 @@
 lalalaa222
+<<<<<<< HEAD
+
+peste 3
+=======
 asdasd
+>>>>>>> 9cc09c7789338c1a5f393a6a2bedb9d4990b48cc
