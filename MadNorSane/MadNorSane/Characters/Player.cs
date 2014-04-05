@@ -1,4 +1,6 @@
 ﻿using FarseerPhysics.Dynamics;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +16,26 @@ namespace MadNorSane.Characters
         public String axe_throw = "axe throw";
     }
 
-    public abstract class Player
+    public abstract class Physics_object
     {
         float move_speed = 10, jump_speed = 10, health_points = 100, mana_points = 100;
         float width = 1, height = 1;
         public World my_world = null;
         public Body my_body = null;
+        public Texture2D my_texture = null;
+        public ContentManager _my_content = null;
+
+        public void set_texture(String name)
+        {
+            try
+            {
+                my_texture = _my_content.Load<Texture2D>(name);
+            }
+            catch
+            {
+                my_texture = _my_content.Load<Texture2D>("place_holder");
+            }
+        }
 
 
 

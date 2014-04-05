@@ -7,13 +7,13 @@ namespace MadNorSane.Utilities
 {
     class Conversions
     {
-        float _scale = 30;
+        static float _scale = 30;
 
-        float to_pixels(float meters)
+        static public float to_pixels(float meters)
         {
             return meters * _scale;
         }
-        float to_meters(float pixels)
+        static public float to_meters(float pixels)
         {
             return pixels / _scale;
         }
