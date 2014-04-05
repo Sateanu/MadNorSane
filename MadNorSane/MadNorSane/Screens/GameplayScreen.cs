@@ -298,7 +298,7 @@ namespace MadNorSane.Screens
                 Vector2 movement = Vector2.Zero;
                 Vector2 movement2 = Vector2.Zero;
                 PlayerIndex piout;
-                Console.WriteLine((int)playerIndex);
+                //Console.WriteLine((int)playerIndex);
 
                 bool can_left = false;
                 if (keyboardState.IsKeyDown(Keys.Left))
