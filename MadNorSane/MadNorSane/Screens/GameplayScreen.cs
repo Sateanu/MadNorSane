@@ -10,6 +10,7 @@ using Krypton;
 using Krypton.Lights;
 using FarseerPhysics.Factories;
 using MadNorSane.Utilities;
+using MadNorSane.Characters;
 #endregion
 
 namespace MadNorSane.Screens
@@ -37,6 +38,8 @@ namespace MadNorSane.Screens
         private int mNumLights=20;
         private int mNumHorzontalHulls=10;
         private int mNumVerticalHulls=10;
+
+        Archer my_archer = null;
 
         #endregion
 
@@ -66,7 +69,9 @@ namespace MadNorSane.Screens
             krypton.SpriteBatchCompatablityEnabled = true;
             krypton.CullMode = CullMode.None;
 
-            world = new World(Vector2.Zero);
+            world = new World(new Vector2(0, -9.8f));
+            my_archer = new Archer(world, content, 0, 0);
+            
             this.krypton.Initialize();
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -305,9 +310,9 @@ namespace MadNorSane.Screens
 
             // ----- DRAW STUFF HERE ----- //
             // By drawing here, you ensure that your scene is properly lit by krypton.
-
-
-
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, view);
+            my_archer.Draw(spriteBatch);
+            spriteBatch.End();
             // Drawing after KryptonEngine.Draw will cause you objects to be drawn on top of the lightmap (can be useful, fyi)
             // ----- DRAW STUFF HERE ----- //
 
