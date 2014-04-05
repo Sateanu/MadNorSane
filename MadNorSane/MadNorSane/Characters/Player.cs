@@ -21,7 +21,7 @@ namespace MadNorSane.Characters
 
     public abstract class Physics_object
     {
-        float move_speed = 1    , jump_speed = -1, health_points = 100, mana_points = 100;
+        public float move_speed = 15, jump_speed = -10, health_points = 100, mana_points = 100;
         float width = 1, height = 1;
         float x_coordinate = 0, y_coordinate = 0;
         float turnMultiplier = 1;
@@ -111,6 +111,9 @@ namespace MadNorSane.Characters
         }
         public void move_on_ground()
         {
+            Console.WriteLine("is on ground");
+            MoveClass.controlGround(this, speed_float);
+            /*
             if (btn_jump && can_jump)
             {
                 can_jump = false;
@@ -127,7 +130,7 @@ namespace MadNorSane.Characters
             {
                 velocity.X = 0;
                 my_body.LinearVelocity = velocity;
-            }
+            }*/
         }
 
         int get_wanted_direction_of_moving()
@@ -226,6 +229,9 @@ namespace MadNorSane.Characters
 
         public void controlAir()
         {
+            Console.WriteLine("is in air");
+            MoveClass.controlAir(this, 0.95f);
+            /*
             if (btn_jump)
             {
                 can_jump = false;
@@ -242,6 +248,7 @@ namespace MadNorSane.Characters
             }
 
             itWalksInAir(speed_float * 0.2f);
+             */
         }
         bool itWalksInAir(float T)
         {

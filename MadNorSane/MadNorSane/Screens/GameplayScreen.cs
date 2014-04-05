@@ -39,7 +39,10 @@ namespace MadNorSane.Screens
         private int mNumHorzontalHulls=10;
         private int mNumVerticalHulls=10;
         Camera camera;
+
+
         Archer my_archer = null;
+        Block ground = null;
 
         #endregion
 
@@ -71,6 +74,7 @@ namespace MadNorSane.Screens
 
             world = new World(new Vector2(0, 9.8f));
             my_archer = new Archer(world, content, 0, -10);
+            ground = new Block(world, content, 0, 1);
             
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
@@ -96,8 +100,8 @@ namespace MadNorSane.Screens
                 Y = 0,
             };
             krypton.Lights.Add(light);
-            for (int i = -20; i <= 20;i++)
-                addObject(i*20, 50, 20, 20);
+            //for (int i = -20; i <= 20;i++)
+                //addObject(i*20, 50, 20, 20);
             // Create some lights and hulls
           //  this.CreateLights(mLightTexture, this.mNumLights);
            // this.CreateHulls(this.mNumHorzontalHulls, this.mNumVerticalHulls);
@@ -234,7 +238,7 @@ namespace MadNorSane.Screens
                 }
             }
 
-            if (my_archer.btn_jump)
+            if (my_archer.can_jump)
             {
                 my_archer.move_on_ground();
             }
@@ -242,7 +246,7 @@ namespace MadNorSane.Screens
             {
                 my_archer.controlAir();
             }
-            Console.WriteLine(my_archer.my_body.LinearVelocity.X);
+            //Console.WriteLine(my_archer.my_body.LinearVelocity.X);
         }
 
 
@@ -305,12 +309,10 @@ namespace MadNorSane.Screens
 
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
-                    my_archer.can_jump = true;
                     my_archer.btn_jump = true;
                 }
                 else
                 {
-                    my_archer.can_jump = false;
                     my_archer.btn_jump = false;
                 }
                     //movement.Y--;
