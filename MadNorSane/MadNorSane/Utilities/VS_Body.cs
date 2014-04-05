@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MadNorSane.Utilities
 {
-    class Conversions
+    public class Conversions
     {
         static float _scale = 30;
 

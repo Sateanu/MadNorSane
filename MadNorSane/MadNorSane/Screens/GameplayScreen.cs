@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Input;
 using FarseerPhysics.Dynamics;
 using Krypton;
 using Krypton.Lights;
+using FarseerPhysics.Factories;
+using MadNorSane.Utilities;
 #endregion
 
 namespace MadNorSane.Screens
@@ -76,12 +78,35 @@ namespace MadNorSane.Screens
             // it should not try to catch up.
 
             this.mLightTexture = LightTextureBuilder.CreatePointLight(ScreenManager.GraphicsDevice, 512);
-
+            Light2D light = new Light2D()
+            {
+                Texture = mLightTexture,
+                Range = 100f,
+                Color = Color.White,
+                Intensity = 1f,
+                X = 0,
+                Y = 0,
+            };
+            krypton.Lights.Add(light);
+            for (int i = -20; i <= 20;i++)
+                addObject(i*20, 50, 20, 20);
             // Create some lights and hulls
-            this.CreateLights(mLightTexture, this.mNumLights);
-            this.CreateHulls(this.mNumHorzontalHulls, this.mNumVerticalHulls);
-
+          //  this.CreateLights(mLightTexture, this.mNumLights);
+           // this.CreateHulls(this.mNumHorzontalHulls, this.mNumVerticalHulls);
+           
             ScreenManager.Game.ResetElapsedTime();
+        }
+        void addObject(float x, float y, float width, float height)
+        {
+            var body= BodyFactory.CreateRectangle(world,Conversions.to_meters(width),Conversions.to_meters(height),1f,new Vector2(Conversions.to_meters(x),Conversions.to_meters(y)));
+            body.BodyType = BodyType.Static;
+             var hull = ShadowHull.CreateRectangle(new Vector2(width,height));
+                    hull.Position.X = x;
+                    hull.Position.Y = y;
+                    hull.Scale.X = 1f;
+                    hull.Scale.Y = 1f;
+
+                    krypton.Hulls.Add(hull);
         }
         private void CreateLights(Texture2D texture, int count)
         {
@@ -174,6 +199,7 @@ namespace MadNorSane.Screens
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     ScreenManager.Game.Exit();
 
+                world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
                 var t = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
                 var speed = 5;

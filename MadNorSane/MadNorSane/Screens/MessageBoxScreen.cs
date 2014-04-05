@@ -70,7 +70,7 @@ namespace MadNorSane.Screens
         {
             ContentManager content = ScreenManager.Game.Content;
 
-            gradientTexture = content.Load<Texture2D>("blank");
+            gradientTexture = content.Load<Texture2D>("gradient");
         }
 
 
