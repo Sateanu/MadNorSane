@@ -39,6 +39,7 @@ namespace MadNorSane.Characters
             heart = _new_content.Load<Texture2D>(@"Textures\heart");
             heartMP = _new_content.Load<Texture2D>(@"Textures\heartMP");
             set_texture("archeranim");
+            tinta = _new_content.Load<Texture2D>(@"Textures\tinta");
 
             my_attack1 = new Skill(stat.primaryDamage, 0, 0, 3, 1);
             my_attack2 = new Skill(stat.secondaryDamage, 0, 0, 5, 2);
@@ -63,7 +64,7 @@ namespace MadNorSane.Characters
         public void Draw(SpriteBatch spriteBatch)
         {
             animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
-
+            
             foreach (var arr in my_energy_balls)
             {
                 if (arr.my_body.UserData != "energy_ball_used")

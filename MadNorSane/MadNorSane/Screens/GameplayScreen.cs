@@ -484,7 +484,7 @@ namespace MadNorSane.Screens
                     player2.can_move_left = false;
                 }
 
-                if (input.CurrentGamePadStates[playerIndex].Buttons.RightShoulder == ButtonState.Pressed && input.LastGamePadStates[playerIndex].Buttons.RightShoulder == ButtonState.Released)
+                if (input.CurrentGamePadStates[playerIndex].Triggers.Right!=0 && input.LastGamePadStates[playerIndex].Triggers.Right==0)
                 {
                     Vector2 direction = input.CurrentGamePadStates[playerIndex].ThumbSticks.Right * 100 ;
                     direction.Y *= -1;

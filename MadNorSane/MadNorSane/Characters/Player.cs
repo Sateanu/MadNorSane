@@ -19,6 +19,16 @@ namespace MadNorSane.Characters
        public Texture2D heart;
        public Texture2D arrowtext;
        public Texture2D heartMP;
+       public Texture2D tinta;
+       public float tintaAngle;
+       public void setAngle(float f)
+       {
+           tintaAngle = f;
+       }
+       public void DrawTinta(SpriteBatch spriteBatch)
+       {
+           
+       }
        public float MP
         {
             get { return stat.mana_points; }
