@@ -35,7 +35,7 @@ namespace MadNorSane.Characters
                     }
         }
 
-        int get_my_current_direction(Physics_object player)
+        private static int get_my_current_direction(Physics_object player)
         {
             if(player.my_body.LinearVelocity.X > 0)
             {
@@ -49,7 +49,7 @@ namespace MadNorSane.Characters
             return 0;
         }
 
-        int get_my_wanted_direction(Physics_object player)
+        private static int get_my_wanted_direction(Physics_object player)
         {
             if(player.btn_move_right)
             {
@@ -67,8 +67,6 @@ namespace MadNorSane.Characters
         {
             if(!player.btn_move_right && !player.btn_move_left)
             {
-                player.my_body.ApplyLinearImpulse(new Vector2(0, 0));
-                //player.my_body.LinearVelocity = new Vector2(player.my_body.LinearVelocity.X * T, player.my_body.LinearVelocity.Y);
                 return;
             }
             else
@@ -76,34 +74,38 @@ namespace MadNorSane.Characters
                 {
                     if (player.my_body.LinearVelocity.X < player.move_speed)
                     {
-                        /*if (get_my_current_direction() != 0 && get_my_wanted_direction() != 0 && get_my_wanted_direction() != get_my_current_direction())
+                        if (get_my_current_direction(player) != 0 && get_my_wanted_direction(player) != 0 && get_my_wanted_direction(player) != get_my_current_direction(player))
                         {
-                            player.my_body.ApplyLinearImpulse(new Vector2(player.move_speed * 0.05f, 0));
+                            player.my_body.ApplyLinearImpulse(new Vector2(player.move_speed * 0.025f, 0));
                         }
                         else
-                        {*/
-                            player.my_body.ApplyLinearImpulse(new Vector2(player.move_speed * 0.05f, 0));
-                        //}
+                        {
+                            player.my_body.ApplyLinearImpulse(new Vector2(player.move_speed * 0.035f, 0));
+                        }
                     }
                     else
                     {
                         player.my_body.LinearVelocity = new Vector2(player.move_speed, player.my_body.LinearVelocity.Y);
                     }
-                    //player.my_body.LinearVelocity = new Vector2(player.move_speed, player.my_body.LinearVelocity.Y);
                 }
                 else
                     if (!player.btn_move_right && player.btn_move_left)
                     {
                         if (player.my_body.LinearVelocity.X > -player.move_speed)
                         {
-                            player.my_body.ApplyLinearImpulse(new Vector2(-player.move_speed * 0.05f, 0));
+                            if (get_my_current_direction(player) != 0 && get_my_wanted_direction(player) != 0 && get_my_wanted_direction(player) != get_my_current_direction(player))
+                            {
+                                player.my_body.ApplyLinearImpulse(new Vector2(-player.move_speed * 0.025f, 0));
+                            }
+                            else
+                            {
+                                player.my_body.ApplyLinearImpulse(new Vector2(-player.move_speed * 0.035f, 0));
+                            }
                         }
                         else
                         {
                             player.my_body.LinearVelocity = new Vector2(-player.move_speed, player.my_body.LinearVelocity.Y);
                         }
-
-                        //player.my_body.LinearVelocity = new Vector2(-player.move_speed, player.my_body.LinearVelocity.Y);
                     }
 
         }

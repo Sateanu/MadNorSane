@@ -119,219 +119,12 @@ namespace MadNorSane.Characters
         }
         public void move_on_ground()
         {
-            Console.WriteLine("is on ground");
             MoveClass.controlGround(this, speed_float);
-            /*
-            if (btn_jump && can_jump)
-            {
-                can_jump = false;
-
-                velocity.Y = jump_speed;
-
-                my_body.ApplyLinearImpulse(velocity);
-                //my_body.LinearVelocity = velocity;
-                return;
-            }
-
-            // Run on ground
-            if (!itWalks(speed_float))
-            {
-                velocity.X = 0;
-                my_body.LinearVelocity = velocity;
-            }*/
         }
-
-        int get_wanted_direction_of_moving()
-        {
-            int sign = 0;
-            if (btn_move_right && btn_move_left == false)
-            {
-                sign = 1;
-            }
-            else
-                if (btn_move_right == false && btn_move_left)
-                {
-                    sign = -1;
-                }
-            return sign;
-        }
-        int get_current_direction_of_moving()
-        {
-            int sign = 0;
-            if (my_body.LinearVelocity.X < 0)
-            {
-                sign = -1;
-            }
-            else
-                if (my_body.LinearVelocity.X > 0)
-                {
-                    sign = 1;
-                }
-            return sign;
-        }
-
-        bool itWalks(float T)
-        {
-
-            int sign_wanted = get_wanted_direction_of_moving();
-            if(sign_wanted == 0)
-            {
-                return false;
-            }
-            float sign_current = get_current_direction_of_moving();
-
-            
-            float new_speed = move_speed;
-
-            if (sign_current != 0 && sign_current != sign_wanted)
-            {
-                new_speed *= turnMultiplier;
-            }
-
-            float speedVelocity = 0;
-            speedVelocity = velocity.X;
-
-            //verific daca viteza curenta este mai mica decat viteza maxima, altfel nu mai maresc viteza
-            if (sign_wanted < 0)
-            {
-                if (speedVelocity > 0)
-                {
-                    speedVelocity *= -1 * T;
-                }
-
-                if (speedVelocity > -move_speed)
-                {
-                    speedVelocity += new_speed * sign_wanted * T;
-                }
-                else
-                {
-                    speedVelocity = -move_speed;
-                }
-            }
-            else
-                if (sign_wanted > 0)
-                {
-                    if (speedVelocity < 0)
-                    {
-                        speedVelocity *= -1 * 0.1f;
-                    }
-
-                    if (speedVelocity < move_speed)
-                    {
-                        speedVelocity += new_speed * sign_wanted * T;
-                    }
-                    else
-                    {
-                        speedVelocity = move_speed;
-                    }
-                }
-
-            float velChangeX = speedVelocity - my_body.LinearVelocity.X;
-            float impulseX = my_body.Mass * velChangeX;
-            my_body.ApplyLinearImpulse(new Vector2(impulseX, 0), my_body.WorldCenter);
-            velocity.X = speedVelocity;
-
-
-            return true;
-        }
-        
-
 
         public void controlAir()
         {
-            Console.WriteLine("is in air");
             MoveClass.controlAir(this, 0.95f);
-            /*
-            if (btn_jump)
-            {
-                can_jump = false;
-                velocity.Y = jump_speed;
-                btn_jump = false;
-                my_body.LinearVelocity = (velocity);
-                return;
-            }
-
-            // Abort jump if user lets go of button
-            if (velocity.Y > 0 && !btn_jump)
-            {
-                velocity.Y = 0;
-            }
-
-            itWalksInAir(speed_float * 0.2f);
-             */
-        }
-        bool itWalksInAir(float T)
-        {
-            float speedVelocity = 0;
-            speedVelocity = velocity.X;/// * -sgn(worldGravity.y);
-
-            float linearVelocity = 0;
-            linearVelocity = my_body.LinearVelocity.X;
-
-            float sign = 0;
-
-            if (btn_move_right && btn_move_left == false)
-            {
-                sign = 1;
-            }
-            else
-                if (btn_move_right == false && btn_move_left)
-                {
-                    sign = -1;
-                }
-                else
-                    return false;
-
-            float currentSign = 0;
-
-            if (linearVelocity < 0)
-            {
-                currentSign = -1;
-            }
-            else
-                if (linearVelocity > 0)
-                {
-                    currentSign = 1;
-                }
-
-            float v = move_speed;
-
-            if (currentSign != 0 && currentSign != sign)
-            {
-                //iau pozitia ca sa stiu cum misc camera
-                v *= turnMultiplier;
-            }
-
-            //verific daca viteza curenta este mai mica decat viteza maxima, altfel nu mai maresc viteza
-            if (sign < 0)
-            {
-                if (speedVelocity > -move_speed)
-                {
-                    speedVelocity += v * sign * T;
-                }
-                else
-                {
-                    speedVelocity = -move_speed;
-                }
-            }
-            else
-            {
-                if (speedVelocity < move_speed)
-                {
-                    speedVelocity += v * sign * T;
-                }
-                else
-                {
-                    speedVelocity = move_speed;
-                }
-            }
-
-
-            float velChangeX = speedVelocity - my_body.LinearVelocity.X;
-            float impulseX = my_body.Mass * velChangeX;
-            my_body.ApplyLinearImpulse(new Vector2(impulseX, 0), my_body.WorldCenter);
-            velocity.X = speedVelocity;
-            return true;
         }
 
 
@@ -351,13 +144,11 @@ namespace MadNorSane.Characters
                     if (fixB.Body.UserData == "ground" && touched_sides.Y > 0)
                     {
                         can_jump = true;
-                        Console.WriteLine("is on ground");
                     }
                     else
                     if (fixB.Body.UserData == "ground" && touched_sides.Y < 0)
                     {
                         can_jump = false;
-                        Console.WriteLine("is under ground");
                     }
                     else
                     if (fixB.Body.UserData == "wall" && touched_sides.X > 0)
