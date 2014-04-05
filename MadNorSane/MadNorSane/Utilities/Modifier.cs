@@ -5,8 +5,9 @@ using System.Text;
 
 namespace MadNorSane.Utilities
 {
-    class Modifier
+   public class Modifier : Stats
     {
-
+        public string descriere = "";
+        
     }
 }

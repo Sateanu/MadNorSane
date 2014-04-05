@@ -13,35 +13,34 @@ namespace MadNorSane.Characters
    public abstract class Player : Physics_object
     {
 
-       public float move_speed = 15, jump_speed = -10, health_points = 10, mana_points = 100;
+       public Stats stat;
        public bool btn_jump = false, btn_move_left = false, btn_move_right = false, btn_atack1 = false, btn_atack2 = false;
        public bool can_jump = false, can_move_left = false, can_move_right = false, can_atack1 = false, can_atack2 = false;
        public Texture2D heart;
-        public int maxArrows = 4;
        public Texture2D arrowtext;
-      public int arrownr = 4;
+       
        public float MP
         {
-            get { return mana_points; }
-            set { mana_points = value; }
+            get { return stat.mana_points; }
+            set { stat.mana_points = value; }
         }
 
         public float HP
         {
-            get { return health_points; }
-            set { health_points = value; }
+            get { return stat.health_points; }
+            set { stat.health_points = value; }
         }
 
         public float Jump_speed
         {
-            get { return jump_speed; }
-            set { jump_speed = value; }
+            get { return stat.jump_speed; }
+            set { stat.jump_speed = value; }
         }
 
         public float Move_speed
         {
-            get { return move_speed; }
-            set { move_speed = value; }
+            get { return stat.move_speed; }
+            set { stat.move_speed = value; }
         }
         bool has_weapon = true;
 
@@ -78,13 +77,13 @@ namespace MadNorSane.Characters
                 case 0:
                     for (int i = 0; i < HP; i++)
                         spriteBatch.Draw(heart, new Rectangle(i * 34, 0, 32, 32),Color.White);
-                    for (int i = 0; i < arrownr; i++)
+                    for (int i = 0; i < stat.arrownr; i++)
                         spriteBatch.Draw(arrowtext, new Rectangle(i * 34, 34, 32, 32), Color.White);
                     break;
                 case 1:
                     for (int i =0; i < HP; i++)
                         spriteBatch.Draw(heart, new Rectangle(viewport.Width-i * 34 - 34, 0, 32, 32), Color.White);
-                    for (int i = 0; i < arrownr; i++)
+                    for (int i = 0; i < stat.arrownr; i++)
                         spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * 34 - 34, 34, 32, 32), Color.White);
                     break;
                 default:

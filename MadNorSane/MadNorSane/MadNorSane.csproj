@@ -92,8 +92,9 @@
     <Compile Include="Utilities\Camera.cs" />
     <Compile Include="Utilities\Damage.cs" />
     <Compile Include="Utilities\Modifier.cs" />
-    <Compile Include="Utilities\Modifiers.cs" />
+    <Compile Include="Utilities\ModifierList.cs" />
     <Compile Include="Utilities\Skill.cs" />
+    <Compile Include="Utilities\Stats.cs" />
     <Compile Include="Utilities\VS_Body.cs" />
     <Compile Include="ScreenManager\GameScreen.cs" />
     <Compile Include="ScreenManager\InputState.cs" />

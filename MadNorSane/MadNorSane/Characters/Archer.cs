@@ -17,16 +17,20 @@ namespace MadNorSane.Characters
         public Skill my_attack1 = null, my_attack2 = null;
         List<Arrow> arrows = new List<Arrow>(5);
         
-        public Archer(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate)
+        public Archer(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate,List<Modifier> modifiers)
         {
             _my_content = _new_content;
+            stat = new Stats();
+           
+            foreach (var mod in modifiers)
+                stat.apply(mod);
+            width += stat.width;
+            height += stat.height;
             my_world = _new_world;
-            my_body = BodyFactory.CreateRectangle(my_world, 1, 1, 1, new Vector2(x_coordinate, y_coordinate));
+            my_body = BodyFactory.CreateRectangle(my_world, width, height, 1, new Vector2(x_coordinate, y_coordinate));
             my_body.BodyType = BodyType.Dynamic;
             my_body.FixedRotation = true;
-
             my_body.CollisionGroup = -1;
-            move_speed = 10f;
             my_body.OnCollision += new OnCollisionEventHandler(VS_OnCollision);
             my_body.UserData = this;
             my_body.CollisionGroup = -1;
@@ -34,8 +38,8 @@ namespace MadNorSane.Characters
             arrowtext = _new_content.Load<Texture2D>(@"Textures\arrow");
             set_texture("archeranim");
 
-            my_attack1 = new Skill(2, 0, 0, 3);
-            my_attack2 = new Skill(2, 0, 0, 5);
+            my_attack1 = new Skill(stat.primaryDamage, 0, 0, 3);
+            my_attack2 = new Skill(stat.secondaryDamage, 0, 0, 5);
         }
         private DateTime previousJump = DateTime.Now;   // time at which we previously jumped
         private const float jumpInterval = 1.0f;        // in seconds
@@ -66,11 +70,11 @@ namespace MadNorSane.Characters
         {
             if(_my_skill == 1)
             {   
-                if (arrownr > 0)
+                if (stat.arrownr > 0)
                 {
                     my_attack1.use_skill(_game_time);
                     arrows.Add(new Arrow(my_world, _my_content, this, direction, my_attack1.damage));
-                    arrownr--;
+                    stat.arrownr--;
                 }
                 else
                     return false;
@@ -78,11 +82,11 @@ namespace MadNorSane.Characters
             else
                 if(_my_skill == 2)
                 {
-                    if (arrownr > 0)
+                    if (stat.arrownr > 0)
                     {
                         my_attack2.use_skill(_game_time);
                         arrows.Add(new Arrow(my_world, _my_content, this, direction, my_attack2.damage));
-                        arrownr--;
+                        stat.arrownr--;
                     }
                     else
                         return false;

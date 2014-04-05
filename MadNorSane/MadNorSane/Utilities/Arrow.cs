@@ -18,6 +18,7 @@ namespace MadNorSane.Utilities
       public Arrow(World _new_world,ContentManager _new_content,Player owner,Vector2 direction, int _damage)
       {
           this.owner = owner;
+          
           _my_content = _new_content;
           my_world = _new_world;
           my_body = BodyFactory.CreateRectangle(my_world, 0.5f, 0.5f, 1, owner.my_body.Position);
@@ -79,7 +80,7 @@ namespace MadNorSane.Utilities
                           fixA.Dispose();
                           Active = false;
                           Player pl = (Player)(fixB.Body.UserData);
-                          pl.arrownr++;
+                          pl.stat.arrownr++;
                       }
                       else
                           if (fixB.Body.UserData.GetType().IsSubclassOf(typeof(Player)))
