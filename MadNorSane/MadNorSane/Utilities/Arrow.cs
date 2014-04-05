@@ -89,7 +89,7 @@ namespace MadNorSane.Utilities
                             else
                                 if (fixB.Body.UserData == "ground" || fixB.Body.UserData == "wall")
                                     return true;
-                                else if (fixB.Body.UserData == "arrow" || fixB.Body.UserData == "arrow_dropped")
+                                else if (fixB.Body.UserData == "energy_ball" || fixB.Body.UserData == "energy_ball_used" || fixB.Body.UserData == "arrow" || fixB.Body.UserData == "arrow_dropped")
                                     return false;
 
                     }

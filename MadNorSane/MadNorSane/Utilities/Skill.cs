@@ -12,6 +12,7 @@ namespace MadNorSane.Utilities
         private float cool_down = 0;
         public float time_until_reuse = 0;
         public float time_to_finish = 0;
+        public int used_mp = 0;
         public int damage = 0;
         public int protection = 0;
 
@@ -23,6 +24,14 @@ namespace MadNorSane.Utilities
             protection = _protection;
             time_to_finish = _time_to_finish;
             cool_down = _cool_down;
+        }
+        public Skill(int _damage, int _protection, int _time_to_finish, int _cool_down, int _used_mp)
+        {
+            damage = _damage;
+            protection = _protection;
+            time_to_finish = _time_to_finish;
+            cool_down = _cool_down;
+            used_mp = _used_mp;
         }
 
         public void use_skill(GameTime _game_time)

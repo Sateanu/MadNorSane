@@ -415,7 +415,7 @@ namespace MadNorSane.Screens
                     player1.atack(direction*15f, 1, _game_time);
                 }
                 else
-                    if (keyboardState.IsKeyDown(Keys.X))
+                    if (input.CurrentKeyboardStates[playerIndex].IsKeyDown(Keys.X) && input.LastKeyboardStates[playerIndex].IsKeyUp(Keys.X))
                     {
                         int mx = input.MouseState.X;
                         int my = input.MouseState.Y;
@@ -423,9 +423,9 @@ namespace MadNorSane.Screens
                         float mapY = my + Conversions.to_pixels(camera.position.Y) * camera.Scale - ScreenManager.GraphicsDevice.Viewport.Height / 2;
                         mapX /= camera.Scale;
                         mapY /= camera.Scale;
-                        Vector2 direction = new Vector2(input.MouseState.X, input.MouseState.Y) - Conversions.to_pixels(player1.my_body.Position) + camera.Position;
-                        direction = new Vector2(mapX, mapY) - Conversions.to_pixels(player1.my_body.Position);
-                        Console.WriteLine(direction.ToString() + "=" + new Vector2(input.MouseState.X, input.MouseState.Y).ToString() + "-" + Conversions.to_pixels(player1.my_body.Position).ToString() + "+" + camera.Position.ToString() + " camera scale" + camera.Scale.ToString());
+                        Vector2 direction = new Vector2(input.MouseState.X, input.MouseState.Y) - Conversions.to_pixels(player2.my_body.Position) + camera.Position;
+                        direction = new Vector2(mapX, mapY) - Conversions.to_pixels(player2.my_body.Position);
+                        Console.WriteLine(direction.ToString() + "=" + new Vector2(input.MouseState.X, input.MouseState.Y).ToString() + "-" + Conversions.to_pixels(player2.my_body.Position).ToString() + "+" + camera.Position.ToString() + " camera scale" + camera.Scale.ToString());
 
                         direction.Normalize();
                         player2.atack(direction * 15f, 1, _game_time);

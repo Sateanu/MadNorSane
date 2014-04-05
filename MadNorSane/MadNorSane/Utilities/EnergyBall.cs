@@ -1,21 +1,26 @@
-﻿using System;
+﻿using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
+using MadNorSane.Characters;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace MadNorSane.Utilities
 {
-/*    public class EnergyBall : Physics_object
+    public class EnergyBall : Physics_object
     {
         Player owner;
         int damage = 0;
-        public Arrow(World _new_world, ContentManager _new_content, Player owner, Vector2 direction, int _damage)
+        public EnergyBall(World _new_world, ContentManager _new_content, Player owner, Vector2 direction, int _damage)
         {
             this.owner = owner;
             _my_content = _new_content;
             my_world = _new_world;
             my_body = BodyFactory.CreateRectangle(my_world, 0.5f, 0.5f, 1, owner.my_body.Position);
-            my_body.UserData = "arrow";
+            my_body.UserData = "energy_ball";
             width = 0.5f;
             height = 0.5f;
             my_body.Rotation = (float)Math.Atan2(direction.X, -direction.Y);
@@ -25,7 +30,7 @@ namespace MadNorSane.Utilities
             my_body.IgnoreGravity = true;
             my_body.Mass = 1;
             my_body.ApplyLinearImpulse(direction);
-            set_texture("arrow");
+            set_texture("energy_ball");
 
             damage = _damage;
         }
@@ -34,16 +39,15 @@ namespace MadNorSane.Utilities
             Vector2 touched_sides = contact.Manifold.LocalNormal;
             if (contact.IsTouching)
             {
-
-                if (fixA.Body.UserData == "arrow")
+                if (fixA.Body.UserData == "energy_ball")
                 {
                     if (fixB.Body.UserData == owner)
                         return false;
                     else
                         if (fixB.Body.UserData.GetType().IsSubclassOf(typeof(Player)))
                         {
-                            Console.WriteLine("Sageata a lovit player");
-                            my_body.UserData = "arrow_dropped";
+                            Console.WriteLine("Energy Ball-ul a lovit player");
+                            my_body.UserData = "energy_ball_used";
                             fixA.Body.LinearVelocity = Vector2.Zero;
                             fixA.Body.IgnoreGravity = false;
                             fixA.Body.Rotation = 0f;
@@ -54,42 +58,19 @@ namespace MadNorSane.Utilities
                         else
                             if (fixB.Body.UserData == "ground" || fixB.Body.UserData == "wall")
                             {
-                                my_body.UserData = "arrow_dropped";
+                                my_body.UserData = "energy_ball_used";
                                 fixA.Body.LinearVelocity = Vector2.Zero;
 
                                 fixA.Body.IgnoreGravity = false;
                                 fixA.Body.Rotation = 0f;
                                 return true;
                             }
-                            else if (fixB.Body.UserData == "arrow" || fixB.Body.UserData == "arrow_dropped")
-                                return false;
                 }
-                else
-                    if (fixA.Body.UserData == "arrow_dropped")
-                    {
-                        if (fixB.Body.UserData == owner)
-                        {
-                            fixA.Body.Dispose();
-                            fixA.Dispose();
-                            Active = false;
-                            Player pl = (Player)(fixB.Body.UserData);
-                            pl.arrownr++;
-                        }
-                        else
-                            if (fixB.Body.UserData.GetType().IsSubclassOf(typeof(Player)))
-                            {
-                                return false;
-                            }
-                            else
-                                if (fixB.Body.UserData == "ground" || fixB.Body.UserData == "wall")
-                                    return true;
-                                else if (fixB.Body.UserData == "arrow" || fixB.Body.UserData == "arrow_dropped")
-                                    return false;
-
-                    }
+                else if (fixB.Body.UserData == "energy_ball" || fixB.Body.UserData == "energy_ball_used" || fixB.Body.UserData == "arrow" || fixB.Body.UserData == "arrow_dropped")
+                    return false;
 
             }
             return true;
         }
-    }*/
+    }
 }
