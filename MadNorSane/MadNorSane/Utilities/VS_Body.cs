@@ -32,6 +32,11 @@ namespace MadNorSane.Utilities
         {
             return vector / _scale;
         }
+
+        internal static Vector3 to_pixels(Vector3 vector)
+        {
+            return vector * _scale;
+        }
     }
     class VS_Body
     {

@@ -1,4 +1,5 @@
 ﻿using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
 using MadNorSane.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -20,7 +21,7 @@ namespace MadNorSane.Characters
 
     public abstract class Physics_object
     {
-        float move_speed = 2, jump_speed = 10, health_points = 100, mana_points = 100;
+        float move_speed = 10, jump_speed = 10, health_points = 100, mana_points = 100;
         float width = 1, height = 1;
         float x_coordinate = 0, y_coordinate = 0;
         float turnMultiplier = 1;
@@ -221,11 +222,33 @@ namespace MadNorSane.Characters
         public void move_in_air()
         {
         }
-        
+
+
+        public bool VS_OnCollision(Fixture fixA, Fixture fixB, Contact contact)
+        {
+            if (contact.IsTouching)
+            {
+                if (fixA.Body.UserData == "player" && fixB.Body.UserData == "block")
+                {
+                    can_jump = true;
+                    Console.WriteLine("is on ground");
+                }
+                else
+                {
+                    can_jump = false;
+                    Console.WriteLine("is NOT on ground");
+                }
+            }
+            return true;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
+
             spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y),
-                                                        (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height)), Color.White);
+                                                        (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height)), null,Color.White,0f,origin,SpriteEffects.None,0f);
         }
+
+        public Vector2 origin { get { return new Vector2(my_texture.Width / 2, my_texture.Height / 2); } }
     }
 }

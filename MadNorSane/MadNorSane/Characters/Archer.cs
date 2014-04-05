@@ -19,6 +19,9 @@ namespace MadNorSane.Characters
             my_body = BodyFactory.CreateRectangle(my_world, 1, 1, 1, new Vector2(x_coordinate, y_coordinate));
             my_body.BodyType = BodyType.Dynamic;
 
+            my_body.OnCollision += new OnCollisionEventHandler(VS_OnCollision);
+            my_body.UserData = "player";
+
             set_texture("archer");
         }
 

@@ -10,7 +10,7 @@ namespace MadNorSane.Utilities
 {
     class Camera
     {
-        public Vector2 Position { get { return new Vector2(Conversions.to_meters(position.X) - Viewport.Width / 2, Conversions.to_meters(position.Y) - Viewport.Height / 2); } }
+        public Vector2 Position { get { return new Vector2(Conversions.to_pixels(position.X) - Viewport.Width / 2, Conversions.to_pixels(position.Y) - Viewport.Height / 2); } }
         public Vector2 position;
         Vector2 _minPosition;
         Vector2 _maxPosition;
@@ -39,8 +39,8 @@ namespace MadNorSane.Utilities
             DebugView = Matrix.CreateTranslation(translateBody) *Matrix.CreateScale(Scale)*
                     Matrix.CreateTranslation(translateCenter);
 
-            translateBody = Conversions.to_meters(translateBody);
-            translateCenter = Conversions.to_meters(translateCenter);
+            translateBody = Conversions.to_pixels(translateBody);
+            translateCenter = Conversions.to_pixels(translateCenter);
 
             View = Matrix.CreateTranslation(translateBody) *Matrix.CreateScale(Scale)*
                     Matrix.CreateTranslation(translateCenter);
@@ -60,7 +60,7 @@ namespace MadNorSane.Utilities
             _translateCenter = new Vector2(
                     Conversions.to_meters(viewport.Width / 2f),
                     Conversions.to_meters(viewport.Height / 2f));
-            Scale = 0.8f;
+            Scale = 1f;
 
         }
         public void Follow(Body obj)
