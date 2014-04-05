@@ -67,7 +67,12 @@ namespace MadNorSane.Screens
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
-            
+        }
+
+        void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
+            camera.position = new Vector2(0, -5);
         }
         List<Block> blocks = new List<Block>();
         Random r;
@@ -80,21 +85,28 @@ namespace MadNorSane.Screens
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
             gameFont = content.Load<SpriteFont>("menufont");
             r = new Random((int)DateTime.Now.Ticks);
+            ScreenManager.Game.Window.ClientSizeChanged += Window_ClientSizeChanged;
+
             this.krypton = new KryptonEngine(ScreenManager.Game, "KryptonEffect");
             krypton.SpriteBatchCompatablityEnabled = true;
             krypton.CullMode = CullMode.None;
             ModifierList list=new ModifierList();
             world = new World(new Vector2(0, 9.8f));
             List<Modifier> modlist = new List<Modifier>();
+            modlist.Add(list.getSizeMod());
+            modlist.Add(list.getMod());
             player1 = new Archer(world, content, 0, -10, modlist);
+            modlist.Clear();
+            modlist.Add(list.getSizeMod());
+            modlist.Add(list.getMod());
             player2 = new Mage(world, content, -6, -10, modlist);
             playeri[0] = player1;
             playeri[1] = player2;
 
             ground = new Block(world,krypton, content, 0, 1,100,1,"ground");
             ground2 = new Block(world, krypton, content, -3, -3,1,2.5f,"wall");
-            ground3 = new Block(world, krypton, content, -25, -3, 2, 20, "wall");
-            ground4 = new Block(world, krypton, content, 25, -3, 2, 20, "wall");
+            ground3 = new Block(world, krypton, content, -30, -10, 2, 21, "wall");
+            ground4 = new Block(world, krypton, content, 30, -10, 2, 21, "wall");
             ground5 = new Block(world, krypton, content, 0, -20, 100,1, "wall");
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
@@ -417,7 +429,11 @@ namespace MadNorSane.Screens
                     direction.Normalize();
                     player1.atack(direction*15f, 1, _game_time);
                 }
-               
+               if(input.IsNewKeyPress(Keys.N,PlayerIndex.One,out piout))
+               {
+                   this.ExitScreen();
+                   ScreenManager.AddScreen(new GameplayScreen(), PlayerIndex.One);
+               }
                     if (input.CurrentKeyboardStates[playerIndex].IsKeyDown(Keys.X) && input.LastKeyboardStates[playerIndex].IsKeyUp(Keys.X))
                     {
                         int mx = input.MouseState.X;
@@ -531,7 +547,6 @@ namespace MadNorSane.Screens
             ground4.Draw(spriteBatch);
             ground5.Draw(spriteBatch);
             //my_archer.animation.Draw(spriteBatch,Vector2.Zero,30,30);
-            spriteBatch.Draw(player1.my_texture, new Rectangle(-5, -5, 10, 10), Color.White);
             player2.Draw(spriteBatch);
             spriteBatch.End();
             // Drawing after KryptonEngine.Draw will cause you objects to be drawn on top of the lightmap (can be useful, fyi)

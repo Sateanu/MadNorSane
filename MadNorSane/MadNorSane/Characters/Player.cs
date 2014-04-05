@@ -73,9 +73,11 @@ namespace MadNorSane.Characters
         }
         public void DrawUI(SpriteBatch spriteBatch,int cadran,Viewport viewport)
        {
+           int y = 0;
             switch(cadran)
             {
                 case 0:
+                    
                     for (int i = 0; i < HP; i++)
                         spriteBatch.Draw(heart, new Rectangle(i * 34, 0, 32, 32),Color.White);
                     for (int i = 0; i < stat.arrownr; i++)

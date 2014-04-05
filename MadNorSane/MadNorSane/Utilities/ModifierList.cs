@@ -19,18 +19,21 @@ namespace MadNorSane.Utilities
             modifiers.Add(new Modifier()
                 {
                     descriere = "Shukarime",
-                    health_points = 2,
-                    jump_speed = -5,
+                    health_points = 3,
+                    jump_speed = +1.5f,
                     mana_points = 1,
-                    move_speed = 15,
+                    maxArrows=1,
+                    move_speed = -1.5f,
+                    primaryDamage=-1,
                 });
             modifiers.Add(new Modifier()
             {
                 descriere = "Valoare",
-                health_points = -3,
-                jump_speed = -20,
+                health_points = -1,
+                jump_speed = -1.5f,
                 mana_points = 2,
-                move_speed = 25,
+                maxArrows=2,
+                move_speed = 1.5f,
                 
             });
             modifiers.Add(new Modifier()
@@ -39,11 +42,12 @@ namespace MadNorSane.Utilities
                 health_points = 0,
                 jump_speed = -5,
                 mana_points = 0,
+                maxArrows=2,
                 move_speed = -5,
             });
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 50; i++)
             {
-                float f = -(float)r.NextDouble()+0.5f;
+                float f = (float)r.NextDouble();
 
                 sizemodifiers.Add(
                     new Modifier()
@@ -58,7 +62,22 @@ namespace MadNorSane.Utilities
                         primaryDamage = 0,
                         secondaryDamage = 0,
                         width = f,
-                        height = -f
+                        height = 0
+                    });
+                sizemodifiers.Add(
+                    new Modifier()
+                    {
+                        descriere = "Ai cazut in ceaun cand erai mic",
+                        health_points = 0,
+                        jump_speed = 0,
+                        mana_points = 0,
+                        move_speed = 0,
+                        arrownr = 0,
+                        maxArrows = 0,
+                        primaryDamage = 0,
+                        secondaryDamage = 0,
+                        width = 0,
+                        height = f
                     });
             }
         }
