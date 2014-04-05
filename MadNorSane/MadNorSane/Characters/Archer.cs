@@ -23,7 +23,7 @@ namespace MadNorSane.Characters
             my_body.OnCollision += new OnCollisionEventHandler(VS_OnCollision);
             my_body.UserData = "player";
 
-            set_texture("archer");
+            set_texture("archeranim");
         }
 
         public bool atack(String _skill)

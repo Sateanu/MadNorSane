@@ -211,6 +211,9 @@ namespace MadNorSane.Screens
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     ScreenManager.Game.Exit();
 
+                my_archer.Update(gameTime);
+                my_archer2.Update(gameTime);
+
                 world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
                 var t = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -236,7 +239,7 @@ namespace MadNorSane.Screens
                     }
                 }
             }
-            my_archer.move_on_ground();
+           // my_archer.move_on_ground();
         }
 
 
@@ -273,31 +276,37 @@ namespace MadNorSane.Screens
                 Vector2 movement2 = Vector2.Zero;
                 PlayerIndex piout;
                 Console.WriteLine((int)playerIndex);
+
                 if (input.IsKeyPress(Keys.Left, ControllingPlayer.Value, out piout))
                     movement.X--;
+                else
+                    movement.X = 0;
 
                 if (input.IsKeyPress(Keys.Right, ControllingPlayer.Value, out piout))
                     movement.X++;
 
-                if (input.IsKeyPress(Keys.Up, ControllingPlayer.Value, out piout))
+                if (input.IsNewKeyPress(Keys.Space, ControllingPlayer.Value, out piout))
                     movement.Y--;
-
-                if (input.IsKeyPress(Keys.Down, ControllingPlayer.Value, out piout))
-                    movement.Y++;
 
 
 
                 Vector2 thumbstick = input.CurrentGamePadStates[playerIndex].ThumbSticks.Left;
 
                 movement2.X += thumbstick.X;
+                if(thumbstick.Y<0)
                 movement2.Y -= thumbstick.Y;
-
+                if (input.IsNewButtonPress(Buttons.X, 0, out piout))
+                    movement2.Y--;
                 if (movement.Length() > 1)
                     movement.Normalize();
                 if (movement2.Length() > 1)
                     movement2.Normalize();
 
-                my_archer.my_body.ApplyLinearImpulse(movement);
+                if (movement != Vector2.Zero)
+                {
+                    my_archer.my_body.LinearVelocity = (movement*5);
+                    my_archer.my_body.LinearVelocity *= 0.8f;
+                }
                 my_archer2.my_body.ApplyLinearImpulse(movement2);
             }
         }
