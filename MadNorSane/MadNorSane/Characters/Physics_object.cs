@@ -15,12 +15,13 @@ namespace MadNorSane.Characters
     public abstract class Physics_object
     {
 
-        
 
+        public bool Active = true;
        public float width = 1, height = 1;
        public float x_coordinate = 0, y_coordinate = 0;
        public float turnMultiplier = 1;
        public float speed_float = 0.05f;
+       public float angle = 0f;
         public Animation animation;
         
 
@@ -81,14 +82,19 @@ namespace MadNorSane.Characters
         
         public void Update(GameTime gameTime)
         {
-            animation.Update(gameTime);
+            if (Active)
+            {
+                animation.Update(gameTime);
+            }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            
-            //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
-           spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y),
-                                                        (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height)), null,Color.Black,0f,origin,SpriteEffects.None,0f);
+            if (Active)
+            {
+                //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
+                spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y),
+                                                             (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height)), null, Color.Black,my_body.Rotation, origin, SpriteEffects.None, 0f);
+            }
         }
 
         public Vector2 origin { get { return new Vector2(my_texture.Width / 2f, my_texture.Height / 2f); } }

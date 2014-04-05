@@ -87,6 +87,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Utilities\Animation.cs" />
+    <Compile Include="Utilities\Arrow.cs" />
     <Compile Include="Utilities\Block.cs" />
     <Compile Include="Utilities\Camera.cs" />
     <Compile Include="Utilities\VS_Body.cs" />

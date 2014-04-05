@@ -14,7 +14,7 @@ namespace MadNorSane.Characters
 {
     class Archer : Player
     {
-        List<Body> arrows = new List<Body>(5);
+        List<Arrow> arrows = new List<Arrow>(5);
         public Archer(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate)
         {
             _my_content = _new_content;
@@ -27,7 +27,7 @@ namespace MadNorSane.Characters
 
             my_body.OnCollision += new OnCollisionEventHandler(VS_OnCollision);
             my_body.UserData = this;
-
+            my_body.CollisionGroup = -1;
            
             set_texture("archeranim");
         }
@@ -43,10 +43,15 @@ namespace MadNorSane.Characters
                 previousJump = DateTime.Now;
             }
         }
-        
-        public bool atack()
+        public void Draw(SpriteBatch spriteBatch)
         {
-            
+            animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
+            foreach (var arr in arrows)
+                arr.Draw(spriteBatch);
+        }
+        public bool atack(Vector2 direction)
+        {
+            arrows.Add(new Arrow(my_world, _my_content, this, direction));
             return true;
         }
     }
