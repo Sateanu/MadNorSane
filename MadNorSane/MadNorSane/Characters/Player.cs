@@ -73,11 +73,11 @@ namespace MadNorSane.Characters
             {
                 case 0:
                     for (int i = 0; i < HP; i++)
-                        spriteBatch.Draw(heart, new Rectangle(i * 32, 0, 32, 32),Color.White);
+                        spriteBatch.Draw(heart, new Rectangle(i * 34, 0, 32, 32),Color.White);
                     break;
                 case 1:
                     for (int i =0; i < HP; i++)
-                        spriteBatch.Draw(heart, new Rectangle(viewport.Width-i * 32, 0, 32, 32), Color.White);
+                        spriteBatch.Draw(heart, new Rectangle(viewport.Width-i * 34, 0, 32, 32), Color.White);
                     break;
                 default:
                     break;
