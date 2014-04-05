@@ -50,7 +50,12 @@ namespace MadNorSane.Characters
             animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
 
             foreach (var arr in my_energy_balls)
-                arr.Draw(spriteBatch);
+            {
+                if (arr.my_body.UserData != "energy_ball_used")
+                {
+                    arr.Draw(spriteBatch);
+                }
+            }
         }
 
         private bool atack_with_energy_ball(Vector2 direction, GameTime _game_time, Skill _my_attack)
