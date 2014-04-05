@@ -47,6 +47,7 @@ namespace MadNorSane.Screens
         private DebugViewXNA debug;
         private bool IsDebug=false;
         Block ground = null;
+        private Block ground2;
 
 
         #endregion
@@ -82,10 +83,11 @@ namespace MadNorSane.Screens
 
             my_archer2 = new Archer(world, content, -3, -20);
 
-            ground = new Block(world,krypton, content, 0, 1);
-            
+            ground = new Block(world,krypton, content, 0, 1,100,1,"ground");
+            ground2 = new Block(world, krypton, content, -3, -3,1,3,"wall");
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
+            camera.position += new Vector2(0, -5);
             //camera.Follow(my_archer.my_body);
             Console.WriteLine(camera.IsFollowing);
             // A real game would probably have more content than this sample, so
@@ -108,7 +110,7 @@ namespace MadNorSane.Screens
                 X = 0,
                 Y = -250,
                 Angle=1f,
-                Fov = MathHelper.PiOver2 ,
+               
             };
             krypton.Lights.Add(light);
 
@@ -399,7 +401,7 @@ namespace MadNorSane.Screens
            
             this.krypton.Matrix = camera.View;
             this.krypton.Bluriness = 3;
-            krypton.AmbientColor = Color.White;
+            //krypton.AmbientColor = Color.White;
             this.krypton.LightMapPrepare();
 
             // Make sure we clear the backbuffer *after* Krypton is done pre-rendering
@@ -410,6 +412,7 @@ namespace MadNorSane.Screens
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.View);
             my_archer.Draw(spriteBatch);
             ground.Draw(spriteBatch);
+            ground2.Draw(spriteBatch);
             //my_archer.animation.Draw(spriteBatch,Vector2.Zero,30,30);
             my_archer2.Draw(spriteBatch);
             spriteBatch.End();

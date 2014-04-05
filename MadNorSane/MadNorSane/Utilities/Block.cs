@@ -13,15 +13,15 @@ namespace MadNorSane.Utilities
     public class Block : Physics_object
     {
        
-        public Block(World _new_world,KryptonEngine krypton ,ContentManager _new_content, float x_coordinate, float y_coordinate)
+        public Block(World _new_world,KryptonEngine krypton ,ContentManager _new_content, float x_coordinate, float y_coordinate,float width,float height,string type)
         {
             _my_content = _new_content;
             my_world = _new_world;
-            my_body = BodyFactory.CreateRectangle(my_world, 100, 1, 1, new Vector2(x_coordinate, y_coordinate));
-            my_body.UserData = "ground";
-            width = 100;
-            height = 1;
-            var hull = ShadowHull.CreateRectangle(Conversions.to_pixels(new Vector2(100, 1)));
+            my_body = BodyFactory.CreateRectangle(my_world, width, height, 1, new Vector2(x_coordinate, y_coordinate));
+            my_body.UserData = type;
+            this.width = width;
+            this.height = height;
+            var hull = ShadowHull.CreateRectangle(Conversions.to_pixels(new Vector2(width, height)));
             hull.Position.X =Conversions.to_pixels(x_coordinate);
             hull.Position.Y =Conversions.to_pixels(y_coordinate);
 

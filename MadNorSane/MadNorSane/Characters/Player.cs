@@ -117,9 +117,16 @@ namespace MadNorSane.Characters
                     else
                     if (fixB.Body.UserData == "wall" && touched_sides.X < 0)
                     {
-                        Console.WriteLine("Am lovit wall");
-                        return false;
+                        Console.WriteLine("is on left side of the wall");
+                        can_jump = false;
                     }
+                    else
+                        if (fixB.Body.UserData == "wall" && touched_sides.Y > 0)
+                        {
+                            Console.WriteLine("i'm on the wall");
+                            can_jump = true;
+                        }
+
 
                     if (fixB.Body.UserData.GetType().IsSubclassOf(typeof(Player)))// && touched_sides.X != 0)
                     {
