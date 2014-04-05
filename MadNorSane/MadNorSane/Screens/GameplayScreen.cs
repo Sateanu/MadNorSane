@@ -70,7 +70,7 @@ namespace MadNorSane.Screens
             krypton.CullMode = CullMode.None;
 
             world = new World(new Vector2(0, .8f));
-            my_archer = new Archer(world, content, 0, 0);
+            my_archer = new Archer(world, content, 0, -2);
             
             this.krypton.Initialize();
             // A real game would probably have more content than this sample, so
@@ -229,6 +229,7 @@ namespace MadNorSane.Screens
                     }
                 }
             }
+            my_archer.move_on_ground();
         }
 
 

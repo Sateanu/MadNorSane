@@ -20,9 +20,16 @@ namespace MadNorSane.Characters
 
     public abstract class Physics_object
     {
-        float move_speed = 10, jump_speed = 10, health_points = 100, mana_points = 100;
+        float move_speed = 2, jump_speed = 10, health_points = 100, mana_points = 100;
         float width = 1, height = 1;
         float x_coordinate = 0, y_coordinate = 0;
+        float turnMultiplier = 1;
+        float speed_float = 0.05f;
+
+        public bool btn_jump = false, btn_move_left = false, btn_move_right = false, btn_atack1 = false, btn_atack2 = false;
+        public bool can_jump = false, can_move_left = false, can_move_right = false, can_atack1 = false, can_atack2 = false;
+
+        public Vector2 velocity = Vector2.Zero;
 
         public float Get_X()
         {
@@ -103,43 +110,118 @@ namespace MadNorSane.Characters
         }
         public void move_on_ground()
         {
-            /*if (ButtonJump && canJumpVertically)
+            if (btn_jump && can_jump)
             {
-                alSourcePlay(SourceSoundJump);
+                can_jump = false;
 
-                canJumpVertically = false;
+                velocity.Y = jump_speed;
 
-                if (worldGravity.y != 0)
-                {
-                    velocity.y = speedJumpUp * -sgn(worldGravity.y);
-                }
-                else
-                {
-                    velocity.x = speedJumpUp * -sgn(worldGravity.x);
-                }
-                ButtonJump = false;
-                body->SetLinearVelocity(velocity);
+                my_body.ApplyLinearImpulse(velocity);
+                //my_body.LinearVelocity = velocity;
                 return;
             }
 
             // Run on ground
-            if (!itWalks(body, T))
+            if (!itWalks(speed_float))
             {
-                if (worldGravity.y != 0)
+                velocity.Y = 0;
+                my_body.LinearVelocity = velocity;
+            }
+        }
+
+        int get_wanted_direction_of_moving()
+        {
+            int sign = 0;
+            if (btn_move_right && btn_move_left == false)
+            {
+                sign = 1;
+            }
+            else
+                if (btn_move_right == false && btn_move_left)
                 {
-                    velocity.x = 0;
+                    sign = -1;
+                }
+            return sign;
+        }
+        int get_current_direction_of_moving()
+        {
+            int sign = 0;
+            if (my_body.LinearVelocity.X < 0)
+            {
+                sign = -1;
+            }
+            else
+                if (my_body.LinearVelocity.X > 0)
+                {
+                    sign = 1;
+                }
+            return sign;
+        }
+
+        bool itWalks(float T)
+        {
+            int sign_wanted = get_wanted_direction_of_moving();
+            float sign_current = get_current_direction_of_moving();
+            
+            float new_speed = move_speed;
+
+            if (sign_current != 0 && sign_current != sign_wanted)
+            {
+                new_speed *= turnMultiplier;
+            }
+
+            float speedVelocity = 0;
+            speedVelocity = velocity.X;
+
+            //verific daca viteza curenta este mai mica decat viteza maxima, altfel nu mai maresc viteza
+            if (sign_wanted < 0)
+            {
+                if (speedVelocity > 0)
+                {
+                    speedVelocity *= -1 * T;
+                }
+
+                if (speedVelocity > -move_speed)
+                {
+                    speedVelocity += new_speed * sign_wanted * T;
                 }
                 else
                 {
-                    velocity.y = 0;
+                    speedVelocity = -move_speed;
                 }
-                body->SetLinearVelocity(velocity);
-            }*/
+            }
+            else
+                if (sign_wanted > 0)
+                {
+                    if (speedVelocity < 0)
+                    {
+                        speedVelocity *= -1 * 0.1f;
+                    }
+
+                    if (speedVelocity < move_speed)
+                    {
+                        speedVelocity += new_speed * sign_wanted * T;
+                    }
+                    else
+                    {
+                        speedVelocity = move_speed;
+                    }
+                }
+
+            float velChangeX = speedVelocity - my_body.LinearVelocity.X;
+            float impulseX = my_body.Mass * velChangeX;
+            my_body.ApplyLinearImpulse(new Vector2(impulseX, 0), my_body.WorldCenter);
+            velocity.X = speedVelocity;
+
+
+            return true;
         }
+
+
         public void move_in_air()
         {
-
         }
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y),
