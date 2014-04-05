@@ -391,6 +391,9 @@ namespace MadNorSane.Screens
 
                 if (keyboardState.IsKeyDown(Keys.OemPlus))
                     camera.Scale += 0.01f;
+                
+                MoveClass.move_player_and_camera(my_archer, camera, ScreenManager.GraphicsDevice.Viewport);
+
                 GameTime _game_time = new GameTime();
                 if (input.MouseState.LeftButton == ButtonState.Pressed && input.LastMouseState.LeftButton == ButtonState.Released)
                 {

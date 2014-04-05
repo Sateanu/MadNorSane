@@ -1,5 +1,7 @@
 ﻿using FarseerPhysics.Dynamics;
+using MadNorSane.Utilities;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +71,7 @@ namespace MadNorSane.Characters
         public static void controlAir(Player player, float T)
         {
             //if the player doesn't want to move right or left
-            if(!player.btn_move_right && !player.btn_move_left)
+            if (!player.btn_move_right && !player.btn_move_left)
             {
                 //slow the player while he is in air and he doesn't have any direction
                 if (get_my_current_direction(player) > 0)
@@ -77,10 +79,10 @@ namespace MadNorSane.Characters
                     player.my_body.LinearVelocity = new Vector2(player.my_body.LinearVelocity.X - increasing_value * 4, player.my_body.LinearVelocity.Y);
                 }
                 else
-                if (get_my_current_direction(player) < 0)
-                {
-                    player.my_body.LinearVelocity = new Vector2(player.my_body.LinearVelocity.X + increasing_value * 4, player.my_body.LinearVelocity.Y);
-                }
+                    if (get_my_current_direction(player) < 0)
+                    {
+                        player.my_body.LinearVelocity = new Vector2(player.my_body.LinearVelocity.X + increasing_value * 4, player.my_body.LinearVelocity.Y);
+                    }
                 return;
             }
             else
@@ -127,8 +129,24 @@ namespace MadNorSane.Characters
                             player.my_body.LinearVelocity = new Vector2(-player.move_speed, player.my_body.LinearVelocity.Y);
                         }
                     }
-
         }
 
+
+        public static void move_player_and_camera(Player player, Camera camera, Viewport vp)
+        {
+            if((player.my_body.Position.X > 0 && player.my_body.Position.X + 5 > vp.Width / (camera.Scale * Conversions._scale * 2)) ||
+                (player.my_body.Position.X < 0 && player.my_body.Position.X - 5 < -vp.Width / (camera.Scale * Conversions._scale * 2)))
+            {
+                camera.Scale -= 0.01f;
+            }
+            else
+                if (camera.Scale < 1.0f && ((player.my_body.Position.X > 0 && player.my_body.Position.X + 6 < vp.Width / (camera.Scale * Conversions._scale * 2)) ||
+                                        (player.my_body.Position.X < 0 && player.my_body.Position.X - 6 > -vp.Width / (camera.Scale * Conversions._scale * 2))))
+            {
+                camera.Scale += 0.01f;
+            }
+
+            Console.WriteLine(camera.Scale + " " + player.my_body.Position.X + " " + vp.Width / (camera.Scale * Conversions._scale * 2));
+        }
     }
 }
