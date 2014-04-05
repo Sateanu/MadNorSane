@@ -90,6 +90,8 @@
     <Compile Include="Utilities\Arrow.cs" />
     <Compile Include="Utilities\Block.cs" />
     <Compile Include="Utilities\Camera.cs" />
+    <Compile Include="Utilities\Damage.cs" />
+    <Compile Include="Utilities\Skill.cs" />
     <Compile Include="Utilities\VS_Body.cs" />
     <Compile Include="ScreenManager\GameScreen.cs" />
     <Compile Include="ScreenManager\InputState.cs" />

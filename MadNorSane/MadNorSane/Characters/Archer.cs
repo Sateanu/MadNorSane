@@ -14,6 +14,7 @@ namespace MadNorSane.Characters
 {
     class Archer : Player
     {
+        public Skill my_attack1 = null, my_attack2 = null;
         List<Arrow> arrows = new List<Arrow>(5);
         public Archer(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate)
         {
@@ -30,10 +31,19 @@ namespace MadNorSane.Characters
             my_body.CollisionGroup = -1;
             heart = _new_content.Load<Texture2D>(@"Textures\heart");
             set_texture("archeranim");
+
+            my_attack1 = new Skill(2, 0, 0, 3);
+            my_attack2 = new Skill(2, 0, 0, 5);
         }
         private DateTime previousJump = DateTime.Now;   // time at which we previously jumped
         private const float jumpInterval = 1.0f;        // in seconds
         private Vector2 jumpForce = new Vector2(0, -5); // applied force when jumping
+
+        public void update_archer(GameTime _game_time)
+        {
+            my_attack1.update_skill_cool_down(_game_time);
+            my_attack2.update_skill_cool_down(_game_time);
+        }
 
         public void Jump()
         {
@@ -49,9 +59,13 @@ namespace MadNorSane.Characters
             foreach (var arr in arrows)
                 arr.Draw(spriteBatch);
         }
-        public bool atack(Vector2 direction)
+        public bool atack(Vector2 direction, int _my_skill, GameTime _game_time)
         {
-            arrows.Add(new Arrow(my_world, _my_content, this, direction));
+            if(_my_skill == 1)
+            {
+                my_attack1.use_skill(_game_time);
+            }
+            arrows.Add(new Arrow(my_world, _my_content, this, direction, my_attack1.damage));
             return true;
         }
     }

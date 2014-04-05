@@ -14,7 +14,8 @@ namespace MadNorSane.Utilities
   public class Arrow:Physics_object
     {
       Player owner;
-      public Arrow(World _new_world,ContentManager _new_content,Player owner,Vector2 direction)
+      int damage = 0;
+      public Arrow(World _new_world,ContentManager _new_content,Player owner,Vector2 direction, int _damage)
       {
           this.owner = owner;
           _my_content = _new_content;
@@ -31,6 +32,8 @@ namespace MadNorSane.Utilities
           my_body.Mass = 1;
           my_body.ApplyLinearImpulse(direction);
           set_texture("arrow");
+
+          damage = _damage;
       }
       bool my_body_OnCollision(Fixture fixA, Fixture fixB, FarseerPhysics.Dynamics.Contacts.Contact contact)
       {
@@ -51,7 +54,7 @@ namespace MadNorSane.Utilities
                           fixA.Body.IgnoreGravity = false;
                           fixA.Body.Rotation = 0f;
                           Player pl = (Player)(fixB.Body.UserData);
-                          pl.TakeDamage(1);
+                          pl.TakeDamage(damage);
                           return false;
                       }
                       else

@@ -41,6 +41,7 @@ namespace MadNorSane.Screens
         private int mNumVerticalHulls=10;
         Camera camera;
 
+        GameTime _game_time = null;
 
         Archer my_archer = null;
         Archer my_archer2 = null;
@@ -211,6 +212,7 @@ namespace MadNorSane.Screens
         public override void Update(GameTime gameTime, bool otherScreenHasFocus,
                                                        bool coveredByOtherScreen)
         {
+            _game_time = gameTime;
             base.Update(gameTime, otherScreenHasFocus, false);
 
             // Gradually fade in or out depending on whether we are covered by the pause screen.
@@ -226,8 +228,11 @@ namespace MadNorSane.Screens
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     ScreenManager.Game.Exit();
 
-                my_archer.Update(gameTime);
-                my_archer2.Update(gameTime);
+                my_archer.Update(_game_time);
+                my_archer2.Update(_game_time);
+
+                my_archer.update_archer(gameTime);
+                my_archer2.update_archer(gameTime);
 
                 world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
                 var t = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -350,11 +355,12 @@ namespace MadNorSane.Screens
                 }
                     //movement.Y++;
 
+                GameTime _game_time = new GameTime();
                 if (input.MouseState.LeftButton == ButtonState.Pressed && input.LastMouseState.LeftButton == ButtonState.Released)
                 {   
                     Vector2 direction=new Vector2(input.MouseState.X,input.MouseState.Y)-Conversions.to_pixels(my_archer.my_body.Position)+camera.Position;
                     direction.Normalize();
-                    my_archer.atack(direction*15f);
+                    my_archer.atack(direction*15f, 1, _game_time);
                 }
 
 
@@ -395,7 +401,7 @@ namespace MadNorSane.Screens
                 {
                     Vector2 direction = new Vector2(input.MouseState.X, input.MouseState.Y) - Conversions.to_pixels(my_archer2.my_body.Position) + camera.Position;
                     direction.Normalize();
-                    my_archer2.atack(direction * 15f);
+                    my_archer2.atack(direction * 15f, 1, _game_time);
                 }
 
                 //movement2.Y -= thumbstick.Y;
