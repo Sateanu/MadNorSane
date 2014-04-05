@@ -341,7 +341,12 @@ namespace MadNorSane.Screens
                 }
                     //movement.Y++;
 
-                
+                if (input.MouseState.LeftButton == ButtonState.Pressed && input.LastMouseState.LeftButton == ButtonState.Released)
+                {   
+                    Vector2 direction=new Vector2(input.MouseState.X,input.MouseState.Y)-Conversions.to_pixels(my_archer.my_body.Position)+camera.Position;
+                    direction.Normalize();
+                    my_archer.atack(direction*15f);
+                }
 
 
                 Vector2 thumbstick = input.CurrentGamePadStates[playerIndex].ThumbSticks.Left;
@@ -382,6 +387,7 @@ namespace MadNorSane.Screens
            
             this.krypton.Matrix = camera.View;
             this.krypton.Bluriness = 3;
+            krypton.AmbientColor = Color.White;
             this.krypton.LightMapPrepare();
 
             // Make sure we clear the backbuffer *after* Krypton is done pre-rendering

@@ -101,7 +101,9 @@ namespace MadNorSane.Characters
                         Console.WriteLine("Am lovit player");
                         return false;
                     }
+
                 }
+
             }
             return true;
         }
