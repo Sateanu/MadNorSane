@@ -134,17 +134,19 @@ namespace MadNorSane.Characters
 
         public static void move_player_and_camera(Player player, Camera camera, Viewport vp)
         {
-            if(player.my_body.Position.X > vp.Width / (camera.Scale * Conversions._scale * 2) ||
-                player.my_body.Position.X < -vp.Width / (camera.Scale * Conversions._scale * 2))
+            if((player.my_body.Position.X > 0 && player.my_body.Position.X + 5 > vp.Width / (camera.Scale * Conversions._scale * 2)) ||
+                (player.my_body.Position.X < 0 && player.my_body.Position.X - 5 < -vp.Width / (camera.Scale * Conversions._scale * 2)))
             {
                 camera.Scale -= 0.01f;
             }
             else
-            if (camera.Scale < 1 && (player.my_body.Position.X < vp.Width / (camera.Scale * Conversions._scale * 2) ||
-                                        player.my_body.Position.X > -vp.Width / (camera.Scale * Conversions._scale * 2)))
+                if (camera.Scale < 1.0f && ((player.my_body.Position.X > 0 && player.my_body.Position.X + 6 < vp.Width / (camera.Scale * Conversions._scale * 2)) ||
+                                        (player.my_body.Position.X < 0 && player.my_body.Position.X - 6 > -vp.Width / (camera.Scale * Conversions._scale * 2))))
             {
                 camera.Scale += 0.01f;
             }
+
+            Console.WriteLine(camera.Scale + " " + player.my_body.Position.X + " " + vp.Width / (camera.Scale * Conversions._scale * 2));
         }
     }
 }
