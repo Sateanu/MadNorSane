@@ -66,6 +66,7 @@ namespace MadNorSane.Characters
 
             foreach (var arr in my_energy_balls)
             {
+
                 if (arr.my_body.UserData != "energy_ball_used")
                 {
                     arr.Draw(spriteBatch);
