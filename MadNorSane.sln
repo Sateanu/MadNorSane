@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadNorSane", "MadNorSane\MadNorSane\MadNorSane.csproj", "{A67F3EF4-8C79-4674-9DB3-1DC9C2859033}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "MadNorSaneContent", "MadNorSane\MadNorSaneContent\MadNorSaneContent.contentproj", "{19AD89FA-B862-4713-88F4-FCF747DA27BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadNorSaneContent", "MadNorSane\MadNorSaneContent\MadNorSaneContent.contentproj", "{19AD89FA-B862-4713-88F4-FCF747DA27BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics XNA", "Farseer Physics Engine 3.5\Farseer Physics XNA.csproj", "{0A850700-1ABB-4288-A391-6726B90EBEB9}"
 EndProject
