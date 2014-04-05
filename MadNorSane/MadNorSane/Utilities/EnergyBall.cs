@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MadNorSane.Characters;
-using FarseerPhysics.Dynamics;
-using Krypton;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework;
-using FarseerPhysics.Factories;
 
 namespace MadNorSane.Utilities
 {
-    public class Arrow : Physics_object
+/*    public class EnergyBall : Physics_object
     {
         Player owner;
         int damage = 0;
@@ -97,5 +91,5 @@ namespace MadNorSane.Utilities
             }
             return true;
         }
-    }
+    }*/
 }

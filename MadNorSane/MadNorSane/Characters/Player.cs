@@ -13,11 +13,12 @@ namespace MadNorSane.Characters
    public abstract class Player : Physics_object
     {
 
-       public float move_speed = 15, jump_speed = -10, health_points = 10, mana_points = 100;
+       public float move_speed = 15, jump_speed = -10, health_points = 10, mana_points = 10;
        public bool btn_jump = false, btn_move_left = false, btn_move_right = false, btn_atack1 = false, btn_atack2 = false;
        public bool can_jump = false, can_move_left = false, can_move_right = false, can_atack1 = false, can_atack2 = false;
        public Texture2D heart;
-        public int maxArrows = 4;
+       public Texture2D heartMP;
+       public int maxArrows = 4;
        public Texture2D arrowtext;
       public int arrownr = 4;
        public float MP
@@ -84,8 +85,10 @@ namespace MadNorSane.Characters
                 case 1:
                     for (int i =0; i < HP; i++)
                         spriteBatch.Draw(heart, new Rectangle(viewport.Width-i * 34 - 34, 0, 32, 32), Color.White);
-                    for (int i = 0; i < arrownr; i++)
-                        spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * 34 - 34, 34, 32, 32), Color.White);
+                    for (int i =0; i < MP; i++)
+                        spriteBatch.Draw(heartMP, new Rectangle(viewport.Width-i * 34 - 34, 34, 32, 32), Color.White);
+                    //for (int i = 0; i < arrownr; i++)
+                        //spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * 34 - 34, 34, 32, 32), Color.White);
                     break;
                 default:
                     break;

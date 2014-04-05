@@ -43,8 +43,11 @@ namespace MadNorSane.Screens
 
         GameTime _game_time = null;
 
-        Archer my_archer = null;
-        Archer my_archer2 = null;
+        Archer player1 = null;
+        Mage player2 = null;
+
+        Player[] playeri = new Player[2];
+
         private DebugViewXNA debug;
         private bool IsDebug=false;
         Block ground = null;
@@ -80,9 +83,10 @@ namespace MadNorSane.Screens
             krypton.CullMode = CullMode.None;
 
             world = new World(new Vector2(0, 9.8f));
-            my_archer = new Archer(world, content, 0, -10);
-
-            my_archer2 = new Archer(world, content, -6, -10);
+            player1 = new Archer(world, content, 0, -10);
+            player2 = new Mage(world, content, -6, -10);
+            playeri[0] = player1;
+            playeri[1] = player2;
 
             ground = new Block(world,krypton, content, 0, 1,100,1,"ground");
             ground2 = new Block(world, krypton, content, -3, -3,1,2.5f,"wall");
@@ -238,26 +242,26 @@ namespace MadNorSane.Screens
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     ScreenManager.Game.Exit();
 
-                my_archer.Update(gameTime);
-                my_archer2.Update(gameTime);
+                player1.Update(gameTime);
+                player2.Update(gameTime);
                 
-                my_archer.update_archer(gameTime);
-                my_archer2.update_archer(gameTime);
+                player1.update_archer(gameTime);
+                player2.update_archer(gameTime);
 
-                if (my_archer2.my_body.ContactList == null)
+                if (player2.my_body.ContactList == null)
                 {
-                    my_archer2.can_jump = false;
+                    player2.can_jump = false;
                 }
-                if (my_archer.my_body.ContactList == null)
+                if (player1.my_body.ContactList == null)
                 {
-                    my_archer.can_jump = false;
+                    player1.can_jump = false;
                 }
-                if(my_archer.HP<=0&&my_archer2.HP>0)
+                if(player1.HP<=0&&player2.HP>0)
                 {
                     this.ExitScreen();
                     ScreenManager.AddScreen(new GameplayScreen(), PlayerIndex.One);
                 }
-                else if(my_archer2.HP<=0&&my_archer.HP>0)
+                else if(player2.HP<=0&&player1.HP>0)
                 {
                     this.ExitScreen();
                     ScreenManager.AddScreen(new GameplayScreen(), PlayerIndex.One);
@@ -289,22 +293,22 @@ namespace MadNorSane.Screens
                 }
             }
 
-            if (my_archer.can_jump)
+            if (player1.can_jump)
             {
-                my_archer.move_on_ground();
+                player1.move_on_ground();
             }
             else
             {
-                my_archer.controlAir();
+                player1.controlAir();
             }
 
-            if (my_archer2.can_jump)
+            if (player2.can_jump)
             {
-                my_archer2.move_on_ground();
+                player2.move_on_ground();
             }
             else
             {
-                my_archer2.controlAir();
+                player2.controlAir();
             }
         }
 
@@ -349,35 +353,35 @@ namespace MadNorSane.Screens
                 
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
-                    my_archer.can_move_left = true;
-                    my_archer.btn_move_left = true;
+                    player1.can_move_left = true;
+                    player1.btn_move_left = true;
                 }
                 else
                 {
-                    my_archer.can_move_left = false;
-                    my_archer.btn_move_left = false;
+                    player1.can_move_left = false;
+                    player1.btn_move_left = false;
                 }
                     //movement.X--;
 
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
-                    my_archer.can_move_right = true;
-                    my_archer.btn_move_right = true;
+                    player1.can_move_right = true;
+                    player1.btn_move_right = true;
                 }
                 else
                 {
-                    my_archer.can_move_right = false;
-                    my_archer.btn_move_right = false;
+                    player1.can_move_right = false;
+                    player1.btn_move_right = false;
                 }
                     //movement.X++;
 
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
-                    my_archer.btn_jump = true;
+                    player1.btn_jump = true;
                 }
                 else
                 {
-                    my_archer.btn_jump = false;
+                    player1.btn_jump = false;
                 }
                     //movement.Y--;
 
@@ -391,8 +395,8 @@ namespace MadNorSane.Screens
 
                 if (keyboardState.IsKeyDown(Keys.OemPlus))
                     camera.Scale += 0.01f;
-                
-                MoveClass.move_player_and_camera(my_archer, camera, ScreenManager.GraphicsDevice.Viewport);
+
+                MoveClass.move_player_and_camera(playeri, camera, ScreenManager.GraphicsDevice.Viewport);
 
                 GameTime _game_time = new GameTime();
                 if (input.MouseState.LeftButton == ButtonState.Pressed && input.LastMouseState.LeftButton == ButtonState.Released)
@@ -403,13 +407,29 @@ namespace MadNorSane.Screens
                     float mapY = my + Conversions.to_pixels(camera.position.Y) * camera.Scale - ScreenManager.GraphicsDevice.Viewport.Height / 2;
                     mapX /= camera.Scale;
                     mapY /= camera.Scale;
-                    Vector2 direction=new Vector2(input.MouseState.X,input.MouseState.Y)-Conversions.to_pixels(my_archer.my_body.Position)+camera.Position;
-                    direction = new Vector2(mapX, mapY) - Conversions.to_pixels(my_archer.my_body.Position);
-                    Console.WriteLine(direction.ToString()+"="+new Vector2(input.MouseState.X,input.MouseState.Y).ToString()+"-"+Conversions.to_pixels(my_archer.my_body.Position).ToString()+"+"+camera.Position.ToString()+" camera scale"+camera.Scale.ToString());
+                    Vector2 direction=new Vector2(input.MouseState.X,input.MouseState.Y)-Conversions.to_pixels(player1.my_body.Position)+camera.Position;
+                    direction = new Vector2(mapX, mapY) - Conversions.to_pixels(player1.my_body.Position);
+                    Console.WriteLine(direction.ToString()+"="+new Vector2(input.MouseState.X,input.MouseState.Y).ToString()+"-"+Conversions.to_pixels(player1.my_body.Position).ToString()+"+"+camera.Position.ToString()+" camera scale"+camera.Scale.ToString());
 
                     direction.Normalize();
-                    my_archer.atack(direction*15f, 1, _game_time);
+                    player1.atack(direction*15f, 1, _game_time);
                 }
+                else
+                    if (keyboardState.IsKeyDown(Keys.X))
+                    {
+                        int mx = input.MouseState.X;
+                        int my = input.MouseState.Y;
+                        float mapX = mx + Conversions.to_pixels(camera.position.X) * camera.Scale - ScreenManager.GraphicsDevice.Viewport.Width / 2;
+                        float mapY = my + Conversions.to_pixels(camera.position.Y) * camera.Scale - ScreenManager.GraphicsDevice.Viewport.Height / 2;
+                        mapX /= camera.Scale;
+                        mapY /= camera.Scale;
+                        Vector2 direction = new Vector2(input.MouseState.X, input.MouseState.Y) - Conversions.to_pixels(player1.my_body.Position) + camera.Position;
+                        direction = new Vector2(mapX, mapY) - Conversions.to_pixels(player1.my_body.Position);
+                        Console.WriteLine(direction.ToString() + "=" + new Vector2(input.MouseState.X, input.MouseState.Y).ToString() + "-" + Conversions.to_pixels(player1.my_body.Position).ToString() + "+" + camera.Position.ToString() + " camera scale" + camera.Scale.ToString());
+
+                        direction.Normalize();
+                        player2.atack(direction * 15f, 1, _game_time);
+                    }
 
 
                 Vector2 thumbstick = input.CurrentGamePadStates[playerIndex].ThumbSticks.Left;
@@ -418,32 +438,32 @@ namespace MadNorSane.Screens
                 movement2.X += thumbstick.X;
                 if(thumbstick.Y > 0)
                 {
-                    my_archer2.btn_jump = true;
+                    player2.btn_jump = true;
                 }
                 else
                 {
-                    my_archer2.btn_jump = false;
+                    player2.btn_jump = false;
                 }
                 if(thumbstick.X > 0)
                 {
-                    my_archer2.btn_move_right = true;
-                    my_archer2.can_move_right = true;
+                    player2.btn_move_right = true;
+                    player2.can_move_right = true;
                 }
                 else
                 {
-                    my_archer2.btn_move_right = false;
-                    my_archer2.can_move_right = false;
+                    player2.btn_move_right = false;
+                    player2.can_move_right = false;
                 }
 
                 if (thumbstick.X < 0)
                 {
-                    my_archer2.btn_move_left = true;
-                    my_archer2.can_move_left = true;
+                    player2.btn_move_left = true;
+                    player2.can_move_left = true;
                 }
                 else
                 {
-                    my_archer2.btn_move_left = false;
-                    my_archer2.can_move_left = false;
+                    player2.btn_move_left = false;
+                    player2.can_move_left = false;
                 }
 
                 if (input.CurrentGamePadStates[playerIndex].Buttons.RightShoulder == ButtonState.Pressed && input.LastGamePadStates[playerIndex].Buttons.RightShoulder == ButtonState.Released)
@@ -455,7 +475,7 @@ namespace MadNorSane.Screens
                         dirGamepad[playerIndex] = direction;
 
                     dirGamepad[playerIndex].Normalize();
-                    my_archer2.atack(dirGamepad[playerIndex]* 15f, 1, _game_time);
+                    player2.atack(dirGamepad[playerIndex]* 15f, 1, _game_time);
                 }
 
                 //movement2.Y -= thumbstick.Y;
@@ -501,15 +521,15 @@ namespace MadNorSane.Screens
             // ----- DRAW STUFF HERE ----- //
             // By drawing here, you ensure that your scene is properly lit by krypton.
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.View);
-            my_archer.Draw(spriteBatch);
+            player1.Draw(spriteBatch);
             ground.Draw(spriteBatch);
             ground2.Draw(spriteBatch);
             ground3.Draw(spriteBatch);
             ground4.Draw(spriteBatch);
             ground5.Draw(spriteBatch);
             //my_archer.animation.Draw(spriteBatch,Vector2.Zero,30,30);
-            spriteBatch.Draw(my_archer.my_texture, new Rectangle(-5, -5, 10, 10), Color.White);
-            my_archer2.Draw(spriteBatch);
+            spriteBatch.Draw(player1.my_texture, new Rectangle(-5, -5, 10, 10), Color.White);
+            player2.Draw(spriteBatch);
             spriteBatch.End();
             // Drawing after KryptonEngine.Draw will cause you objects to be drawn on top of the lightmap (can be useful, fyi)
             // ----- DRAW STUFF HERE ----- //
@@ -517,8 +537,8 @@ namespace MadNorSane.Screens
             // Draw krypton (This can be omited if krypton is in the Component list. It will simply draw krypton when base.Draw is called
             this.krypton.Draw(gameTime);
             spriteBatch.Begin();
-            my_archer.DrawUI(spriteBatch, 0, ScreenManager.GraphicsDevice.Viewport);
-            my_archer2.DrawUI(spriteBatch, 1, ScreenManager.GraphicsDevice.Viewport);
+            player1.DrawUI(spriteBatch, 0, ScreenManager.GraphicsDevice.Viewport);
+            player2.DrawUI(spriteBatch, 1, ScreenManager.GraphicsDevice.Viewport);
             spriteBatch.End();
             // Draw the shadow hulls as-is (no shadow stretching) in pure white on top of the shadows
             // You can omit this line if you want to see what the light-map looks like :)
