@@ -69,7 +69,7 @@ namespace MadNorSane.Screens
             krypton.SpriteBatchCompatablityEnabled = true;
             krypton.CullMode = CullMode.None;
 
-            world = new World(new Vector2(0, -9.8f));
+            world = new World(new Vector2(0, .8f));
             my_archer = new Archer(world, content, 0, 0);
             
             this.krypton.Initialize();
@@ -106,8 +106,8 @@ namespace MadNorSane.Screens
             var body= BodyFactory.CreateRectangle(world,Conversions.to_meters(width),Conversions.to_meters(height),1f,new Vector2(Conversions.to_meters(x),Conversions.to_meters(y)));
             body.BodyType = BodyType.Static;
              var hull = ShadowHull.CreateRectangle(new Vector2(width,height));
-                    hull.Position.X = x;
-                    hull.Position.Y = y;
+                    hull.Position.X = x+width/2;
+                    hull.Position.Y = y+height/2;
                     hull.Scale.X = 1f;
                     hull.Scale.Y = 1f;
 
