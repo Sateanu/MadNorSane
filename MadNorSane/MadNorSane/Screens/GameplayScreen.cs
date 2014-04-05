@@ -85,30 +85,18 @@ namespace MadNorSane.Screens
             krypton.CullMode = CullMode.None;
             ModifierList list=new ModifierList();
             world = new World(new Vector2(0, 9.8f));
-
-            
-            
-
-            blocks.Add( new Block(world,krypton, content, 0, 1,100,1,"ground"));
-            blocks.Add( new Block(world, krypton, content, -3, -3,1,2.5f,"wall"));
-            blocks.Add( new Block(world, krypton, content, -25, -10, 2, 21, "wall"));
-            blocks.Add(new Block(world, krypton, content, 25, -10, 2, 21, "wall"));
-            blocks.Add(new Block(world, krypton, content, 0, -20, 100,1, "wall"));
-                this.krypton.Initialize();
-
-            List<Modifier> modifiers = new List<Modifier>();
-           // modifiers.Add(list.getMod());
-            //modifiers.Add(list.getSizeMod());
-            player1 = new Archer(world, content, 0, -10,modifiers);
-            modifiers.Clear();
-            //modifiers.Add(list.getMod());
-            //modifiers.Add(list.getSizeMod());
-            player2 = new Mage(world, content, -6, -10,modifiers);
+            List<Modifier> modlist = new List<Modifier>();
+            player1 = new Archer(world, content, 0, -10, modlist);
+            player2 = new Mage(world, content, -6, -10, modlist);
             playeri[0] = player1;
             playeri[1] = player2;
 
-            
-
+            ground = new Block(world,krypton, content, 0, 1,100,1,"ground");
+            ground2 = new Block(world, krypton, content, -3, -3,1,2.5f,"wall");
+            ground3 = new Block(world, krypton, content, -25, -3, 2, 20, "wall");
+            ground4 = new Block(world, krypton, content, 25, -3, 2, 20, "wall");
+            ground5 = new Block(world, krypton, content, 0, -20, 100,1, "wall");
+            this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
             mouseCamera = new Camera(ScreenManager.GraphicsDevice.Viewport);
             camera.position += new Vector2(0, -5);
@@ -328,6 +316,9 @@ namespace MadNorSane.Screens
         }
 
         Vector2[] dirGamepad;
+        private Block ground3;
+        private Block ground4;
+        private Block ground5;
         /// <summary>
         /// Lets the game respond to player input. Unlike the Update method,
         /// this will only be called when the gameplay screen is active.
@@ -410,7 +401,6 @@ namespace MadNorSane.Screens
 
                 MoveClass.move_player_and_camera(playeri, camera, ScreenManager.GraphicsDevice.Viewport);
 
-
                 GameTime _game_time = new GameTime();
                 if (input.MouseState.LeftButton == ButtonState.Pressed && input.LastMouseState.LeftButton == ButtonState.Released)
                 {
@@ -427,12 +417,7 @@ namespace MadNorSane.Screens
                     direction.Normalize();
                     player1.atack(direction*15f, 1, _game_time);
                 }
-                if (input.IsNewKeyPress(Keys.N, PlayerIndex.One, out piout))
-                {
-                    this.ExitScreen();
-                    ScreenManager.AddScreen(new GameplayScreen(), PlayerIndex.One);
-                }
-                
+               
                     if (input.CurrentKeyboardStates[playerIndex].IsKeyDown(Keys.X) && input.LastKeyboardStates[playerIndex].IsKeyUp(Keys.X))
                     {
                         int mx = input.MouseState.X;
@@ -448,7 +433,6 @@ namespace MadNorSane.Screens
                         direction.Normalize();
                         player2.atack(direction * 15f, 1, _game_time);
                     }
-
 
                 Vector2 thumbstick = input.CurrentGamePadStates[playerIndex].ThumbSticks.Left;
 
@@ -540,12 +524,12 @@ namespace MadNorSane.Screens
             // By drawing here, you ensure that your scene is properly lit by krypton.
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.View);
 
-            
-            foreach (var b in blocks)
-                b.Draw(spriteBatch);
-           
-
             player1.Draw(spriteBatch);
+            ground.Draw(spriteBatch);
+            ground2.Draw(spriteBatch);
+            ground3.Draw(spriteBatch);
+            ground4.Draw(spriteBatch);
+            ground5.Draw(spriteBatch);
             //my_archer.animation.Draw(spriteBatch,Vector2.Zero,30,30);
             spriteBatch.Draw(player1.my_texture, new Rectangle(-5, -5, 10, 10), Color.White);
             player2.Draw(spriteBatch);

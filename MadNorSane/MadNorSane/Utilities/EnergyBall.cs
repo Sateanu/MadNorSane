@@ -28,7 +28,7 @@ namespace MadNorSane.Utilities
             my_body.OnCollision += my_body_OnCollision;
             my_body.BodyType = BodyType.Dynamic;
             my_body.IgnoreGravity = true;
-            my_body.Mass = 1;
+            my_body.Mass = 1f;
             my_body.ApplyLinearImpulse(direction);
             set_texture("energy_ball");
 
@@ -51,6 +51,9 @@ namespace MadNorSane.Utilities
                             fixA.Body.LinearVelocity = Vector2.Zero;
                             fixA.Body.IgnoreGravity = false;
                             fixA.Body.Rotation = 0f;
+                            fixA.Body.Dispose();
+                            fixA.Dispose();
+                            Active = false;
                             Player pl = (Player)(fixB.Body.UserData);
                             pl.TakeDamage(damage);
                             return false;
@@ -60,9 +63,12 @@ namespace MadNorSane.Utilities
                             {
                                 my_body.UserData = "energy_ball_used";
                                 fixA.Body.LinearVelocity = Vector2.Zero;
-
                                 fixA.Body.IgnoreGravity = false;
                                 fixA.Body.Rotation = 0f;
+                                fixA.Body.Dispose();
+                                fixA.Dispose();
+                                Active = false;
+                                
                                 return true;
                             }
                 }

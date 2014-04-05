@@ -29,7 +29,7 @@ namespace MadNorSane.Utilities
             my_body.OnCollision += my_body_OnCollision;
             my_body.BodyType = BodyType.Dynamic;
             my_body.IgnoreGravity = true;
-            my_body.Mass = 1;
+            my_body.Mass = 1f;
             my_body.ApplyLinearImpulse(direction);
             set_texture("arrow");
 
