@@ -406,7 +406,10 @@ namespace MadNorSane.Screens
 
             // Draw krypton (This can be omited if krypton is in the Component list. It will simply draw krypton when base.Draw is called
             this.krypton.Draw(gameTime);
-
+            spriteBatch.Begin();
+            my_archer.DrawUI(spriteBatch, 0, ScreenManager.GraphicsDevice.Viewport);
+            my_archer2.DrawUI(spriteBatch, 1, ScreenManager.GraphicsDevice.Viewport);
+            spriteBatch.End();
             // Draw the shadow hulls as-is (no shadow stretching) in pure white on top of the shadows
             // You can omit this line if you want to see what the light-map looks like :)
             if (IsDebug)

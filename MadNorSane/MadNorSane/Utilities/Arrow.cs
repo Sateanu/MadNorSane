@@ -50,6 +50,8 @@ namespace MadNorSane.Utilities
                           fixA.Body.LinearVelocity = Vector2.Zero;
                           fixA.Body.IgnoreGravity = false;
                           fixA.Body.Rotation = 0f;
+                          Player pl = (Player)(fixB.Body.UserData);
+                          pl.TakeDamage(1);
                           return false;
                       }
                       else
