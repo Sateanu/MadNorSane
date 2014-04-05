@@ -35,15 +35,6 @@ namespace MadNorSane.Characters
 
         public Vector2 velocity = Vector2.Zero;
 
-        public float Get_X()
-        {
-            return my_body.Position.X;
-        }
-        public float Get_Y()
-        {
-            return my_body.Position.Y;
-        }
-
         public World my_world = null;
         public Body my_body = null;
         public Texture2D my_texture = null;
