@@ -11,6 +11,7 @@ using Krypton.Lights;
 using FarseerPhysics.Factories;
 using MadNorSane.Utilities;
 using MadNorSane.Characters;
+using FarseerPhysics.DebugView;
 #endregion
 
 namespace MadNorSane.Screens
@@ -41,6 +42,8 @@ namespace MadNorSane.Screens
         Camera camera;
         Archer my_archer = null;
         Archer my_archer2 = null;
+        private DebugViewXNA debug;
+        private bool IsDebug=true;
 
         #endregion
 
@@ -85,7 +88,8 @@ namespace MadNorSane.Screens
             // once the load has finished, we use ResetElapsedTime to tell the game's
             // timing mechanism that we have just finished a very long frame, and that
             // it should not try to catch up.
-
+            debug = new DebugViewXNA(world);
+            debug.LoadContent(ScreenManager.GraphicsDevice, content);
             this.mLightTexture = LightTextureBuilder.CreatePointLight(ScreenManager.GraphicsDevice, 512);
             Light2D light = new Light2D()
             {
@@ -99,8 +103,8 @@ namespace MadNorSane.Screens
                 Fov = MathHelper.PiOver2 ,
             };
             krypton.Lights.Add(light);
-            for (int i = -20; i <= 20;i++)
-                addObject(i*20, 50, 10, 10);
+            
+                addObject(0,-20, 500, 20);
             // Create some lights and hulls
           //  this.CreateLights(mLightTexture, this.mNumLights);
            // this.CreateHulls(this.mNumHorzontalHulls, this.mNumVerticalHulls);
@@ -239,7 +243,15 @@ namespace MadNorSane.Screens
                     }
                 }
             }
-           // my_archer.move_on_ground();
+            
+            if (my_archer.btn_jump)
+            {
+                my_archer.move_on_ground();
+            }
+            else
+            {
+                my_archer.controlAir();
+            }
         }
 
 
@@ -277,17 +289,50 @@ namespace MadNorSane.Screens
                 PlayerIndex piout;
                 Console.WriteLine((int)playerIndex);
 
-                if (input.IsKeyPress(Keys.Left, ControllingPlayer.Value, out piout))
-                    movement.X--;
+                bool can_left = false;
+                if (keyboardState.IsKeyDown(Keys.Left))
+                {
+                    my_archer.can_move_left = true;
+                    my_archer.btn_move_left = true;
+                }
                 else
-                    movement.X = 0;
+                {
+                    my_archer.can_move_left = false;
+                    my_archer.btn_move_left = false;
+                }
+                    //movement.X--;
 
-                if (input.IsKeyPress(Keys.Right, ControllingPlayer.Value, out piout))
-                    movement.X++;
+                if (keyboardState.IsKeyDown(Keys.Right))
+                {
+                    my_archer.can_move_right = true;
+                    my_archer.btn_move_right = true;
+                }
+                else
+                {
+                    my_archer.can_move_right = false;
+                    my_archer.btn_move_right = false;
+                }
+                    //movement.X++;
 
-                if (input.IsNewKeyPress(Keys.Space, ControllingPlayer.Value, out piout))
-                    movement.Y--;
+                if (keyboardState.IsKeyDown(Keys.Up))
+                {
+                    my_archer.can_jump = true;
+                    my_archer.btn_jump = true;
+                }
+                else
+                {
+                    my_archer.can_jump = false;
+                    my_archer.btn_jump = false;
+                }
+                    //movement.Y--;
 
+                if (keyboardState.IsKeyDown(Keys.Down))
+                {
+                    
+                }
+                    //movement.Y++;
+
+                
 
 
                 Vector2 thumbstick = input.CurrentGamePadStates[playerIndex].ThumbSticks.Left;
@@ -296,7 +341,8 @@ namespace MadNorSane.Screens
                 if(thumbstick.Y<0)
                 movement2.Y -= thumbstick.Y;
                 if (input.IsNewButtonPress(Buttons.X, 0, out piout))
-                    movement2.Y--;
+                    my_archer2.my_body.ApplyLinearImpulse(new Vector2(0, -10));
+
                 if (movement.Length() > 1)
                     movement.Normalize();
                 if (movement2.Length() > 1)
@@ -307,7 +353,7 @@ namespace MadNorSane.Screens
                     my_archer.my_body.LinearVelocity = (movement*5);
                     my_archer.my_body.LinearVelocity *= 0.8f;
                 }
-                my_archer2.my_body.ApplyLinearImpulse(movement2);
+               // my_archer2.my_body.ApplyLinearImpulse(movement2);
             }
         }
 
@@ -346,7 +392,10 @@ namespace MadNorSane.Screens
 
             // Draw the shadow hulls as-is (no shadow stretching) in pure white on top of the shadows
             // You can omit this line if you want to see what the light-map looks like :)
-            
+            if (IsDebug)
+            {
+                debug.RenderDebugData(ref camera.Projection, ref camera.DebugView);
+            }
             this.DebugDraw();
             // If the game is transitioning on or off, fade it out to black.
             if (TransitionPosition > 0 || pauseAlpha > 0)

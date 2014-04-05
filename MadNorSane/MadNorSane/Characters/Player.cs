@@ -1,5 +1,6 @@
 ﻿using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
+using FarseerPhysics.Dynamics.Joints;
 using MadNorSane.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -21,7 +22,7 @@ namespace MadNorSane.Characters
 
     public abstract class Physics_object
     {
-        float move_speed = 10, jump_speed = 10, health_points = 100, mana_points = 100;
+        float move_speed = 50    , jump_speed = -1, health_points = 100, mana_points = 100;
         float width = 1, height = 1;
         float x_coordinate = 0, y_coordinate = 0;
         float turnMultiplier = 1;
@@ -114,7 +115,7 @@ namespace MadNorSane.Characters
         {
 
         }
-       /* public void move_on_ground()
+        public void move_on_ground()
         {
             if (btn_jump && can_jump)
             {
@@ -130,7 +131,7 @@ namespace MadNorSane.Characters
             // Run on ground
             if (!itWalks(speed_float))
             {
-                velocity.Y = 0;
+                velocity.X = 0;
                 my_body.LinearVelocity = velocity;
             }
         }
@@ -162,12 +163,18 @@ namespace MadNorSane.Characters
                     sign = 1;
                 }
             return sign;
-        }*/
+        }
 
-        /*bool itWalks(float T)
+        bool itWalks(float T)
         {
-          //  int sign_wanted = get_wanted_direction_of_moving();
-          //  float sign_current = get_current_direction_of_moving();
+
+            int sign_wanted = get_wanted_direction_of_moving();
+            if(sign_wanted == 0)
+            {
+                return false;
+            }
+            float sign_current = get_current_direction_of_moving();
+
             
             float new_speed = move_speed;
 
@@ -222,7 +229,103 @@ namespace MadNorSane.Characters
 
             return true;
         }
-        */
+        
+
+
+        public void controlAir()
+        {
+            if (btn_jump)
+            {
+                can_jump = false;
+                velocity.Y = jump_speed;
+                btn_jump = false;
+                my_body.LinearVelocity = (velocity);
+                return;
+            }
+
+            // Abort jump if user lets go of button
+            if (velocity.Y > 0 && !btn_jump)
+            {
+                velocity.Y = 0;
+            }
+
+            itWalksInAir(speed_float * 0.2f);
+        }
+        bool itWalksInAir(float T)
+        {
+            float speedVelocity = 0;
+            speedVelocity = velocity.X;/// * -sgn(worldGravity.y);
+
+            float linearVelocity = 0;
+            linearVelocity = my_body.LinearVelocity.X;
+
+            float sign = 0;
+
+            if (btn_move_right && btn_move_left == false)
+            {
+                sign = 1;
+            }
+            else
+                if (btn_move_right == false && btn_move_left)
+                {
+                    sign = -1;
+                }
+                else
+                    return false;
+
+            float currentSign = 0;
+
+            if (linearVelocity < 0)
+            {
+                currentSign = -1;
+            }
+            else
+                if (linearVelocity > 0)
+                {
+                    currentSign = 1;
+                }
+
+            float v = move_speed;
+
+            if (currentSign != 0 && currentSign != sign)
+            {
+                //iau pozitia ca sa stiu cum misc camera
+                v *= turnMultiplier;
+            }
+
+            //verific daca viteza curenta este mai mica decat viteza maxima, altfel nu mai maresc viteza
+            if (sign < 0)
+            {
+                if (speedVelocity > -move_speed)
+                {
+                    speedVelocity += v * sign * T;
+                }
+                else
+                {
+                    speedVelocity = -move_speed;
+                }
+            }
+            else
+            {
+                if (speedVelocity < move_speed)
+                {
+                    speedVelocity += v * sign * T;
+                }
+                else
+                {
+                    speedVelocity = move_speed;
+                }
+            }
+
+
+            float velChangeX = speedVelocity - my_body.LinearVelocity.X;
+            float impulseX = my_body.Mass * velChangeX;
+            my_body.ApplyLinearImpulse(new Vector2(impulseX, 0), my_body.WorldCenter);
+            velocity.X = speedVelocity;
+            return true;
+        }
+
+
 
         public void move_in_air()
         {
@@ -231,17 +334,34 @@ namespace MadNorSane.Characters
 
         public bool VS_OnCollision(Fixture fixA, Fixture fixB, Contact contact)
         {
+            Vector2 touched_sides = contact.Manifold.LocalNormal;
             if (contact.IsTouching)
             {
-                if (fixA.Body.UserData == "player" && fixB.Body.UserData == "block")
+                if(fixA.Body.UserData == "player")
                 {
-                    can_jump = true;
-                    Console.WriteLine("is on ground");
-                }
-                else
-                {
-                    can_jump = false;
-                    Console.WriteLine("is NOT on ground");
+                    if (fixB.Body.UserData == "ground" && touched_sides.Y > 0)
+                    {
+                        can_jump = true;
+                        Console.WriteLine("is on ground");
+                    }
+                    else
+                    if (fixB.Body.UserData == "ground" && touched_sides.Y < 0)
+                    {
+                        can_jump = false;
+                        Console.WriteLine("is under ground");
+                    }
+                    else
+                    if (fixB.Body.UserData == "wall" && touched_sides.X > 0)
+                    {
+                        can_jump = false;
+                        Console.WriteLine("is on right side of the wall");
+                    }
+                    else
+                    if (fixB.Body.UserData == "wall" && touched_sides.X < 0)
+                    {
+                        can_jump = false;
+                        Console.WriteLine("is on left side of the wall");
+                    }
                 }
             }
             return true;

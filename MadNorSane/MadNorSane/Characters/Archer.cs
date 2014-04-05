@@ -1,5 +1,6 @@
 ﻿using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using MadNorSane.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,9 +24,22 @@ namespace MadNorSane.Characters
             my_body.OnCollision += new OnCollisionEventHandler(VS_OnCollision);
             my_body.UserData = "player";
 
+           
             set_texture("archeranim");
         }
+        private DateTime previousJump = DateTime.Now;   // time at which we previously jumped
+        private const float jumpInterval = 1.0f;        // in seconds
+        private Vector2 jumpForce = new Vector2(0, -5); // applied force when jumping
 
+        public void Jump()
+        {
+            if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
+            {
+                my_body.ApplyLinearImpulse(ref jumpForce);
+                previousJump = DateTime.Now;
+            }
+        }
+        
         public bool atack(String _skill)
         {
             

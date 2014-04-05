@@ -107,6 +107,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Desktop\Farseer Physics DebugView 3.5\DebugView XNA.csproj">
+      <Project>{fc7845fa-13fe-4ff8-822a-a577f3f59b00}</Project>
+      <Name>DebugView XNA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Farseer Physics Engine 3.5\Farseer Physics XNA.csproj">
       <Project>{0a850700-1abb-4288-a391-6726b90ebeb9}</Project>
       <Name>Farseer Physics XNA</Name>
