@@ -363,13 +363,46 @@ namespace MadNorSane.Screens
                 Vector2 thumbstick = input.CurrentGamePadStates[playerIndex].ThumbSticks.Left;
 
                 movement2.X += thumbstick.X;
-                if(thumbstick.Y<0)
+                if(thumbstick.Y > 0)
                 {
-
+                    my_archer2.btn_jump = true;
                 }
+                else
+                {
+                    my_archer2.btn_jump = false;
+                }
+                if(thumbstick.X > 0)
+                {
+                    my_archer2.btn_move_right = true;
+                    my_archer2.can_move_right = true;
+                }
+                else
+                {
+                    my_archer2.btn_move_right = false;
+                    my_archer2.can_move_right = false;
+                }
+
+                if (thumbstick.X < 0)
+                {
+                    my_archer2.btn_move_left = true;
+                    my_archer2.can_move_left = true;
+                }
+                else
+                {
+                    my_archer2.btn_move_left = false;
+                    my_archer2.can_move_left = false;
+                }
+
+                if (input.CurrentGamePadStates[playerIndex].Buttons.RightShoulder == ButtonState.Pressed && input.LastGamePadStates[playerIndex].Buttons.RightShoulder == ButtonState.Released)
+                {
+                    Vector2 direction = new Vector2(input.MouseState.X, input.MouseState.Y) - Conversions.to_pixels(my_archer2.my_body.Position) + camera.Position;
+                    direction.Normalize();
+                    my_archer2.atack(direction * 15f);
+                }
+
                 //movement2.Y -= thumbstick.Y;
-                if (input.IsNewButtonPress(Buttons.X, 0, out piout))
-                    my_archer2.my_body.ApplyLinearImpulse(new Vector2(0, -10));
+                /*if (input.IsNewButtonPress(Buttons.X, 0, out piout))
+                    //my_archer2.my_body.ApplyLinearImpulse(new Vector2(0, -10));
 
                 if (movement.Length() > 1)
                     movement.Normalize();
@@ -381,7 +414,7 @@ namespace MadNorSane.Screens
                     //my_archer.my_body.LinearVelocity = (movement*5);
                     //my_archer.my_body.LinearVelocity *= 0.8f;
                 }
-               // my_archer2.my_body.ApplyLinearImpulse(movement2);
+               // my_archer2.my_body.ApplyLinearImpulse(movement2);*/
             }
         }
 
