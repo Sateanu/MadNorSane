@@ -15,6 +15,7 @@ namespace MadNorSane.Characters
     class Archer : Player
     {
         List<Arrow> arrows = new List<Arrow>(5);
+        
         public Archer(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate)
         {
             _my_content = _new_content;
@@ -24,16 +25,18 @@ namespace MadNorSane.Characters
             my_body.FixedRotation = true;
 
             my_body.CollisionGroup = -1;
-
+            move_speed = 10f;
             my_body.OnCollision += new OnCollisionEventHandler(VS_OnCollision);
             my_body.UserData = this;
             my_body.CollisionGroup = -1;
             heart = _new_content.Load<Texture2D>(@"Textures\heart");
+            arrowtext = _new_content.Load<Texture2D>(@"Textures\arrow");
             set_texture("archeranim");
         }
         private DateTime previousJump = DateTime.Now;   // time at which we previously jumped
         private const float jumpInterval = 1.0f;        // in seconds
         private Vector2 jumpForce = new Vector2(0, -5); // applied force when jumping
+        
 
         public void Jump()
         {
@@ -51,7 +54,14 @@ namespace MadNorSane.Characters
         }
         public bool atack(Vector2 direction)
         {
-            arrows.Add(new Arrow(my_world, _my_content, this, direction));
+            if (arrownr > 0)
+            {
+                arrows.Add(new Arrow(my_world, _my_content, this, direction));
+                arrownr--;
+            }
+            else
+                return false;
+            
             return true;
         }
     }

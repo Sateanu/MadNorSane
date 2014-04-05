@@ -75,6 +75,8 @@ namespace MadNorSane.Utilities
                           fixA.Body.Dispose();
                           fixA.Dispose();
                           Active = false;
+                          Player pl = (Player)(fixB.Body.UserData);
+                          pl.arrownr++;
                       }
                       else
                           if (fixB.Body.UserData.GetType().IsSubclassOf(typeof(Player)))
