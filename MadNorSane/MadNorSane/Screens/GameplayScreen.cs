@@ -31,7 +31,7 @@ namespace MadNorSane.Screens
         KryptonEngine krypton;
         Vector2 playerPosition = new Vector2(100, 100);
         Vector2 enemyPosition = new Vector2(100, 100);
-        
+        Camera mouseCamera;
         Random random = new Random();
 
         float pauseAlpha;
@@ -91,8 +91,9 @@ namespace MadNorSane.Screens
             ground5 = new Block(world, krypton, content, 0, -20, 100,1, "wall");
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
+            mouseCamera = new Camera(ScreenManager.GraphicsDevice.Viewport);
             camera.position += new Vector2(0, -5);
-            //camera.Follow(my_archer.my_body);
+            
             Console.WriteLine(camera.IsFollowing);
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -392,8 +393,17 @@ namespace MadNorSane.Screens
                     camera.Scale += 0.01f;
                 GameTime _game_time = new GameTime();
                 if (input.MouseState.LeftButton == ButtonState.Pressed && input.LastMouseState.LeftButton == ButtonState.Released)
-                {   
+                {
+                    int mx = input.MouseState.X;
+                    int my = input.MouseState.Y;
+                    float mapX = mx + Conversions.to_pixels(camera.position.X) * camera.Scale - ScreenManager.GraphicsDevice.Viewport.Width/2;
+                    float mapY = my + Conversions.to_pixels(camera.position.Y) * camera.Scale - ScreenManager.GraphicsDevice.Viewport.Height / 2;
+                    mapX /= camera.Scale;
+                    mapY /= camera.Scale;
                     Vector2 direction=new Vector2(input.MouseState.X,input.MouseState.Y)-Conversions.to_pixels(my_archer.my_body.Position)+camera.Position;
+                    direction = new Vector2(mapX, mapY) - Conversions.to_pixels(my_archer.my_body.Position);
+                    Console.WriteLine(direction.ToString()+"="+new Vector2(input.MouseState.X,input.MouseState.Y).ToString()+"-"+Conversions.to_pixels(my_archer.my_body.Position).ToString()+"+"+camera.Position.ToString()+" camera scale"+camera.Scale.ToString());
+
                     direction.Normalize();
                     my_archer.atack(direction*15f, 1, _game_time);
                 }
@@ -495,6 +505,7 @@ namespace MadNorSane.Screens
             ground4.Draw(spriteBatch);
             ground5.Draw(spriteBatch);
             //my_archer.animation.Draw(spriteBatch,Vector2.Zero,30,30);
+            spriteBatch.Draw(my_archer.my_texture, new Rectangle(-5, -5, 10, 10), Color.White);
             my_archer2.Draw(spriteBatch);
             spriteBatch.End();
             // Drawing after KryptonEngine.Draw will cause you objects to be drawn on top of the lightmap (can be useful, fyi)
