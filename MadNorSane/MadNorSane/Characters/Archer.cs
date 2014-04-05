@@ -23,6 +23,8 @@ namespace MadNorSane.Characters
             my_body.BodyType = BodyType.Dynamic;
             my_body.FixedRotation = true;
 
+            my_body.CollisionGroup = -1;
+
             my_body.OnCollision += new OnCollisionEventHandler(VS_OnCollision);
             my_body.UserData = this;
 

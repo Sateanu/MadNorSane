@@ -47,8 +47,12 @@ namespace MadNorSane.Utilities
             return vector / _scale;
         }
     }
-    class VS_Body
+    class Skill
     {
-        
+        String name = "";
+        float time_to_load = 0;
+        float time_to_finish = 0;
+        float damage = 0;
+        float protection = 0;
     }
 }

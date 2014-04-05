@@ -1,4 +1,5 @@
 ﻿using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -21,5 +22,33 @@ namespace MadNorSane.Characters
 
             set_texture("knight");
         }
+
+        public bool VS_OnCollision(Fixture fixA, Fixture fixB, Contact contact)
+        {
+            Vector2 touched_sides = contact.Manifold.LocalNormal;
+            if (contact.IsTouching)
+            {
+                if (fixA.Body.UserData.GetType().IsSubclassOf(typeof(Sword)))
+                {
+                    if (fixB.Body.UserData == "wall" && touched_sides.X < 0)
+                    {
+                        Console.WriteLine("Am lovit wall");
+                        return false;
+                    }
+
+                    if (fixB.Body.UserData.GetType().IsSubclassOf(typeof(Player)))// && touched_sides.X != 0)
+                    {
+                        Console.WriteLine("Am lovit player");
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
+
+    class Sword
+    {
+
     }
 }

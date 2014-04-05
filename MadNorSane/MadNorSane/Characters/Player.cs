@@ -98,6 +98,12 @@ namespace MadNorSane.Characters
                     else
                     if (fixB.Body.UserData == "wall" && touched_sides.X < 0)
                     {
+                        Console.WriteLine("Am lovit wall");
+                        return false;
+                    }
+
+                    if (fixB.Body.UserData.GetType().IsSubclassOf(typeof(Player)))// && touched_sides.X != 0)
+                    {
                         Console.WriteLine("Am lovit player");
                         return false;
                     }

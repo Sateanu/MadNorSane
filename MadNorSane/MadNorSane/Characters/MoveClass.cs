@@ -9,6 +9,9 @@ namespace MadNorSane.Characters
 {
     class MoveClass
     {
+        static float turning_value = 0.015f;
+        static float increasing_value = 0.025f;
+
         public static void controlGround(Player player, float T)
         {
             if (player.btn_jump && player.can_jump)
@@ -80,11 +83,11 @@ namespace MadNorSane.Characters
                         //if the player was moving to the left and now he turned right, I slowly decrease the speed, and after that increase it to the right
                         if (get_my_current_direction(player) != 0 && get_my_wanted_direction(player) != 0 && get_my_wanted_direction(player) != get_my_current_direction(player))
                         {
-                            player.my_body.ApplyLinearImpulse(new Vector2(player.move_speed * 0.025f, 0));
+                            player.my_body.ApplyLinearImpulse(new Vector2(player.move_speed * turning_value, 0));
                         }
                         else
                         {
-                            player.my_body.ApplyLinearImpulse(new Vector2(player.move_speed * 0.035f, 0));
+                            player.my_body.ApplyLinearImpulse(new Vector2(player.move_speed * increasing_value, 0));
                         }
                     }
                     else
@@ -102,11 +105,11 @@ namespace MadNorSane.Characters
                             //if the player was moving to the right and now he turned left, I slowly decrease the speed, and after that increase it to the left
                             if (get_my_current_direction(player) != 0 && get_my_wanted_direction(player) != 0 && get_my_wanted_direction(player) != get_my_current_direction(player))
                             {
-                                player.my_body.ApplyLinearImpulse(new Vector2(-player.move_speed * 0.025f, 0));
+                                player.my_body.ApplyLinearImpulse(new Vector2(-player.move_speed * turning_value, 0));
                             }
                             else
                             {
-                                player.my_body.ApplyLinearImpulse(new Vector2(-player.move_speed * 0.035f, 0));
+                                player.my_body.ApplyLinearImpulse(new Vector2(-player.move_speed * increasing_value, 0));
                             }
                         }
                         else
