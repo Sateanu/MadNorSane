@@ -236,6 +236,7 @@ namespace MadNorSane.Screens
                     }
                 }
             }
+            my_archer.move_on_ground();
         }
 
 
