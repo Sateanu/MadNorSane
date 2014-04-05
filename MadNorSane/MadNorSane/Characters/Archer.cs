@@ -37,7 +37,7 @@ namespace MadNorSane.Characters
             heart = _new_content.Load<Texture2D>(@"Textures\heart");
             arrowtext = _new_content.Load<Texture2D>(@"Textures\arrow");
             set_texture("archeranim");
-            tinta = _new_content.Load<Texture2D>(@"Textures\tinta");
+            tinta = _new_content.Load<Texture2D>(@"Textures\direction");
             my_attack1 = new Skill(stat.primaryDamage, 0, 0, 3);
             my_attack2 = new Skill(stat.secondaryDamage, 0, 0, 5);
 

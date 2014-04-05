@@ -27,7 +27,13 @@ namespace MadNorSane.Characters
        }
        public void DrawTinta(SpriteBatch spriteBatch)
        {
+           float radius = width > height ? width : height;
            
+           spriteBatch.Draw(tinta, new Rectangle(
+               (int)Conversions.to_pixels(my_body.Position.X+(float)Math.Sin(tintaAngle)),
+               (int)Conversions.to_pixels(my_body.Position.Y-(float)Math.Cos(tintaAngle)),
+               (int)Conversions.to_pixels(radius),
+               (int)Conversions.to_pixels(radius)), null, Color.White, tintaAngle, new Vector2(tinta.Width / 2, tinta.Height / 2), SpriteEffects.None, 0f);
        }
        public float MP
         {
