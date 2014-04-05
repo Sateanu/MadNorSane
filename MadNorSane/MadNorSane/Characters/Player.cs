@@ -12,7 +12,7 @@ namespace MadNorSane.Characters
 {
    public abstract class Player : Physics_object
     {
-       public float move_speed = 15, jump_speed = -10, health_points = 100, mana_points = 100;
+       public float move_speed = 10, jump_speed = -10, health_points = 100, mana_points = 100;
        public bool btn_jump = false, btn_move_left = false, btn_move_right = false, btn_atack1 = false, btn_atack2 = false;
        public bool can_jump = false, can_move_left = false, can_move_right = false, can_atack1 = false, can_atack2 = false;
        public float MP

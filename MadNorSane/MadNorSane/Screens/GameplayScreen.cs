@@ -86,7 +86,7 @@ namespace MadNorSane.Screens
             
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
-            camera.Follow(my_archer.my_body);
+            //camera.Follow(my_archer.my_body);
             Console.WriteLine(camera.IsFollowing);
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -263,6 +263,15 @@ namespace MadNorSane.Screens
             {
                 my_archer.controlAir();
             }
+
+            if (my_archer2.can_jump)
+            {
+                my_archer2.move_on_ground();
+            }
+            else
+            {
+                my_archer2.controlAir();
+            }
         }
 
 
@@ -353,7 +362,10 @@ namespace MadNorSane.Screens
 
                 movement2.X += thumbstick.X;
                 if(thumbstick.Y<0)
-                movement2.Y -= thumbstick.Y;
+                {
+
+                }
+                //movement2.Y -= thumbstick.Y;
                 if (input.IsNewButtonPress(Buttons.X, 0, out piout))
                     my_archer2.my_body.ApplyLinearImpulse(new Vector2(0, -10));
 
@@ -364,8 +376,8 @@ namespace MadNorSane.Screens
 
                 if (movement != Vector2.Zero)
                 {
-                    my_archer.my_body.LinearVelocity = (movement*5);
-                    my_archer.my_body.LinearVelocity *= 0.8f;
+                    //my_archer.my_body.LinearVelocity = (movement*5);
+                    //my_archer.my_body.LinearVelocity *= 0.8f;
                 }
                // my_archer2.my_body.ApplyLinearImpulse(movement2);
             }

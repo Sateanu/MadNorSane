@@ -9,7 +9,7 @@ namespace MadNorSane.Characters
 {
     class MoveClass
     {
-        static float turning_value = 0.015f;
+        static float turning_value = 0.020f;
         static float increasing_value = 0.025f;
 
         public static void controlGround(Player player, float T)
@@ -71,6 +71,16 @@ namespace MadNorSane.Characters
             //if the player doesn't want to move right or left
             if(!player.btn_move_right && !player.btn_move_left)
             {
+                //slow the player while he is in air and he doesn't have any direction
+                if (get_my_current_direction(player) > 0)
+                {
+                    player.my_body.LinearVelocity = new Vector2(player.my_body.LinearVelocity.X - increasing_value * 4, player.my_body.LinearVelocity.Y);
+                }
+                else
+                if (get_my_current_direction(player) < 0)
+                {
+                    player.my_body.LinearVelocity = new Vector2(player.my_body.LinearVelocity.X + increasing_value * 4, player.my_body.LinearVelocity.Y);
+                }
                 return;
             }
             else

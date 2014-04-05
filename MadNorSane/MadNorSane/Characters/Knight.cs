@@ -30,9 +30,9 @@ namespace MadNorSane.Characters
             {
                 if (fixA.Body.UserData.GetType().IsSubclassOf(typeof(Sword)))
                 {
-                    if (fixB.Body.UserData == "wall" && touched_sides.X < 0)
+                    if (fixB.Body.UserData.GetType().IsSubclassOf(typeof(Player)))
                     {
-                        Console.WriteLine("Am lovit wall");
+                        Console.WriteLine("Am lovit un player cu sword");
                         return false;
                     }
 
