@@ -38,7 +38,7 @@ namespace MadNorSane.Screens
         private int mNumLights=20;
         private int mNumHorzontalHulls=10;
         private int mNumVerticalHulls=10;
-
+        Camera camera;
         Archer my_archer = null;
 
         #endregion
@@ -73,6 +73,7 @@ namespace MadNorSane.Screens
             my_archer = new Archer(world, content, 0, 0);
             
             this.krypton.Initialize();
+            camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
@@ -201,6 +202,7 @@ namespace MadNorSane.Screens
 
             if (IsActive)
             {
+                camera.SetView();
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     ScreenManager.Game.Exit();
 
@@ -301,7 +303,8 @@ namespace MadNorSane.Screens
 
             ScreenManager.GraphicsDevice.Clear(Color.CornflowerBlue);
             Matrix view = Matrix.CreateTranslation(new Vector3(0, 0, 0)) * Matrix.CreateTranslation(new Vector3(ScreenManager.GraphicsDevice.Viewport.Width / 2, ScreenManager.GraphicsDevice.Viewport.Height / 2, 0));
-            this.krypton.Matrix = view;
+            
+            this.krypton.Matrix = camera.View;
             this.krypton.Bluriness = 3;
             this.krypton.LightMapPrepare();
 
@@ -310,7 +313,7 @@ namespace MadNorSane.Screens
 
             // ----- DRAW STUFF HERE ----- //
             // By drawing here, you ensure that your scene is properly lit by krypton.
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, view);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camera.View);
             my_archer.Draw(spriteBatch);
             spriteBatch.End();
             // Drawing after KryptonEngine.Draw will cause you objects to be drawn on top of the lightmap (can be useful, fyi)
@@ -321,6 +324,7 @@ namespace MadNorSane.Screens
 
             // Draw the shadow hulls as-is (no shadow stretching) in pure white on top of the shadows
             // You can omit this line if you want to see what the light-map looks like :)
+            
             this.DebugDraw();
             // If the game is transitioning on or off, fade it out to black.
             if (TransitionPosition > 0 || pauseAlpha > 0)

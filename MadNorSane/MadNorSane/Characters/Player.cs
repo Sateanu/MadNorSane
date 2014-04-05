@@ -100,7 +100,7 @@ namespace MadNorSane.Characters
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y), 1, 1), Color.White);
+            spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y), 32, 32), Color.White);
         }
     }
 }
