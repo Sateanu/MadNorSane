@@ -17,6 +17,9 @@ namespace MadNorSane.Characters
        public bool btn_jump = false, btn_move_left = false, btn_move_right = false, btn_atack1 = false, btn_atack2 = false;
        public bool can_jump = false, can_move_left = false, can_move_right = false, can_atack1 = false, can_atack2 = false;
        public Texture2D heart;
+        public int maxArrows = 4;
+       public Texture2D arrowtext;
+      public int arrownr = 4;
        public float MP
         {
             get { return mana_points; }
@@ -75,10 +78,14 @@ namespace MadNorSane.Characters
                 case 0:
                     for (int i = 0; i < HP; i++)
                         spriteBatch.Draw(heart, new Rectangle(i * 34, 0, 32, 32),Color.White);
+                    for (int i = 0; i < arrownr; i++)
+                        spriteBatch.Draw(arrowtext, new Rectangle(i * 34, 34, 32, 32), Color.White);
                     break;
                 case 1:
                     for (int i =0; i < HP; i++)
-                        spriteBatch.Draw(heart, new Rectangle(viewport.Width-i * 34, 0, 32, 32), Color.White);
+                        spriteBatch.Draw(heart, new Rectangle(viewport.Width-i * 34 - 34, 0, 32, 32), Color.White);
+                    for (int i = 0; i < arrownr; i++)
+                        spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * 34 - 34, 34, 32, 32), Color.White);
                     break;
                 default:
                     break;
@@ -97,7 +104,7 @@ namespace MadNorSane.Characters
             Vector2 touched_sides = contact.Manifold.LocalNormal;
             if (contact.IsTouching)
             {
-
+                
                 if (fixA.Body.UserData.GetType().IsSubclassOf(typeof(Player)))
                 {
                     if (fixB.Body.UserData == "ground" && touched_sides.Y > 0)
@@ -118,9 +125,16 @@ namespace MadNorSane.Characters
                     else
                     if (fixB.Body.UserData == "wall" && touched_sides.X < 0)
                     {
-                        Console.WriteLine("Am lovit wall");
-                        return false;
+                        Console.WriteLine("is on left side of the wall");
+                        can_jump = false;
                     }
+                    else
+                        if (fixB.Body.UserData == "wall" && touched_sides.Y > 0)
+                        {
+                            Console.WriteLine("i'm on the wall");
+                            can_jump = true;
+                        }
+
 
                     if (fixB.Body.UserData.GetType().IsSubclassOf(typeof(Player)))// && touched_sides.X != 0)
                     {

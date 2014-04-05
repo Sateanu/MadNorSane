@@ -48,6 +48,7 @@ namespace MadNorSane.Screens
         private DebugViewXNA debug;
         private bool IsDebug=false;
         Block ground = null;
+        private Block ground2;
 
 
         #endregion
@@ -81,19 +82,27 @@ namespace MadNorSane.Screens
             world = new World(new Vector2(0, 9.8f));
             my_archer = new Archer(world, content, 0, -10);
 
-            my_archer2 = new Archer(world, content, -3, -20);
+            my_archer2 = new Archer(world, content, -6, -10);
 
-            ground = new Block(world,krypton, content, 0, 1);
-            
+            ground = new Block(world,krypton, content, 0, 1,100,1,"ground");
+            ground2 = new Block(world, krypton, content, -3, -3,1,2.5f,"wall");
+            ground3 = new Block(world, krypton, content, -25, -3, 2, 20, "wall");
+            ground4 = new Block(world, krypton, content, 25, -3, 2, 20, "wall");
+            ground5 = new Block(world, krypton, content, 0, -20, 100,1, "wall");
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
+            camera.position += new Vector2(0, -5);
             //camera.Follow(my_archer.my_body);
             Console.WriteLine(camera.IsFollowing);
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
             //Thread.Sleep(1000);
-
+            dirGamepad = new Vector2[4];
+            dirGamepad[0] =- Vector2.UnitY;
+            dirGamepad[1] = -Vector2.UnitY;
+            dirGamepad[2] = -Vector2.UnitY;
+            dirGamepad[3] = -Vector2.UnitY;
             // once the load has finished, we use ResetElapsedTime to tell the game's
             // timing mechanism that we have just finished a very long frame, and that
             // it should not try to catch up.
@@ -109,7 +118,7 @@ namespace MadNorSane.Screens
                 X = 0,
                 Y = -250,
                 Angle=1f,
-                Fov = MathHelper.PiOver2 ,
+               
             };
             krypton.Lights.Add(light);
 
@@ -228,11 +237,30 @@ namespace MadNorSane.Screens
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     ScreenManager.Game.Exit();
 
-                my_archer.Update(_game_time);
-                my_archer2.Update(_game_time);
-
+                my_archer.Update(gameTime);
+                my_archer2.Update(gameTime);
+                
                 my_archer.update_archer(gameTime);
                 my_archer2.update_archer(gameTime);
+
+                if (my_archer2.my_body.ContactList == null)
+                {
+                    my_archer2.can_jump = false;
+                }
+                if (my_archer.my_body.ContactList == null)
+                {
+                    my_archer.can_jump = false;
+                }
+                if(my_archer.HP<=0&&my_archer2.HP>0)
+                {
+                    this.ExitScreen();
+                    ScreenManager.AddScreen(new GameplayScreen(), PlayerIndex.One);
+                }
+                else if(my_archer2.HP<=0&&my_archer.HP>0)
+                {
+                    this.ExitScreen();
+                    ScreenManager.AddScreen(new GameplayScreen(), PlayerIndex.One);
+                }
 
                 world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
                 var t = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -279,7 +307,10 @@ namespace MadNorSane.Screens
             }
         }
 
-
+        Vector2[] dirGamepad;
+        private Block ground3;
+        private Block ground4;
+        private Block ground5;
         /// <summary>
         /// Lets the game respond to player input. Unlike the Update method,
         /// this will only be called when the gameplay screen is active.
@@ -314,7 +345,7 @@ namespace MadNorSane.Screens
                 PlayerIndex piout;
                 //Console.WriteLine((int)playerIndex);
 
-                bool can_left = false;
+                
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
                     my_archer.can_move_left = true;
@@ -366,6 +397,7 @@ namespace MadNorSane.Screens
 
                 Vector2 thumbstick = input.CurrentGamePadStates[playerIndex].ThumbSticks.Left;
 
+               
                 movement2.X += thumbstick.X;
                 if(thumbstick.Y > 0)
                 {
@@ -399,9 +431,14 @@ namespace MadNorSane.Screens
 
                 if (input.CurrentGamePadStates[playerIndex].Buttons.RightShoulder == ButtonState.Pressed && input.LastGamePadStates[playerIndex].Buttons.RightShoulder == ButtonState.Released)
                 {
-                    Vector2 direction = new Vector2(input.MouseState.X, input.MouseState.Y) - Conversions.to_pixels(my_archer2.my_body.Position) + camera.Position;
-                    direction.Normalize();
-                    my_archer2.atack(direction * 15f, 1, _game_time);
+                    Vector2 direction = input.CurrentGamePadStates[playerIndex].ThumbSticks.Right * 100 ;
+                    direction.Y *= -1;
+                    
+                    if (direction != Vector2.Zero)
+                        dirGamepad[playerIndex] = direction;
+
+                    dirGamepad[playerIndex].Normalize();
+                    my_archer2.atack(dirGamepad[playerIndex]* 15f, 1, _game_time);
                 }
 
                 //movement2.Y -= thumbstick.Y;
@@ -438,7 +475,7 @@ namespace MadNorSane.Screens
            
             this.krypton.Matrix = camera.View;
             this.krypton.Bluriness = 3;
-            krypton.AmbientColor = Color.White;
+            //krypton.AmbientColor = Color.White;
             this.krypton.LightMapPrepare();
 
             // Make sure we clear the backbuffer *after* Krypton is done pre-rendering
@@ -449,6 +486,10 @@ namespace MadNorSane.Screens
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.View);
             my_archer.Draw(spriteBatch);
             ground.Draw(spriteBatch);
+            ground2.Draw(spriteBatch);
+            ground3.Draw(spriteBatch);
+            ground4.Draw(spriteBatch);
+            ground5.Draw(spriteBatch);
             //my_archer.animation.Draw(spriteBatch,Vector2.Zero,30,30);
             my_archer2.Draw(spriteBatch);
             spriteBatch.End();
