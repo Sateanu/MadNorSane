@@ -15,7 +15,6 @@ namespace MadNorSane.Characters
             {
                 player.can_jump = false;
                 player.my_body.LinearVelocity = new Vector2(player.my_body.LinearVelocity.X, player.jump_speed);
-                //player.my_body.ApplyLinearImpulse(new Vector2(0, player.jump_speed));
                 return;
             }
             if (!player.btn_move_right && !player.btn_move_left)
@@ -65,15 +64,19 @@ namespace MadNorSane.Characters
 
         public static void controlAir(Physics_object player, float T)
         {
+            //if the player doesn't want to move right or left
             if(!player.btn_move_right && !player.btn_move_left)
             {
                 return;
             }
             else
+                //if the player wants to go the right
                 if (player.btn_move_right && !player.btn_move_left)
                 {
+                    //if the player hasn't reach the full speed, we increase it every time until he does
                     if (player.my_body.LinearVelocity.X < player.move_speed)
                     {
+                        //if the player was moving to the left and now he turned right, I slowly decrease the speed, and after that increase it to the right
                         if (get_my_current_direction(player) != 0 && get_my_wanted_direction(player) != 0 && get_my_wanted_direction(player) != get_my_current_direction(player))
                         {
                             player.my_body.ApplyLinearImpulse(new Vector2(player.move_speed * 0.025f, 0));
@@ -89,10 +92,13 @@ namespace MadNorSane.Characters
                     }
                 }
                 else
+                    //if the player wants to go the left
                     if (!player.btn_move_right && player.btn_move_left)
                     {
+                        //if the player hasn't reach the full speed, we increase it every time until he does
                         if (player.my_body.LinearVelocity.X > -player.move_speed)
                         {
+                            //if the player was moving to the right and now he turned left, I slowly decrease the speed, and after that increase it to the left
                             if (get_my_current_direction(player) != 0 && get_my_wanted_direction(player) != 0 && get_my_wanted_direction(player) != get_my_current_direction(player))
                             {
                                 player.my_body.ApplyLinearImpulse(new Vector2(-player.move_speed * 0.025f, 0));
