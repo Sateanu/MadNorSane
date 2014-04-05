@@ -17,6 +17,7 @@ namespace MadNorSane.Characters
             _my_content = _new_content;
             my_world = _new_world;
             my_body = BodyFactory.CreateRectangle(my_world, 1, 1, 1, new Vector2(x_coordinate, y_coordinate));
+            my_body.BodyType = BodyType.Dynamic;
 
             set_texture("archer");
         }

@@ -69,15 +69,17 @@ namespace MadNorSane.Screens
             krypton.SpriteBatchCompatablityEnabled = true;
             krypton.CullMode = CullMode.None;
 
-            world = new World(new Vector2(0, -9.8f));
-            my_archer = new Archer(world, content, 0, 0);
+            world = new World(new Vector2(0, 9.8f));
+            my_archer = new Archer(world, content, 0, -10);
             
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
+            camera.Follow(my_archer.my_body);
+            Console.WriteLine(camera.IsFollowing);
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
-            Thread.Sleep(1000);
+            //Thread.Sleep(1000);
 
             // once the load has finished, we use ResetElapsedTime to tell the game's
             // timing mechanism that we have just finished a very long frame, and that
@@ -107,10 +109,9 @@ namespace MadNorSane.Screens
             var body= BodyFactory.CreateRectangle(world,Conversions.to_meters(width),Conversions.to_meters(height),1f,new Vector2(Conversions.to_meters(x),Conversions.to_meters(y)));
             body.BodyType = BodyType.Static;
              var hull = ShadowHull.CreateRectangle(new Vector2(width,height));
-                    hull.Position.X = x;
-                    hull.Position.Y = y;
-                    hull.Scale.X = 1f;
-                    hull.Scale.Y = 1f;
+             hull = ShadowHull.CreateRectangle(new Vector2(width, height));
+             hull.Position.X = x;
+             hull.Position.Y = y;
 
                     krypton.Hulls.Add(hull);
         }
@@ -202,7 +203,8 @@ namespace MadNorSane.Screens
 
             if (IsActive)
             {
-                camera.SetView();
+               
+                camera.Update(gameTime);
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     ScreenManager.Game.Exit();
 
@@ -303,7 +305,8 @@ namespace MadNorSane.Screens
 
             ScreenManager.GraphicsDevice.Clear(Color.CornflowerBlue);
             Matrix view = Matrix.CreateTranslation(new Vector3(0, 0, 0)) * Matrix.CreateTranslation(new Vector3(ScreenManager.GraphicsDevice.Viewport.Width / 2, ScreenManager.GraphicsDevice.Viewport.Height / 2, 0));
-            
+           // camera.position = new Vector2(20, 20);
+           
             this.krypton.Matrix = camera.View;
             this.krypton.Bluriness = 3;
             this.krypton.LightMapPrepare();
