@@ -28,7 +28,7 @@ namespace MadNorSane.Characters
             my_body.OnCollision += new OnCollisionEventHandler(VS_OnCollision);
             my_body.UserData = this;
             my_body.CollisionGroup = -1;
-           
+            heart = _new_content.Load<Texture2D>(@"Textures\heart");
             set_texture("archeranim");
         }
         private DateTime previousJump = DateTime.Now;   // time at which we previously jumped

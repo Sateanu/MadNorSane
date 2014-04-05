@@ -12,9 +12,10 @@ namespace MadNorSane.Characters
 {
    public abstract class Player : Physics_object
     {
-       public float move_speed = 10, jump_speed = -10, health_points = 100, mana_points = 100;
+       public float move_speed = 15, jump_speed = -10, health_points = 10, mana_points = 100;
        public bool btn_jump = false, btn_move_left = false, btn_move_right = false, btn_atack1 = false, btn_atack2 = false;
        public bool can_jump = false, can_move_left = false, can_move_right = false, can_atack1 = false, can_atack2 = false;
+       public Texture2D heart;
        public float MP
         {
             get { return mana_points; }
@@ -66,12 +67,30 @@ namespace MadNorSane.Characters
         {
             animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
         }
-
+        public void DrawUI(SpriteBatch spriteBatch,int cadran,Viewport viewport)
+       {
+            switch(cadran)
+            {
+                case 0:
+                    for (int i = 0; i < HP; i++)
+                        spriteBatch.Draw(heart, new Rectangle(i * 32, 0, 32, 32),Color.White);
+                    break;
+                case 1:
+                    for (int i =0; i < HP; i++)
+                        spriteBatch.Draw(heart, new Rectangle(viewport.Width-i * 32, 0, 32, 32), Color.White);
+                    break;
+                default:
+                    break;
+            }
+       }
         public void move_in_air()
         {
         }
 
-
+        public void TakeDamage(int damage)
+        {
+            this.HP -= damage;
+        }
         public bool VS_OnCollision(Fixture fixA, Fixture fixB, Contact contact)
         {
             Vector2 touched_sides = contact.Manifold.LocalNormal;
