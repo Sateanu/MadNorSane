@@ -119,14 +119,14 @@ namespace MadNorSane.Characters
                     else
                     if (fixB.Body.UserData == "wall" && touched_sides.X > 0)
                     {
-                        can_jump = false;
+                        //can_jump = false;
                         Console.WriteLine("is on right side of the wall");
                     }
                     else
                     if (fixB.Body.UserData == "wall" && touched_sides.X < 0)
                     {
                         Console.WriteLine("is on left side of the wall");
-                        can_jump = false;
+                        //can_jump = false;
                     }
                     else
                         if (fixB.Body.UserData == "wall" && touched_sides.Y > 0)

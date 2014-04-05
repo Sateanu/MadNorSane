@@ -385,7 +385,11 @@ namespace MadNorSane.Screens
                     
                 }
                     //movement.Y++;
+                if (keyboardState.IsKeyDown(Keys.OemMinus))
+                    camera.Scale -= 0.01f;
 
+                if (keyboardState.IsKeyDown(Keys.OemPlus))
+                    camera.Scale += 0.01f;
                 GameTime _game_time = new GameTime();
                 if (input.MouseState.LeftButton == ButtonState.Pressed && input.LastMouseState.LeftButton == ButtonState.Released)
                 {   
