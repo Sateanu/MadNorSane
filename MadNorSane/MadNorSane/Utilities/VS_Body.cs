@@ -37,6 +37,15 @@ namespace MadNorSane.Utilities
         {
             return vector * _scale;
         }
+
+        internal static Vector2 to_pixels(Vector2 vector)
+        {
+            return vector * _scale;
+        }
+        internal static Vector2 to_meters(Vector2 vector)
+        {
+            return vector / _scale;
+        }
     }
     class VS_Body
     {
