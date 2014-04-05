@@ -12,7 +12,7 @@ namespace MadNorSane.Characters
 {
     class Archer : Physics_object
     {
-        Archer(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate)
+        public Archer(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate)
         {
             _my_content = _new_content;
             my_world = _new_world;

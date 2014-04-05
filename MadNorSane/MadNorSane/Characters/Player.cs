@@ -1,4 +1,6 @@
 ﻿using FarseerPhysics.Dynamics;
+using MadNorSane.Utilities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -29,11 +31,11 @@ namespace MadNorSane.Characters
         {
             try
             {
-                my_texture = _my_content.Load<Texture2D>(name);
+                my_texture = _my_content.Load<Texture2D>(@"Textures\" + name);
             }
             catch
             {
-                my_texture = _my_content.Load<Texture2D>("place_holder");
+                my_texture = _my_content.Load<Texture2D>(@"Textures\place_holder");
             }
         }
 
@@ -95,6 +97,10 @@ namespace MadNorSane.Characters
         public void move_in_air()
         {
 
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y), 1, 1), Color.White);
         }
     }
 }
