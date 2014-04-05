@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MadNorSane.Utilities
 {
-    class Animation
+   public class Animation
     {
          Texture2D texture;
         int height;
@@ -86,9 +86,9 @@ namespace MadNorSane.Utilities
        {
            if (Active)
            {
-               spriteBatch.Draw(texture, position ,
+               spriteBatch.Draw(texture, new Rectangle((int)position.X,(int)position.Y,widthH,heightH) ,
                    new Rectangle(indexX * width, indexY*height, widthH, heightH),
-                   Color.White,0f, new Vector2(widthH / 2, heightH / 2), 1f, SpriteEffects.None, 0f);
+                   Color.White,0f, new Vector2(widthH / 2, heightH / 2),SpriteEffects.None, 0f);
            }
        }
     }

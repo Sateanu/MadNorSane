@@ -34,6 +34,8 @@ namespace MadNorSane
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.AllowUserResizing = true;
+            IsMouseVisible = true;
             
             screenManager = new ScreenManager(this, graphics);
             Components.Add(screenManager);
