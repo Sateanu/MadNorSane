@@ -40,10 +40,8 @@ namespace MadNorSane.Characters
 
             my_attack1 = new Skill(stat.primaryDamage, 0, 0, 3);
             my_attack2 = new Skill(stat.secondaryDamage, 0, 0, 5);
+
         }
-        private DateTime previousJump = DateTime.Now;   // time at which we previously jumped
-        private const float jumpInterval = 1.0f;        // in seconds
-        private Vector2 jumpForce = new Vector2(0, -5); // applied force when jumping
         
 
         public void update_archer(GameTime _game_time)
@@ -52,44 +50,37 @@ namespace MadNorSane.Characters
             my_attack2.update_skill_cool_down(_game_time);
         }
 
-        public void Jump()
-        {
-            if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
-            {
-                my_body.ApplyLinearImpulse(ref jumpForce);
-                previousJump = DateTime.Now;
-            }
-        }
         public void Draw(SpriteBatch spriteBatch)
         {
             animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
             foreach (var arr in arrows)
                 arr.Draw(spriteBatch);
         }
+
+        private bool atack_with_arrows(Vector2 direction, GameTime _game_time, Skill _my_attack)
+        {
+            if (stat.arrownr > 0)
+            {
+                my_attack1.use_skill(_game_time);
+                arrows.Add(new Arrow(my_world, _my_content, this, direction, _my_attack.damage));
+                stat.arrownr--;
+                return true;
+            }
+            else
+                return false;
+        }
+
         public bool atack(Vector2 direction, int _my_skill, GameTime _game_time)
         {
             if(_my_skill == 1)
-            {   
-                if (stat.arrownr > 0)
-                {
-                    my_attack1.use_skill(_game_time);
-                    arrows.Add(new Arrow(my_world, _my_content, this, direction, my_attack1.damage));
-                    stat.arrownr--;
-                }
-                else
-                    return false;
+            {
+                return atack_with_arrows(direction, _game_time, my_attack1);
+
             }
             else
                 if(_my_skill == 2)
                 {
-                    if (stat.arrownr > 0)
-                    {
-                        my_attack2.use_skill(_game_time);
-                        arrows.Add(new Arrow(my_world, _my_content, this, direction, my_attack2.damage));
-                        stat.arrownr--;
-                    }
-                    else
-                        return false;
+                    return atack_with_arrows(direction, _game_time, my_attack2);
                 }
 
             return true;

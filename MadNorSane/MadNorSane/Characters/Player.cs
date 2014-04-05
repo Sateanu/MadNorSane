@@ -15,10 +15,10 @@ namespace MadNorSane.Characters
 
        public Stats stat;
        public bool btn_jump = false, btn_move_left = false, btn_move_right = false, btn_atack1 = false, btn_atack2 = false;
-       public bool can_jump = false, can_move_left = false, can_move_right = false, can_atack1 = false, can_atack2 = false;
+       public bool can_jump = true, can_move_left = false, can_move_right = false, can_atack1 = false, can_atack2 = false;
        public Texture2D heart;
        public Texture2D arrowtext;
-       
+       public Texture2D heartMP;
        public float MP
         {
             get { return stat.mana_points; }
@@ -43,6 +43,7 @@ namespace MadNorSane.Characters
             set { stat.move_speed = value; }
         }
         bool has_weapon = true;
+        
 
         public virtual bool atack()
         {
@@ -83,8 +84,10 @@ namespace MadNorSane.Characters
                 case 1:
                     for (int i =0; i < HP; i++)
                         spriteBatch.Draw(heart, new Rectangle(viewport.Width-i * 34 - 34, 0, 32, 32), Color.White);
-                    for (int i = 0; i < stat.arrownr; i++)
-                        spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * 34 - 34, 34, 32, 32), Color.White);
+                    for (int i =0; i < MP; i++)
+                        spriteBatch.Draw(heartMP, new Rectangle(viewport.Width-i * 34 - 34, 34, 32, 32), Color.White);
+                    //for (int i = 0; i < arrownr; i++)
+                        //spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * 34 - 34, 34, 32, 32), Color.White);
                     break;
                 default:
                     break;

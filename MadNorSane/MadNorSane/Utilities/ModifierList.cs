@@ -21,7 +21,7 @@ namespace MadNorSane.Utilities
                     descriere = "Shukarime",
                     health_points = 2,
                     jump_speed = -5,
-                    mana_points = 50,
+                    mana_points = 1,
                     move_speed = 15,
                 });
             modifiers.Add(new Modifier()
@@ -29,7 +29,7 @@ namespace MadNorSane.Utilities
                 descriere = "Valoare",
                 health_points = -3,
                 jump_speed = -20,
-                mana_points = 50,
+                mana_points = 2,
                 move_speed = 25,
                 
             });

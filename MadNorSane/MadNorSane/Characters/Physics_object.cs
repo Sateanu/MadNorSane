@@ -93,7 +93,7 @@ namespace MadNorSane.Characters
             {
                 //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
                 spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y),
-                                                             (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height)), null, Color.Black,my_body.Rotation, origin, SpriteEffects.None, 0f);
+                                                             (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height)), null, Color.White,my_body.Rotation, origin, SpriteEffects.None, 0f);
             }
         }
 
