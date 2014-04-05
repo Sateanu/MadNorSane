@@ -19,13 +19,15 @@ namespace MadNorSane.Utilities
             my_world = _new_world;
             my_body = BodyFactory.CreateRectangle(my_world, 100, 1, 1, new Vector2(x_coordinate, y_coordinate));
             my_body.UserData = "ground";
+            width = 100;
+            height = 1;
             var hull = ShadowHull.CreateRectangle(Conversions.to_pixels(new Vector2(100, 1)));
             hull.Position.X =Conversions.to_pixels(x_coordinate);
             hull.Position.Y =Conversions.to_pixels(y_coordinate);
 
             krypton.Hulls.Add(hull);
 
-            set_texture("block");
+            set_texture(@"Textures\knight");
         }
     }
 }

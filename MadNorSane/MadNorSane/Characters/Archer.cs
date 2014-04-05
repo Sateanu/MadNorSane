@@ -12,19 +12,19 @@ using System.Text;
 
 namespace MadNorSane.Characters
 {
-    class Archer : Physics_object
+    class Archer : Player
     {
+        List<Body> arrows = new List<Body>(5);
         public Archer(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate)
         {
             _my_content = _new_content;
             my_world = _new_world;
             my_body = BodyFactory.CreateRectangle(my_world, 1, 1, 1, new Vector2(x_coordinate, y_coordinate));
             my_body.BodyType = BodyType.Dynamic;
-
             my_body.FixedRotation = true;
 
             my_body.OnCollision += new OnCollisionEventHandler(VS_OnCollision);
-            my_body.UserData = "player";
+            my_body.UserData = this;
 
            
             set_texture("archeranim");
@@ -42,7 +42,7 @@ namespace MadNorSane.Characters
             }
         }
         
-        public bool atack(String _skill)
+        public bool atack()
         {
             
             return true;

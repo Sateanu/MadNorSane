@@ -9,7 +9,7 @@ namespace MadNorSane.Characters
 {
     class MoveClass
     {
-        public static void controlGround(Physics_object player, float T)
+        public static void controlGround(Player player, float T)
         {
             if (player.btn_jump && player.can_jump)
             {
@@ -34,7 +34,8 @@ namespace MadNorSane.Characters
                     }
         }
 
-        private static int get_my_current_direction(Physics_object player)
+
+        private static int get_my_current_direction(Player player)
         {
             if(player.my_body.LinearVelocity.X > 0)
             {
@@ -48,7 +49,7 @@ namespace MadNorSane.Characters
             return 0;
         }
 
-        private static int get_my_wanted_direction(Physics_object player)
+        private static int get_my_wanted_direction(Player player)
         {
             if(player.btn_move_right)
             {
@@ -62,7 +63,7 @@ namespace MadNorSane.Characters
             return 0;
         }
 
-        public static void controlAir(Physics_object player, float T)
+        public static void controlAir(Player player, float T)
         {
             //if the player doesn't want to move right or left
             if(!player.btn_move_right && !player.btn_move_left)

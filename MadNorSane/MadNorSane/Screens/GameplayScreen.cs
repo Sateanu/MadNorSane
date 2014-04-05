@@ -45,7 +45,7 @@ namespace MadNorSane.Screens
         Archer my_archer = null;
         Archer my_archer2 = null;
         private DebugViewXNA debug;
-        private bool IsDebug=true;
+        private bool IsDebug=false;
         Block ground = null;
 
 
@@ -84,7 +84,6 @@ namespace MadNorSane.Screens
 
             ground = new Block(world,krypton, content, 0, 1);
             
-
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
             camera.Follow(my_archer.my_body);
@@ -107,7 +106,7 @@ namespace MadNorSane.Screens
                 Color = Color.White,
                 Intensity = 0.8f,
                 X = 0,
-                Y = -350,
+                Y = -250,
                 Angle=1f,
                 Fov = MathHelper.PiOver2 ,
             };
@@ -122,6 +121,7 @@ namespace MadNorSane.Screens
            
             ScreenManager.Game.ResetElapsedTime();
         }
+      
         void addObject(float x, float y, float width, float height)
         {
             var body= BodyFactory.CreateRectangle(world,Conversions.to_meters(width),Conversions.to_meters(height),1f,new Vector2(Conversions.to_meters(x),Conversions.to_meters(y)));
@@ -377,7 +377,7 @@ namespace MadNorSane.Screens
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             ScreenManager.GraphicsDevice.Clear(Color.CornflowerBlue);
-            Matrix view = Matrix.CreateTranslation(new Vector3(0, 0, 0)) * Matrix.CreateTranslation(new Vector3(ScreenManager.GraphicsDevice.Viewport.Width / 2, ScreenManager.GraphicsDevice.Viewport.Height / 2, 0));
+            
            // camera.position = new Vector2(20, 20);
            
             this.krypton.Matrix = camera.View;
@@ -389,8 +389,10 @@ namespace MadNorSane.Screens
 
             // ----- DRAW STUFF HERE ----- //
             // By drawing here, you ensure that your scene is properly lit by krypton.
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camera.View);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.View);
             my_archer.Draw(spriteBatch);
+            ground.Draw(spriteBatch);
+            //my_archer.animation.Draw(spriteBatch,Vector2.Zero,30,30);
             my_archer2.Draw(spriteBatch);
             spriteBatch.End();
             // Drawing after KryptonEngine.Draw will cause you objects to be drawn on top of the lightmap (can be useful, fyi)

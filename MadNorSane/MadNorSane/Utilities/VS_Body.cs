@@ -8,7 +8,7 @@ namespace MadNorSane.Utilities
 {
     public class Conversions
     {
-        static float _scale = 30;
+        static float _scale = 32;
 
         static public float to_pixels(float meters)
         {

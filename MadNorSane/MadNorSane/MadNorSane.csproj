@@ -80,6 +80,7 @@
     <Compile Include="Characters\Knight.cs" />
     <Compile Include="Characters\Mage.cs" />
     <Compile Include="Characters\MoveClass.cs" />
+    <Compile Include="Characters\Physics_object.cs" />
     <Compile Include="Characters\Player.cs" />
     <Compile Include="Characters\Warrior.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
