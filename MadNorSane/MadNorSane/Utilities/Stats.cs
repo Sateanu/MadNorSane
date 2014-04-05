@@ -7,6 +7,7 @@ namespace MadNorSane.Utilities
 {
     public class Stats
     {
+        public float original_mana_points = 10;
         public float move_speed = 15, jump_speed = -10, health_points = 10, mana_points = 10;
         public int maxArrows = 4;
         public int arrownr = 4;
@@ -21,6 +22,7 @@ namespace MadNorSane.Utilities
             jump_speed += mod.jump_speed;
             health_points += mod.health_points;
             mana_points += mod.mana_points;
+            original_mana_points += mod.mana_points;
             maxArrows += mod.maxArrows;
             arrownr = maxArrows;
             primaryDamage += mod.primaryDamage;

@@ -249,7 +249,7 @@ namespace MadNorSane.Screens
                 player2.Update(gameTime);
                 
                 player1.update_archer(gameTime);
-                player2.update_archer(gameTime);
+                player2.update_mage(gameTime);
 
                 if (player2.my_body.ContactList == null)
                 {
@@ -401,7 +401,7 @@ namespace MadNorSane.Screens
 
                 MoveClass.move_player_and_camera(playeri, camera, ScreenManager.GraphicsDevice.Viewport);
 
-                GameTime _game_time = new GameTime();
+                //GameTime _game_time = new GameTime();
                 if (input.MouseState.LeftButton == ButtonState.Pressed && input.LastMouseState.LeftButton == ButtonState.Released)
                 {
                     int mx = input.MouseState.X;

@@ -14,7 +14,7 @@ namespace MadNorSane.Characters
     class Mage : Player
     {
         public Skill my_attack1 = null, my_attack2 = null;
-
+        public long last_used_energy_ball = 0;
         List<EnergyBall> my_energy_balls = new List<EnergyBall>();
 
         public Mage(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate,List<Modifier> modifiers)
@@ -45,8 +45,17 @@ namespace MadNorSane.Characters
         }
 
 
-        public void update_archer(GameTime _game_time)
+        public void update_mage(GameTime _game_time)
         {
+            long time_to_load = 10000000;
+            if (_game_time.TotalGameTime.Ticks - last_used_energy_ball > time_to_load)
+            {
+                if (stat.original_mana_points > stat.mana_points)
+                {
+                    stat.mana_points++;
+                    last_used_energy_ball += time_to_load;
+                }
+            }
             my_attack1.update_skill_cool_down(_game_time);
             my_attack2.update_skill_cool_down(_game_time);
         }
@@ -68,6 +77,7 @@ namespace MadNorSane.Characters
         {
             if (MP >= _my_attack.used_mp)
             {
+                last_used_energy_ball = _game_time.TotalGameTime.Ticks;
                 my_attack1.use_skill(_game_time);
                 my_energy_balls.Add(new EnergyBall(my_world, _my_content, this, direction, _my_attack.damage));
                 MP -= _my_attack.used_mp;
