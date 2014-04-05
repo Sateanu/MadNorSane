@@ -233,7 +233,16 @@ namespace MadNorSane.Screens
                     }
                 }
             }
-            my_archer.move_on_ground();
+
+            if (my_archer.btn_jump)
+            {
+                my_archer.move_on_ground();
+            }
+            else
+            {
+                my_archer.controlAir();
+            }
+            Console.WriteLine(my_archer.my_body.LinearVelocity.X);
         }
 
 
@@ -268,17 +277,49 @@ namespace MadNorSane.Screens
                 // Otherwise move the player position.
                 Vector2 movement = Vector2.Zero;
 
+                bool can_left = false;
+
                 if (keyboardState.IsKeyDown(Keys.Left))
-                    movement.X--;
+                {
+                    my_archer.can_move_left = true;
+                    my_archer.btn_move_left = true;
+                }
+                else
+                {
+                    my_archer.can_move_left = false;
+                    my_archer.btn_move_left = false;
+                }
+                    //movement.X--;
 
                 if (keyboardState.IsKeyDown(Keys.Right))
-                    movement.X++;
+                {
+                    my_archer.can_move_right = true;
+                    my_archer.btn_move_right = true;
+                }
+                else
+                {
+                    my_archer.can_move_right = false;
+                    my_archer.btn_move_right = false;
+                }
+                    //movement.X++;
 
                 if (keyboardState.IsKeyDown(Keys.Up))
-                    movement.Y--;
+                {
+                    my_archer.can_jump = true;
+                    my_archer.btn_jump = true;
+                }
+                else
+                {
+                    my_archer.can_jump = false;
+                    my_archer.btn_jump = false;
+                }
+                    //movement.Y--;
 
                 if (keyboardState.IsKeyDown(Keys.Down))
-                    movement.Y++;
+                {
+
+                }
+                    //movement.Y++;
 
                 
 
