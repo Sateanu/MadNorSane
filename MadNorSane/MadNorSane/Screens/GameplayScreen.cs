@@ -99,6 +99,7 @@ namespace MadNorSane.Screens
             crateCd = TimeSpan.FromSeconds(random.NextDouble() * 15 + 10);
             
             //crateCd = TimeSpan.FromSeconds(5f);
+
             if (Global.p1Type == 0)
             {
                 if (random.NextDouble() >= 0.5f)
