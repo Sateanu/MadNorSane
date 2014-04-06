@@ -138,8 +138,8 @@ namespace MadNorSane.Screens
             else
             if(p2Wins==1)
                 spriteBatch.Draw(win2, new Rectangle(vp.Width / 2, win2.Height/2, (int)(win1.Width *0.5f* scale.X), (int)(win2.Height*0.5f * scale.Y)), null, Color.DarkRed, 0f, new Vector2(win2.Width / 2f, win2.Height / 2f), SpriteEffects.None, 0f);
-
-            spriteBatch.DrawString(font, "Player 1", Vector2.Zero + new Vector2(30, 0), Color.Black,0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            string type1 = p1.GetType() == typeof(Archer) ? "Archer" : "Mage";
+            spriteBatch.DrawString(font, "Player 1 - "+type1, Vector2.Zero + new Vector2(30, 0), Color.Black,0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             if(!p1ready)
             spriteBatch.DrawString(font, "Press any button when ready", new Vector2(30 * scale.X, vp.Height - font.MeasureString("Press anybutton when ready").Y - 100), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             else
@@ -151,7 +151,8 @@ namespace MadNorSane.Screens
                 spriteBatch.DrawString(font, mod.descriere, new Vector2(x, y), Color.Black,0f,Vector2.Zero,scale,SpriteEffects.None,0f);
                 y += 32*scale.Y+5;
             }
-            spriteBatch.DrawString(font, "Player 2", new Vector2(vp.Width - font.MeasureString("Player 2").X - 30, 0), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            string type2 = p2.GetType() == typeof(Archer) ? "Archer" : "Mage";
+            spriteBatch.DrawString(font, type2 + " - Player 2", new Vector2(vp.Width - font.MeasureString(type2 + " - Player 2").X*scale.X - 30, 0), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             if (!p2ready)
                 spriteBatch.DrawString(font, "Press any button when ready", new Vector2(vp.Width - font.MeasureString("Press any button when ready").X*scale.X - 30,vp.Height - font.MeasureString("Press space when ready").Y - 100), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             else

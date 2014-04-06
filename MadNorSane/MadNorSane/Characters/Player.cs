@@ -105,7 +105,7 @@ namespace MadNorSane.Characters
        public void DrawUI(Player player, SpriteBatch spriteBatch, int cadran, Viewport viewport)
        {
            //spriteBatch.Draw(player.my_texture, new Rectangle((int)Conversions.to_pixels(player.my_body.Position.X), (int)Conversions.to_pixels(player.my_body.Position.Y), 32, 32), Color.Red);
-
+           int i; int mx;
            int y = 0;
            int item_width = 34;
            int length = player.stat.original_health_points > player.stat.original_arrow_nr ? length = (int)player.stat.original_health_points : length = (int)player.stat.original_arrow_nr;
@@ -113,25 +113,27 @@ namespace MadNorSane.Characters
             switch(cadran)
             {
                 case 0:
-                    for (int i = 0; i < player.stat.health_points; i++)
+                    
+                    for (i = 0; i < player.stat.health_points; i++)
                         spriteBatch.Draw(heart, new Rectangle(i * item_width, 0, 32, 32), Color.White);
-
+                    spriteBatch.Draw(my_texture, new Rectangle(0, (int)(72), (int)(64 * width), (int)(64 * height)), Color.White);
                     if (player.GetType() == typeof(Mage))
-                        for (int i = 0; i < stat.mana_points; i++)
+                        for (i = 0; i < stat.mana_points; i++)
                             spriteBatch.Draw(heartMP, new Rectangle(i * item_width, item_width, 32, 32), Color.White);
                     if (player.GetType() == typeof(Archer))
-                    for (int i = 0; i < stat.arrownr; i++)
+                    for (i = 0; i < stat.arrownr; i++)
                         spriteBatch.Draw(arrowtext, new Rectangle(i * item_width, item_width, 32, 32), Color.White);
 
                     break;
                 case 1:
-                    for (int i =0; i < player.stat.health_points; i++)
+                    for (i =0; i < player.stat.health_points; i++)
                         spriteBatch.Draw(heart, new Rectangle(viewport.Width - i * item_width - item_width, 0, 32, 32), Color.White);
+                    spriteBatch.Draw(my_texture, new Rectangle(viewport.Width - (int)(64 * height), (int)(72), (int)(64 * width), (int)(64 * height)), Color.White);
                     if(player.GetType()==typeof(Mage))
-                    for (int i = 0; i < player.stat.mana_points; i++)
+                    for (i = 0; i < player.stat.mana_points; i++)
                         spriteBatch.Draw(heartMP, new Rectangle(viewport.Width - i * item_width - item_width, item_width, 32, 32), Color.White);
                     if (player.GetType() == typeof(Archer))
-                    for (int i = 0; i < stat.arrownr; i++)
+                    for (i = 0; i < stat.arrownr; i++)
                         spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * item_width - item_width, item_width, 32, 32), Color.White);
                     break;
                 default:

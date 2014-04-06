@@ -84,6 +84,18 @@ namespace MadNorSane.Utilities
                 projectile_speed = 25,
                 reload_time = -0.8f,
             });
+            modifiers.Add(new Modifier()
+            {
+                descriere = "1 HIT KILL\n1 HIT DEATH",
+                health_points = -9,
+                jump_speed = 0,
+                mana_points =-9,
+                maxArrows = -3,
+                move_speed = 0,
+                primaryDamage = 20,
+                projectile_speed = 15,
+                reload_time = -0.8f,
+            });
             for (int i = 0; i < 50; i++)
             {
                 float f = (float)r.NextDouble();
