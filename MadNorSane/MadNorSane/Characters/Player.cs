@@ -100,7 +100,7 @@ namespace MadNorSane.Characters
             {
                 case 0:
 
-                    spriteBatch.Draw(player.my_texture, new Rectangle(0, 0, (int)length * item_width, 220), new Color(255, 255, 255, 0));
+                    //spriteBatch.Draw(player.my_texture, new Rectangle(0, 0, (int)length * item_width, 220), new Color(255, 255, 255, 0));
                     for (int i = 0; i < player.stat.health_points; i++)
                         spriteBatch.Draw(heart, new Rectangle(i * item_width, 0, 32, 32), Color.White);
                     for (int i = 0; i < stat.arrownr; i++)
@@ -108,7 +108,7 @@ namespace MadNorSane.Characters
 
                     break;
                 case 1:
-                    spriteBatch.Draw(player.my_texture, new Rectangle(viewport.Width - length * item_width, 0, (int)length * item_width, 220), new Color(255, 255, 255, 0));
+                    //spriteBatch.Draw(player.my_texture, new Rectangle(viewport.Width - length * item_width, 0, (int)length * item_width, 220), new Color(255, 255, 255, 0));
                     for (int i =0; i < player.stat.health_points; i++)
                         spriteBatch.Draw(heart, new Rectangle(viewport.Width - i * item_width - item_width, 0, 32, 32), Color.White);
                     for (int i = 0; i < player.stat.mana_points; i++)
