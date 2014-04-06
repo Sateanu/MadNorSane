@@ -195,6 +195,17 @@ namespace MadNorSane.Screens
                 Angle = -(float)Math.PI * 3 / 2,
                 Fov = (float)Math.PI / 4,
             });
+            krypton.Lights.Add(new Light2D()
+            {
+                Texture = mLightTexture,
+                Range = 500,
+                Color = Color.White,
+                Intensity = 0.7f,
+                X = 0,
+                Y = 0,
+                Angle = (float)Math.PI * 3 / 2,
+                //Fov = (float)Math.PI / 4,
+            });
           
             //for (int i = -20; i <= 20;i++)
                 //addObject(i*20, 50, 20, 20);

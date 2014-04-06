@@ -16,7 +16,7 @@ namespace MadNorSane.Utilities
         public int maxArrows = 4;
         public int arrownr = 4;
         public int primaryDamage = 2;
-        public int secondaryDamage = 3;
+        public int secondaryDamage = 2;
         public float width;
         public float height;
         public int reload_time = 1;
@@ -33,7 +33,7 @@ namespace MadNorSane.Utilities
             secondaryDamage += mod.secondaryDamage;
             width += mod.width;
             height += mod.height;
-
+            projectile_speed += mod.projectile_speed;
 
             original_mana_points = mana_points;
             original_health_points = health_points;

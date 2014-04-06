@@ -49,7 +49,7 @@ namespace MadNorSane.Characters
             color = data[0];
             health_color = _new_content.Load<Texture2D>(@"Textures\red");
             tinta = _new_content.Load<Texture2D>(@"Textures\direction");
-
+            
             my_attack1 = new Skill(stat.primaryDamage, 0, 0, 3, 1);
             my_attack2 = new Skill(stat.secondaryDamage, 0, 0, 5, 2);
         }

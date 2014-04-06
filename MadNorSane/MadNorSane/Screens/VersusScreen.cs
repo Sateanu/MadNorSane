@@ -23,6 +23,9 @@ namespace MadNorSane.Screens
         Texture2D vs;
         Player p1;
         Player p2;
+        bool p1ready = false;
+        bool p2ready = false;
+        TimeSpan delay=TimeSpan.FromSeconds(1f);
         public VersusScreen(Player[] players,int p1Win=0,int p2Win=0)
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
@@ -35,6 +38,7 @@ namespace MadNorSane.Screens
             p2 = players[1];
             p1.score = p1Win;
             p2.score = p2Win;
+            delay = TimeSpan.FromSeconds(1f);
         }
         public override void LoadContent()
         {
@@ -61,10 +65,14 @@ namespace MadNorSane.Screens
                 pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
             else
                 pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
+            delay -= gameTime.ElapsedGameTime;
 
             if (IsActive)
             {
-
+                if(p1ready&&p2ready)
+                {
+                    this.ExitScreen();
+                }
             }
         }
         public override void HandleInput(InputState input)
@@ -77,7 +85,7 @@ namespace MadNorSane.Screens
 
             KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
             GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
-
+            PlayerIndex piout;
             // The game pauses either if the user presses the pause button, or if
             // they unplug the active gamepad. This requires us to keep track of
             // whether a gamepad was ever plugged in, because we don't want to pause
@@ -85,14 +93,26 @@ namespace MadNorSane.Screens
             bool gamePadDisconnected = !gamePadState.IsConnected &&
                                        input.GamePadWasConnected[playerIndex];
 
-            if (input.IsPauseGame(ControllingPlayer) || gamePadDisconnected)
+            //if (input.IsPauseGame(ControllingPlayer) || gamePadDisconnected)
+            //{
+             //   this.ExitScreen();
+            //}
+            if (delay.TotalMilliseconds < 10)
             {
-                this.ExitScreen();
+                if (input.CurrentKeyboardStates[0].GetPressedKeys().Count() > 0)
+                {
+                    p1ready = true;
+                }
+                var gp = input.CurrentGamePadStates[0];
+                if (gp.Triggers.Left > 0 || gp.Triggers.Right > 0)
+                {
+                    p2ready = true;
+                }
+                foreach (Buttons b in (Buttons[])Enum.GetValues(typeof(Buttons)))
+                    if (gp.IsButtonDown(b))
+                        p2ready = true;
             }
-            else
-            {
-                
-            }
+            
         }
         public override void Draw(GameTime gameTime)
         {
@@ -110,6 +130,10 @@ namespace MadNorSane.Screens
             //spriteBatch.Draw(vs, new Rectangle(vp.Width / 2, vp.Height / 2, 150, 150), null,new Color((float)r.NextDouble(),(float)r.NextDouble(),(float)r.NextDouble()) , 0f, new Vector2(vs.Width / 2f, vs.Height / 2f), SpriteEffects.None, 0f);
             spriteBatch.Draw(vs, new Rectangle(vp.Width / 2, vp.Height / 2, (int)(300*scale.X), (int)(300*scale.Y)), null, Color.DarkRed, 0f, new Vector2(vs.Width / 2f, vs.Height / 2f), SpriteEffects.None, 0f);
             spriteBatch.DrawString(font, "Player 1", Vector2.Zero + new Vector2(30, 0), Color.Black,0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            if(!p1ready)
+            spriteBatch.DrawString(font, "Press any button when ready", new Vector2(30 * scale.X, vp.Height - font.MeasureString("Press anybutton when ready").Y - 100), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            else
+            spriteBatch.DrawString(font, "READY!", new Vector2(30 * scale.X, vp.Height - font.MeasureString("READY!").Y - 100), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             spriteBatch.DrawString(font, "Wins: " + Score.p1Score.ToString(), new Vector2(30 * scale.X, vp.Height - font.MeasureString("Wins: " + p1Wins.ToString()).Y-50), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             float x=5,y=62;
             foreach (var mod in p1.modifiers)
@@ -118,6 +142,10 @@ namespace MadNorSane.Screens
                 y += 32*scale.Y+5;
             }
             spriteBatch.DrawString(font, "Player 2", new Vector2(vp.Width - font.MeasureString("Player 2").X - 30, 0), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            if (!p2ready)
+                spriteBatch.DrawString(font, "Press any button when ready", new Vector2(vp.Width - font.MeasureString("Press any button when ready").X*scale.X - 30,vp.Height - font.MeasureString("Press space when ready").Y - 100), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            else
+                spriteBatch.DrawString(font, "READY!", new Vector2(vp.Width - font.MeasureString("READY!").X * scale.X - 30, vp.Height - font.MeasureString("READY!").Y - 100), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             spriteBatch.DrawString(font, "Wins: " + Score.p2Score.ToString(), new Vector2(vp.Width - font.MeasureString("Wins: " + p1Wins.ToString()).X*scale.X - 30, vp.Height - font.MeasureString("Wins: " + p2Wins.ToString()).Y-50), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             x = vp.Width-font.MeasureString("Player 2").X;
             y = 62;

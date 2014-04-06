@@ -25,6 +25,7 @@ namespace MadNorSane.Utilities
                     maxArrows=1,
                     move_speed = -1.5f,
                     primaryDamage=-1,
+                    projectile_speed=10,
                 });
             modifiers.Add(new Modifier()
             {
@@ -34,7 +35,8 @@ namespace MadNorSane.Utilities
                 mana_points = 2,
                 maxArrows=2,
                 move_speed = 1.5f,
-                
+                primaryDamage=0,
+                projectile_speed = 10,
             });
             modifiers.Add(new Modifier()
             {
@@ -44,6 +46,8 @@ namespace MadNorSane.Utilities
                 mana_points = 0,
                 maxArrows=0,
                 move_speed = -5,
+                primaryDamage=0,
+                projectile_speed = 10,
             });
             modifiers.Add(new Modifier()
             {
@@ -54,6 +58,7 @@ namespace MadNorSane.Utilities
                 maxArrows = 0,
                 move_speed = 3,
                 primaryDamage=-1,
+                projectile_speed = 10,
             });
             modifiers.Add(new Modifier()
             {
@@ -64,6 +69,7 @@ namespace MadNorSane.Utilities
                 maxArrows = 2,
                 move_speed = 3,
                 primaryDamage = 1,
+                projectile_speed = 10,
             });
             for (int i = 0; i < 50; i++)
             {
@@ -82,7 +88,8 @@ namespace MadNorSane.Utilities
                         primaryDamage = 0,
                         secondaryDamage = 0,
                         width = f,
-                        height = 0
+                        height = 0,
+                        projectile_speed=0,
                     });
                 sizemodifiers.Add(
                     new Modifier()
@@ -97,7 +104,8 @@ namespace MadNorSane.Utilities
                         primaryDamage = 0,
                         secondaryDamage = 0,
                         width = 0,
-                        height = f
+                        height = f,
+                        projectile_speed = 0,
                     });
 
             }
