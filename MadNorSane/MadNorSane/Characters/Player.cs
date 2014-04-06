@@ -21,6 +21,8 @@ namespace MadNorSane.Characters
        public Texture2D heartMP;
        public Texture2D tinta;
        public float tintaAngle;
+       public List<Modifier> modifiers;
+       public int score = 0;
        public void setAngle(float f)
        {
            tintaAngle = f;

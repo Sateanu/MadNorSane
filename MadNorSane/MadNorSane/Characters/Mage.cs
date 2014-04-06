@@ -22,8 +22,12 @@ namespace MadNorSane.Characters
             _my_content = _new_content;
             stat = new Stats();
 
+            this.modifiers = new List<Modifier>();
             foreach (var mod in modifiers)
+            {
                 stat.apply(mod);
+                this.modifiers.Add(mod);
+            }
             width += stat.width;
             height += stat.height;
             my_world = _new_world;
