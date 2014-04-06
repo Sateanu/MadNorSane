@@ -87,12 +87,12 @@ namespace MadNorSane.Utilities
             modifiers.Add(new Modifier()
             {
                 descriere = "1 HIT KILL\n1 HIT DEATH",
-                health_points = -9,
+                health_points = -100,
                 jump_speed = 0,
                 mana_points =-9,
                 maxArrows = -3,
                 move_speed = 0,
-                primaryDamage = 20,
+                primaryDamage = 100,
                 projectile_speed = 15,
                 reload_time = 0.8f,
             });
@@ -103,7 +103,7 @@ namespace MadNorSane.Utilities
                 sizemodifiers.Add(
                     new Modifier()
                     {
-                        descriere = "Ceva mai...gras ca restu",
+                        descriere = "E mai plinut",
                         health_points = 0,
                         jump_speed = 0,
                         mana_points = 0,
@@ -120,7 +120,7 @@ namespace MadNorSane.Utilities
                 sizemodifiers.Add(
                     new Modifier()
                     {
-                        descriere = "Ceva mai inalt ca restu",
+                        descriere = "E mai inalt",
                         health_points = 0,
                         jump_speed = 0,
                         mana_points = 0,

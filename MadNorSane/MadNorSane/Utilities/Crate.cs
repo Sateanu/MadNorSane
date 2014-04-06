@@ -18,8 +18,10 @@ namespace MadNorSane.Utilities
         Light2D light;
         KryptonEngine kryp;
         Modifier modifier;
+        int type;
         public Crate(World _new_world, ContentManager _new_content, KryptonEngine krypton, Texture2D tex, Vector2 pos)
         {
+            Random r = new Random((int)DateTime.Now.Ticks);
             kryp = krypton;
             _my_content = _new_content;
             my_world = _new_world;
@@ -36,11 +38,55 @@ namespace MadNorSane.Utilities
             modifier = li.getMod();
             my_body.Mass = 1f;
             set_texture("chest");
+            Color color;
+            double d=r.NextDouble();
+            type=1;
+            color=Color.White;
+            if(d<=0.33f)
+            {
+                color=Color.LightGreen;
+                type=2;
+                int hp=r.NextDouble()>0.5f ? 1 : -1;
+                int maxArr=r.NextDouble()<0.5f ? 1 : -1;
+                modifier = new Modifier()
+                {
+                    descriere = "Heal",
+                    health_points = hp,
+                    jump_speed = 0,
+                    mana_points = maxArr,
+                    maxArrows = maxArr,
+                    move_speed = 0,
+                    primaryDamage = 0,
+                    projectile_speed = 15,
+                    reload_time = 1,
+                };
+            }else
+                if(d<=0.66f)
+                {
+                    color=Color.LightPink;
+                    type = 2;
+                    int hp = r.NextDouble() > 0.5f ? 2 : -2;
+                    int maxArr = r.NextDouble() < 0.5f ? 2 : -2;
+                    modifier = new Modifier()
+                    {
+                        descriere = "Heal",
+                        health_points = hp,
+                        jump_speed = 0,
+                        mana_points = maxArr,
+                        maxArrows = maxArr,
+                        move_speed = 0,
+                        primaryDamage = 0,
+                        projectile_speed = 15,
+                        reload_time = 1,
+                    };
+                }
+
+                
             light = new Light2D()
             {
                 Texture = tex,
                 Range = 160,
-                Color = Color.White,
+                Color = color,
                 Intensity = 0.8f,
                 X = Conversions.to_pixels(my_body.Position.X),
                 Y = Conversions.to_pixels(my_body.Position.Y),
@@ -72,7 +118,8 @@ namespace MadNorSane.Utilities
                         fixA.Body.IgnoreGravity = false;
                         fixA.Body.Rotation = 0f;
                         Player pl = (Player)(fixB.Body.UserData);
-                        pl.stat.apply(modifier);
+                        if (type != 3)
+                            pl.stat.apply(modifier);
                         kryp.Lights.Remove(light);
                         fixA.Body.Dispose();
                         SoundManager.playSound("crate");

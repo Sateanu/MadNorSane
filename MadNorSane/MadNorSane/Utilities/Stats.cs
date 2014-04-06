@@ -20,7 +20,30 @@ namespace MadNorSane.Utilities
         public float width;
         public float height;
         public float reload_time = 1;
-
+        internal void set(Modifier mod)
+        {
+            if(move_speed!=0)
+            move_speed = mod.move_speed;
+            if(jump_speed!=0)
+            jump_speed = mod.jump_speed;
+            if(health_points!=0)
+            health_points = mod.health_points;
+            if(mana_points!=0)
+            mana_points = mod.mana_points;
+            if(maxArrows!=0)
+            maxArrows = mod.maxArrows;
+            if(maxArrows!=0)
+            arrownr = maxArrows;
+            if(primaryDamage!=0)
+            primaryDamage = mod.primaryDamage;
+            if(projectile_speed!=0)
+            projectile_speed = mod.projectile_speed;
+            if(reload_time!=0)
+            reload_time = mod.reload_time;
+            original_mana_points = mana_points;
+            original_health_points = health_points;
+            original_arrow_nr = arrownr;
+        }
         internal void apply(Modifier mod)
         {
             move_speed += mod.move_speed;

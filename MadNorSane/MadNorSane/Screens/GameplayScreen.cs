@@ -73,7 +73,7 @@ namespace MadNorSane.Screens
         void Window_ClientSizeChanged(object sender, EventArgs e)
         {
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
-            camera.position = new Vector2(0, -8);
+            camera.position = new Vector2(0, -11);
         }
         List<Block> blocks = new List<Block>();
         Random r;
@@ -97,7 +97,8 @@ namespace MadNorSane.Screens
             modlist.Add(list.getSizeMod());
             modlist.Add(list.getMod());
             crateCd = TimeSpan.FromSeconds(random.NextDouble() * 15 + 10);
-            crateCd = TimeSpan.FromSeconds(5f);
+            
+            //crateCd = TimeSpan.FromSeconds(5f);
             if (Global.p1Type == 0)
             {
                 if (random.NextDouble() >= 0.5f)
@@ -154,14 +155,14 @@ namespace MadNorSane.Screens
             
             ground = new Block(world,krypton, content, 0, 1,100,1,"ground");
             //ground2 = new Block(world, krypton, content, -3, -3,1,2.5f,"wall");
-            ground3 = new Block(world, krypton, content, -30, -10, 2, 21, "wall");
-            ground4 = new Block(world, krypton, content, 30, -10, 2, 21, "wall");
-            ground5 = new Block(world, krypton, content, 0, -20, 100,1, "wall");
+            ground3 = new Block(world, krypton, content, -30, -10, 2, 40, "wall");
+            ground4 = new Block(world, krypton, content, 30, -10, 2, 40, "wall");
+            ground5 = new Block(world, krypton, content, 0, -30, 100,1, "wall");
             blocks.Add(ground);
             //blocks.Add(ground2);
             blocks.Add(ground3);
             blocks.Add(ground4);
-            blocks.Add(ground5);
+            //blocks.Add(ground5);
             blocks.Add(new Block(world, krypton, content, -15, -3, 15, 1, "wall"));
             blocks.Add(new Block(world, krypton, content, 15, -3, 15, 1, "wall"));
             blocks.Add(new Block(world, krypton, content, -7, -8.5f, 7, 1, "wall"));
@@ -170,10 +171,12 @@ namespace MadNorSane.Screens
             blocks.Add(new Block(world, krypton, content, -30, -12f, 7, 1, "wall"));
             blocks.Add(new Block(world, krypton, content, 30, -6f, 9, 1, "wall"));
             blocks.Add(new Block(world, krypton, content, -30, -6f, 9, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, -15, -20f, 12, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, 15, -20f, 12, 1, "wall"));
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
             mouseCamera = new Camera(ScreenManager.GraphicsDevice.Viewport);
-            camera.position = new Vector2(0, -8);
+            camera.position = new Vector2(0, -11);
             
             Console.WriteLine(camera.IsFollowing);
             // A real game would probably have more content than this sample, so
@@ -271,6 +274,8 @@ namespace MadNorSane.Screens
         }
         TimeSpan crateCd;
         TimeSpan crateTime;
+        TimeSpan waveOfLights1;
+        TimeSpan waveOfLights2;
         void addObject(float x, float y, float width, float height)
         {
             var body= BodyFactory.CreateRectangle(world,Conversions.to_meters(width),Conversions.to_meters(height),1f,new Vector2(Conversions.to_meters(x),Conversions.to_meters(y)));
@@ -375,13 +380,38 @@ namespace MadNorSane.Screens
                 if (crate != null)
                     if (crate.my_body.IsDisposed)
                         crate = null;
+                if (crate == null)
+                {
+                    if (crateCd - TimeSpan.FromSeconds(6) < gameTime.TotalGameTime - waveOfLights2)
+                    {
+                        foreach (Light2D l in krypton.Lights)
+                            l.Color = new Color((float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble());
+                        waveOfLights2 = gameTime.TotalGameTime;
+                    }
+                    if (crateCd - TimeSpan.FromSeconds(3) < gameTime.TotalGameTime - waveOfLights1)
+                    {
+                        foreach (Light2D l in krypton.Lights)
+                            l.Color = new Color((float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble());
+                        waveOfLights1 = gameTime.TotalGameTime;
+                    }
+                    if (crateCd - TimeSpan.FromSeconds(1) < gameTime.TotalGameTime - crateTime)
+                    {
+                        foreach (Light2D l in krypton.Lights)
+                            l.Color = new Color((float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble());
+                        
+                    }
+                }
                 if(crateCd<gameTime.TotalGameTime-crateTime)
                 {
                     
                     
                     if(crate==null)
                     {
-                        
+                        foreach (Light2D l in krypton.Lights)
+                        {
+                            l.Color = Color.White;
+                            l.Intensity = 0.8f;
+                        }
                         crate = new Crate(world, content, krypton, mLightTexture, new Vector2(0,-1));
                     }
 

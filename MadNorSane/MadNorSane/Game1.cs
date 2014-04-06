@@ -38,7 +38,9 @@ namespace MadNorSane
             Content.RootDirectory = "Content";
             Window.AllowUserResizing = true;
             IsMouseVisible = true;
-            
+            Window.Title = "Mad Nor Sane";
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.PreferredBackBufferWidth = 1600;
             screenManager = new ScreenManager(this, graphics);
             Components.Add(screenManager);
             screenManager.AddScreen(new MainMenuScreen(), null);
