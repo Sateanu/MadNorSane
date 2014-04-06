@@ -96,8 +96,13 @@ namespace MadNorSane.Screens
             List<Modifier> modlist = new List<Modifier>();
             modlist.Add(list.getSizeMod());
             modlist.Add(list.getMod());
-            crateCd = TimeSpan.FromSeconds(random.NextDouble() * 15 + 10);
-            crateCd = TimeSpan.FromSeconds(5f);
+
+            if(crate == null)
+            {
+                crateCd = TimeSpan.FromSeconds(random.NextDouble() * 15 + 10);
+                crateCd = TimeSpan.FromSeconds(5f);
+            }
+
             if (Global.p1Type == 0)
             {
                 if (random.NextDouble() >= 0.5f)
