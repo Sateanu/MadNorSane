@@ -27,6 +27,7 @@ namespace MadNorSane.Characters
                 stat.apply(mod);
                 this.modifiers.Add(mod);
             }
+            
             width += stat.width;
             height += stat.height;
             my_world = _new_world;
@@ -39,7 +40,11 @@ namespace MadNorSane.Characters
             my_body.CollisionGroup = -1;
             heart = _new_content.Load<Texture2D>(@"Textures\heart");
             arrowtext = _new_content.Load<Texture2D>(@"Textures\arrow");
-            set_texture("archeranim");
+            set_texture("archer");
+            Color[] data=new Color[my_texture.Width*my_texture.Height];
+            my_texture.GetData<Color>(data);
+            color = data[0];
+            health_color = _new_content.Load<Texture2D>(@"Textures\red");
             tinta = _new_content.Load<Texture2D>(@"Textures\direction");
             my_attack1 = new Skill(stat.primaryDamage, 0, 0, 3);
             my_attack2 = new Skill(stat.secondaryDamage, 0, 0, 5);
@@ -55,7 +60,18 @@ namespace MadNorSane.Characters
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
+            spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X) - (int)Conversions.to_pixels(width) / 2,
+                                                        (int)Conversions.to_pixels(my_body.Position.Y) - (int)Conversions.to_pixels(height) / 2,
+                                                        (int)Conversions.to_pixels(width), (int)Conversions.to_pixels(height)), Color.White);
+            int health_size = (int)Conversions.to_pixels(height) * ((int)stat.original_health_points - (int)stat.health_points) / (int)stat.original_health_points;
+            if ((int)stat.health_points <= 0)
+            {
+                health_size = (int)Conversions.to_pixels(height);
+            }
+            spriteBatch.Draw(health_color, new Rectangle((int)Conversions.to_pixels(my_body.Position.X) - (int)Conversions.to_pixels(width) / 2,
+                                                        (int)Conversions.to_pixels(my_body.Position.Y) - (int)Conversions.to_pixels(height) / 2,
+                                                        (int)Conversions.to_pixels(width), health_size), Color.White);
+            //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
             foreach (var arr in arrows)
                 arr.Draw(spriteBatch);
         }

@@ -110,7 +110,7 @@ namespace MadNorSane.Screens
             //spriteBatch.Draw(vs, new Rectangle(vp.Width / 2, vp.Height / 2, 150, 150), null,new Color((float)r.NextDouble(),(float)r.NextDouble(),(float)r.NextDouble()) , 0f, new Vector2(vs.Width / 2f, vs.Height / 2f), SpriteEffects.None, 0f);
             spriteBatch.Draw(vs, new Rectangle(vp.Width / 2, vp.Height / 2, (int)(300*scale.X), (int)(300*scale.Y)), null, Color.DarkRed, 0f, new Vector2(vs.Width / 2f, vs.Height / 2f), SpriteEffects.None, 0f);
             spriteBatch.DrawString(font, "Player 1", Vector2.Zero + new Vector2(30, 0), Color.Black,0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-            spriteBatch.DrawString(font, "Wins: " + Score.p1Score.ToString(), new Vector2(30 * scale.X, vp.Height - font.MeasureString("Wins: " + p1Wins.ToString()).Y), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(font, "Wins: " + Score.p1Score.ToString(), new Vector2(30 * scale.X, vp.Height - font.MeasureString("Wins: " + p1Wins.ToString()).Y-50), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             float x=5,y=62;
             foreach (var mod in p1.modifiers)
             {
@@ -118,7 +118,7 @@ namespace MadNorSane.Screens
                 y += 32*scale.Y+5;
             }
             spriteBatch.DrawString(font, "Player 2", new Vector2(vp.Width - font.MeasureString("Player 2").X - 30, 0), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-            spriteBatch.DrawString(font, "Wins: " + Score.p2Score.ToString(), new Vector2(vp.Width - font.MeasureString("Wins: " + p1Wins.ToString()).X*scale.X - 30, vp.Height - font.MeasureString("Wins: " + p2Wins.ToString()).Y), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(font, "Wins: " + Score.p2Score.ToString(), new Vector2(vp.Width - font.MeasureString("Wins: " + p1Wins.ToString()).X*scale.X - 30, vp.Height - font.MeasureString("Wins: " + p2Wins.ToString()).Y-50), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             x = vp.Width-font.MeasureString("Player 2").X;
             y = 62;
             foreach (var mod in p2.modifiers)

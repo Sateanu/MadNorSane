@@ -20,9 +20,11 @@ namespace MadNorSane.Characters
        public Texture2D arrowtext;
        public Texture2D heartMP;
        public Texture2D tinta;
+       public Texture2D health_color;
        public float tintaAngle;
        public List<Modifier> modifiers;
        public int score = 0;
+       public Color color;
        public void setAngle(float f)
        {
            tintaAngle = f;
@@ -35,7 +37,7 @@ namespace MadNorSane.Characters
                (int)Conversions.to_pixels(my_body.Position.X+(float)Math.Sin(tintaAngle)),
                (int)Conversions.to_pixels(my_body.Position.Y-(float)Math.Cos(tintaAngle)),
                (int)Conversions.to_pixels(radius),
-               (int)Conversions.to_pixels(radius)), null, Color.White, tintaAngle, new Vector2(tinta.Width / 2, tinta.Height / 2), SpriteEffects.None, 0f);
+               (int)Conversions.to_pixels(radius)), null, color, tintaAngle, new Vector2(tinta.Width / 2, tinta.Height / 2), SpriteEffects.None, 0f);
        }
        public float MP
         {
@@ -87,25 +89,34 @@ namespace MadNorSane.Characters
 
        public void Draw(SpriteBatch spriteBatch)
         {
-            animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
+            //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
         }
-        public void DrawUI(SpriteBatch spriteBatch,int cadran,Viewport viewport)
+       public void DrawUI(Player player, SpriteBatch spriteBatch, int cadran, Viewport viewport)
        {
+           //spriteBatch.Draw(player.my_texture, new Rectangle((int)Conversions.to_pixels(player.my_body.Position.X), (int)Conversions.to_pixels(player.my_body.Position.Y), 32, 32), Color.Red);
+
            int y = 0;
+           int item_width = 34;
+           int length = player.stat.original_health_points > player.stat.original_arrow_nr ? length = (int)player.stat.original_health_points : length = (int)player.stat.original_arrow_nr;
+           length = player.stat.original_health_points < player.stat.original_mana_points ? length = (int)player.stat.original_mana_points : length = (int)player.stat.original_health_points;
             switch(cadran)
             {
                 case 0:
-                    
-                    for (int i = 0; i < HP; i++)
-                        spriteBatch.Draw(heart, new Rectangle(i * 34, 0, 32, 32),Color.White);
+
+                    //spriteBatch.Draw(player.my_texture, new Rectangle(0, 0, (int)length * item_width, 64), new Color(255, 255, 255, 0));
+                    for (int i = 0; i < player.stat.health_points; i++)
+                        spriteBatch.Draw(heart, new Rectangle(i * item_width, 0, 32, 32), Color.White);
                     for (int i = 0; i < stat.arrownr; i++)
-                        spriteBatch.Draw(arrowtext, new Rectangle(i * 34, 34, 32, 32), Color.White);
+                        spriteBatch.Draw(arrowtext, new Rectangle(i * item_width, item_width, 32, 32), Color.White);
+
                     break;
                 case 1:
-                    for (int i =0; i < HP; i++)
-                        spriteBatch.Draw(heart, new Rectangle(viewport.Width-i * 34 - 34, 0, 32, 32), Color.White);
-                    for (int i =0; i < MP; i++)
-                        spriteBatch.Draw(heartMP, new Rectangle(viewport.Width-i * 34 - 34, 34, 32, 32), Color.White);
+                    //spriteBatch.Draw(player.my_texture, new Rectangle(viewport.Width - length * item_width, 0, (int)length * item_width, 64), new Color(255, 255, 255, 0));
+                    for (int i =0; i < player.stat.health_points; i++)
+                        spriteBatch.Draw(heart, new Rectangle(viewport.Width - i * item_width - item_width, 0, 32, 32), Color.White);
+                    for (int i = 0; i < player.stat.mana_points; i++)
+                        spriteBatch.Draw(heartMP, new Rectangle(viewport.Width - i * item_width - item_width, item_width, 32, 32), Color.White);
+
                     //for (int i = 0; i < arrownr; i++)
                         //spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * 34 - 34, 34, 32, 32), Color.White);
                     break;

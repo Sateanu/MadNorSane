@@ -122,8 +122,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="gradient.png">
-      <Name>gradient</Name>
+    <Compile Include="Textures\red.png">
+      <Name>red</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -131,6 +131,13 @@
   <ItemGroup>
     <Compile Include="Textures\vs.png">
       <Name>vs</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="gradient.png">
+      <Name>gradient</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

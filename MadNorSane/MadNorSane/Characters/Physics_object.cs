@@ -46,8 +46,8 @@ namespace MadNorSane.Characters
             try
             {
                 my_texture = _my_content.Load<Texture2D>(@"Textures\" + name);
-                animation = new Animation(my_texture, 18, 50, true);
-                animation.Activate();
+                //animation = new Animation(my_texture, 18, 50, true);
+                //animation.Activate();
             }
             catch
             {
@@ -84,7 +84,7 @@ namespace MadNorSane.Characters
         {
             if (Active)
             {
-                animation.Update(gameTime);
+                //animation.Update(gameTime);
             }
         }
         public void Draw(SpriteBatch spriteBatch)

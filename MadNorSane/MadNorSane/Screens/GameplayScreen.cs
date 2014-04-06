@@ -95,11 +95,11 @@ namespace MadNorSane.Screens
             List<Modifier> modlist = new List<Modifier>();
             modlist.Add(list.getSizeMod());
             modlist.Add(list.getMod());
-            player1 = new Archer(world, content, 20, -10, modlist);
+            player1 = new Archer(world, content, -20, -10, modlist);
             modlist.Clear();
             modlist.Add(list.getSizeMod());
             modlist.Add(list.getMod());
-            player2 = new Mage(world, content, -20, -10, modlist);
+            player2 = new Mage(world, content, 20, -10, modlist);
             playeri[0] = player1;
             playeri[1] = player2;
             
@@ -614,8 +614,8 @@ namespace MadNorSane.Screens
             player2.DrawTinta(spriteBatch);
             spriteBatch.End();
             spriteBatch.Begin();
-            player1.DrawUI(spriteBatch, 0, ScreenManager.GraphicsDevice.Viewport);
-            player2.DrawUI(spriteBatch, 1, ScreenManager.GraphicsDevice.Viewport);
+            player1.DrawUI(player1, spriteBatch, 0, ScreenManager.GraphicsDevice.Viewport);
+            player2.DrawUI(player2, spriteBatch, 1, ScreenManager.GraphicsDevice.Viewport);
             spriteBatch.End();
             // Draw the shadow hulls as-is (no shadow stretching) in pure white on top of the shadows
             // You can omit this line if you want to see what the light-map looks like :)
