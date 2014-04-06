@@ -18,6 +18,8 @@ namespace MadNorSane.Characters
         {
             if (player.btn_jump && player.can_jump)
             {
+                player.playSound("jump");
+
                 player.can_jump = false;
                 player.my_body.LinearVelocity = new Vector2(player.my_body.LinearVelocity.X, player.Jump_speed);
                 return;

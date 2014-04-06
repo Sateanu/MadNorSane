@@ -87,6 +87,11 @@ namespace MadNorSane.Characters
             MoveClass.controlAir(this, 0.95f);
         }
 
+       public void playSound(String sound)
+        {
+
+        }
+
        public void Draw(SpriteBatch spriteBatch)
         {
             //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
@@ -102,8 +107,6 @@ namespace MadNorSane.Characters
             switch(cadran)
             {
                 case 0:
-
-                    //spriteBatch.Draw(player.my_texture, new Rectangle(0, 0, (int)length * item_width, 64), new Color(255, 255, 255, 0));
                     for (int i = 0; i < player.stat.health_points; i++)
                         spriteBatch.Draw(heart, new Rectangle(i * item_width, 0, 32, 32), Color.White);
                     for (int i = 0; i < stat.arrownr; i++)
@@ -111,7 +114,6 @@ namespace MadNorSane.Characters
 
                     break;
                 case 1:
-                    //spriteBatch.Draw(player.my_texture, new Rectangle(viewport.Width - length * item_width, 0, (int)length * item_width, 64), new Color(255, 255, 255, 0));
                     for (int i =0; i < player.stat.health_points; i++)
                         spriteBatch.Draw(heart, new Rectangle(viewport.Width - i * item_width - item_width, 0, 32, 32), Color.White);
                     for (int i = 0; i < player.stat.mana_points; i++)
@@ -130,6 +132,8 @@ namespace MadNorSane.Characters
 
         public void TakeDamage(int damage)
         {
+            playSound("damage");
+
             this.HP -= damage;
         }
         public bool VS_OnCollision(Fixture fixA, Fixture fixB, Contact contact)
