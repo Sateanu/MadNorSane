@@ -25,6 +25,7 @@ namespace MadNorSane.Utilities
                     maxArrows=1,
                     move_speed = -1.5f,
                     primaryDamage=-1,
+                    reload_time=-0.5f,
                     projectile_speed=10,
                 });
             modifiers.Add(new Modifier()
@@ -36,6 +37,7 @@ namespace MadNorSane.Utilities
                 maxArrows=2,
                 move_speed = 1.5f,
                 primaryDamage=0,
+                reload_time=0,
                 projectile_speed = 10,
             });
             modifiers.Add(new Modifier()
@@ -47,6 +49,7 @@ namespace MadNorSane.Utilities
                 maxArrows=0,
                 move_speed = -5,
                 primaryDamage=0,
+                reload_time=0,
                 projectile_speed = 10,
             });
             modifiers.Add(new Modifier()
@@ -58,6 +61,7 @@ namespace MadNorSane.Utilities
                 maxArrows = 0,
                 move_speed = 3,
                 primaryDamage=-1,
+                reload_time=0,
                 projectile_speed = 10,
             });
             modifiers.Add(new Modifier()
@@ -95,6 +99,18 @@ namespace MadNorSane.Utilities
                 primaryDamage = 100,
                 projectile_speed = 15,
                 reload_time = 0.8f,
+            });
+            modifiers.Add(new Modifier()
+            {
+                descriere = "MANA REGEN+++++\nARROWS+++",
+                health_points = 0,
+                jump_speed = 0,
+                mana_points = -5,
+                maxArrows = 10,
+                move_speed = 0,
+                primaryDamage = -2,
+                projectile_speed = 20,
+                reload_time =-1f,
             });
             for (int i = 0; i < 50; i++)
             {

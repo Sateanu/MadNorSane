@@ -40,6 +40,7 @@ namespace MadNorSane.Characters
 
             hull.Position.X = Conversions.to_pixels(x_coordinate);
             hull.Position.Y = Conversions.to_pixels(y_coordinate);
+            
             krypton.Hulls.Add(hull);
             my_body.CollisionGroup = -1;
             
@@ -61,16 +62,16 @@ namespace MadNorSane.Characters
             my_attack1 = new Skill(stat.primaryDamage, 0, 0, 3, 1);
             my_attack2 = new Skill(stat.secondaryDamage, 0, 0, 5, 2);
         }
-
+        TimeSpan last;
         public override void Update(GameTime gameTime)
         {
-            long time_to_load = (int)(10000000 * stat.reload_time);
-            if (gameTime.TotalGameTime.Ticks - last_used_energy_ball > time_to_load)
+            
+            if (gameTime.TotalGameTime - last > TimeSpan.FromSeconds(stat.reload_time))
             {
                 if (stat.original_mana_points > stat.mana_points)
                 {
                     stat.mana_points++;
-                    last_used_energy_ball += time_to_load;
+                    last = gameTime.TotalGameTime;
                 }
             }
             foreach (var magic in my_energy_balls)

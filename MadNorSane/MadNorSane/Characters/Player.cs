@@ -4,6 +4,7 @@ using Krypton;
 using MadNorSane.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,9 +101,16 @@ namespace MadNorSane.Characters
         {
             //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
         }
+       int vibTTL = 35;
        public virtual void Update(GameTime gameTime)
        {
            this.hull.Position = Conversions.to_pixels(my_body.Position);
+           if (vibTTL > 0)
+           { vibTTL--; 
+               if(vibTTL==1)
+           GamePad.SetVibration(0, 0f, 0f);}
+           
+           
        }
        public void DrawUI(Player player, SpriteBatch spriteBatch, int cadran, Viewport viewport)
        {
@@ -149,7 +157,8 @@ namespace MadNorSane.Characters
         public void TakeDamage(int damage)
         {
             playSound("pain"+r.Next(1,4).ToString());
-
+            GamePad.SetVibration(0, 1f, 1f);
+            vibTTL = 35;
             this.HP -= damage;
         }
         public bool VS_OnCollision(Fixture fixA, Fixture fixB, Contact contact)

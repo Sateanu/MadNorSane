@@ -380,7 +380,15 @@ namespace MadNorSane.Screens
 
                 if (crate != null)
                     if (crate.my_body.IsDisposed)
+                    {
                         crate = null;
+                        foreach (Light2D l in krypton.Lights)
+                        {
+                            l.Color = Color.White;
+                            l.Intensity = 0.8f;
+                        }
+                        crateCd = gameTime.TotalGameTime;
+                    }
                 if (crate == null)
                 {
                     if (crateCd - TimeSpan.FromSeconds(6) < gameTime.TotalGameTime - waveOfLights2)

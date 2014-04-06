@@ -78,6 +78,7 @@ namespace MadNorSane.Utilities
 
             
 
+
             reload_time += mod.reload_time;
 
             if (reload_time <= 0)

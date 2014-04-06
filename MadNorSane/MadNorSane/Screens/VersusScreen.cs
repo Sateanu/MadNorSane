@@ -140,18 +140,30 @@ namespace MadNorSane.Screens
                 spriteBatch.Draw(win2, new Rectangle(vp.Width / 2, win2.Height/2, (int)(win1.Width *0.5f* scale.X), (int)(win2.Height*0.5f * scale.Y)), null, Color.DarkRed, 0f, new Vector2(win2.Width / 2f, win2.Height / 2f), SpriteEffects.None, 0f);
             string type1 = p1.GetType() == typeof(Archer) ? "Archer" : "Mage";
             spriteBatch.DrawString(font, "Player 1 - "+type1, Vector2.Zero + new Vector2(30, 0), Color.Black,0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            if(type1=="Archer")
+            {
+                spriteBatch.DrawString(font, "Trebuie sa te duci sa iti recuperezi sagetile!", new Vector2(0, 50), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None,0f);
+            }
+            else
+                spriteBatch.DrawString(font, "Trebuie sa astepti mana sa se regenereze! ", new Vector2(0, 50), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             if(!p1ready)
             spriteBatch.DrawString(font, "Press any button when ready", new Vector2(30 * scale.X, vp.Height - font.MeasureString("Press anybutton when ready").Y - 100), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             else
             spriteBatch.DrawString(font, "READY!", new Vector2(30 * scale.X, vp.Height - font.MeasureString("READY!").Y - 100), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             spriteBatch.DrawString(font, "Wins: " + Score.p1Score.ToString(), new Vector2(30 * scale.X, vp.Height - font.MeasureString("Wins: " + p1Wins.ToString()).Y-50), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-            float x=5,y=62;
+            float x=5,y=92;
             foreach (var mod in p1.modifiers)
             {
                 spriteBatch.DrawString(font, mod.descriere, new Vector2(x, y), Color.Black,0f,Vector2.Zero,scale,SpriteEffects.None,0f);
                 y += 32*scale.Y+5;
             }
             string type2 = p2.GetType() == typeof(Archer) ? "Archer" : "Mage";
+            if (type2 == "Archer")
+            {
+                spriteBatch.DrawString(font, "Trebuie sa te duci sa iti recuperezi sagetile!", new Vector2(vp.Width - font.MeasureString("Trebuie sa te duci sa iti recuperezi sagetile!").X * scale.X - 10, 50), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            }
+            else
+                spriteBatch.DrawString(font, "Trebuie sa astepti mana sa se regenereze!", new Vector2(vp.Width - font.MeasureString("Trebuie sa astepti mana sa se regenereze!").X * scale.X -10, 50), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             spriteBatch.DrawString(font, type2 + " - Player 2", new Vector2(vp.Width - font.MeasureString(type2 + " - Player 2").X*scale.X - 30, 0), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             if (!p2ready)
                 spriteBatch.DrawString(font, "Press any button when ready", new Vector2(vp.Width - font.MeasureString("Press any button when ready").X*scale.X - 30,vp.Height - font.MeasureString("Press space when ready").Y - 100), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
@@ -159,7 +171,7 @@ namespace MadNorSane.Screens
                 spriteBatch.DrawString(font, "READY!", new Vector2(vp.Width - font.MeasureString("READY!").X * scale.X - 30, vp.Height - font.MeasureString("READY!").Y - 100), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             spriteBatch.DrawString(font, "Wins: " + Score.p2Score.ToString(), new Vector2(vp.Width - font.MeasureString("Wins: " + p1Wins.ToString()).X*scale.X - 30, vp.Height - font.MeasureString("Wins: " + p2Wins.ToString()).Y-50), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             x = vp.Width-font.MeasureString("Player 2").X;
-            y = 62;
+            y = 92;
             foreach (var mod in p2.modifiers)
             {
                 x = vp.Width - font.MeasureString(mod.descriere).X*scale.X-5;
