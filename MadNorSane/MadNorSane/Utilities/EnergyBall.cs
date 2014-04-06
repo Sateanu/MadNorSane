@@ -1,8 +1,11 @@
 ﻿using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using Krypton;
+using Krypton.Lights;
 using MadNorSane.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +17,11 @@ namespace MadNorSane.Utilities
     {
         Player owner;
         int damage = 0;
-        public EnergyBall(World _new_world, ContentManager _new_content, Player owner, Vector2 direction, int _damage)
+        Light2D light;
+        KryptonEngine kryp;
+        public EnergyBall(World _new_world, ContentManager _new_content, Player owner, Vector2 direction, int _damage,KryptonEngine krypton, Texture2D tex)
         {
+            kryp = krypton;
             this.owner = owner;
             _my_content = _new_content;
             my_world = _new_world;
@@ -31,8 +37,26 @@ namespace MadNorSane.Utilities
             my_body.Mass = 1f;
             my_body.ApplyLinearImpulse(direction);
             set_texture("energy_ball");
+            light = new Light2D()
+            {
+                Texture = tex,
+                Range =70,
+                Color = owner.color,
+                Intensity = 0.8f,
+                X = Conversions.to_pixels(my_body.Position.X),
+                Y = Conversions.to_pixels(my_body.Position.Y),
+                Angle = -(float)Math.PI * 3 / 2,
+                //Fov = (float)Math.PI / 4,
+
+            };
+            krypton.Lights.Add(light);
 
             damage = _damage;
+        }
+        public override void Update(GameTime gameTime)
+        {
+            this.light.Position = Conversions.to_pixels(my_body.Position);
+            base.Update(gameTime);
         }
         bool my_body_OnCollision(Fixture fixA, Fixture fixB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
@@ -52,6 +76,8 @@ namespace MadNorSane.Utilities
                             fixA.Body.IgnoreGravity = false;
                             fixA.Body.Rotation = 0f;
                             fixA.Body.Dispose();
+                            kryp.Lights.Remove(light);
+                            
                             fixA.Dispose();
                             Active = false;
                             Player pl = (Player)(fixB.Body.UserData);
@@ -66,6 +92,8 @@ namespace MadNorSane.Utilities
                                 fixA.Body.IgnoreGravity = false;
                                 fixA.Body.Rotation = 0f;
                                 fixA.Body.Dispose();
+                                kryp.Lights.Remove(light);
+
                                 fixA.Dispose();
                                 Active = false;
                                 

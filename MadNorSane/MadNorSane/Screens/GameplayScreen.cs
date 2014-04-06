@@ -96,28 +96,30 @@ namespace MadNorSane.Screens
             List<Modifier> modlist = new List<Modifier>();
             modlist.Add(list.getSizeMod());
             modlist.Add(list.getMod());
+            crateCd = TimeSpan.FromSeconds(random.NextDouble() * 15 + 10);
+            crateCd = TimeSpan.FromSeconds(5f);
             if (Global.p1Type == 0)
             {
                 if (random.NextDouble() >= 0.5f)
                 {
                     Texture2D a = content.Load<Texture2D>(@"Textures\archer");
-                    player1 = new Archer(world, content, -20, -10, modlist, a);
+                    player1 = new Archer(world, content,krypton, -20, -10, modlist, a);
                 }
                 else
                 {
                     Texture2D a = content.Load<Texture2D>(@"Textures\archer");
-                    player1 = new Mage(world, content, -20, -10, modlist, a);
+                    player1 = new Mage(world, content, krypton,-20, -10, modlist, a);
                 }
             }
             else if(Global.p1Type==1)
             {
                 Texture2D a = content.Load<Texture2D>(@"Textures\archer");
-                player1 = new Archer(world, content, -20, -10, modlist, a);
+                player1 = new Archer(world, content,krypton ,-20, -10, modlist, a);
             }
             else if(Global.p1Type==2)
             {
                 Texture2D a = content.Load<Texture2D>(@"Textures\archer");
-                player1 = new Mage(world, content, -20, -10, modlist, a);
+                player1 = new Mage(world, content, krypton,-20, -10, modlist, a);
             }
             modlist.Clear();
             modlist.Add(list.getSizeMod());
@@ -127,23 +129,23 @@ namespace MadNorSane.Screens
                 if (random.NextDouble() <= 0.5f)
                 {
                     Texture2D a = content.Load<Texture2D>(@"Textures\mage");
-                    player2 = new Archer(world, content, 20, -10, modlist, a);
+                    player2 = new Archer(world, content, krypton,20, -10, modlist, a);
                 }
                 else
                 {
                     Texture2D a = content.Load<Texture2D>(@"Textures\mage");
-                    player2 = new Mage(world, content, 20, -10, modlist, a);
+                    player2 = new Mage(world, content, krypton,20, -10, modlist, a);
                 }
             }
             else if (Global.p2Type==1)
             {
                 Texture2D a = content.Load<Texture2D>(@"Textures\mage");
-                player2 = new Archer(world, content, 20, -10, modlist, a);
+                player2 = new Archer(world, content,krypton,20, -10, modlist, a);
             }
             else if (Global.p2Type==2)
             {
                 Texture2D a = content.Load<Texture2D>(@"Textures\mage");
-                player2 = new Mage(world, content, 20, -10, modlist, a);
+                player2 = new Mage(world, content, krypton,20, -10, modlist, a);
             }
             playeri[0] = player1;
             playeri[1] = player2;
@@ -162,11 +164,12 @@ namespace MadNorSane.Screens
             blocks.Add(ground5);
             blocks.Add(new Block(world, krypton, content, -15, -3, 15, 1, "wall"));
             blocks.Add(new Block(world, krypton, content, 15, -3, 15, 1, "wall"));
-            blocks.Add(new Block(world, krypton, content, 0, -8.5f, 30, 1, "wall"));
-            blocks.Add(new Block(world, krypton, content, 30, -6f, 7, 1, "wall"));
-            blocks.Add(new Block(world, krypton, content, -30, -6f, 7, 1, "wall"));
-            blocks.Add(new Block(world, krypton, content, 30, -12f, 9, 1, "wall"));
-            blocks.Add(new Block(world, krypton, content, -30, -12f, 9, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, -7, -8.5f, 7, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, 7, -8.5f, 7, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, 30, -12f, 7, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, -30, -12f, 7, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, 30, -6f, 9, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, -30, -6f, 9, 1, "wall"));
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
             mouseCamera = new Camera(ScreenManager.GraphicsDevice.Viewport);
@@ -245,7 +248,7 @@ namespace MadNorSane.Screens
                 Angle = -(float)Math.PI * 3 / 2,
                 Fov = (float)Math.PI / 4,
             });
-            krypton.Lights.Add(new Light2D()
+            /*krypton.Lights.Add(new Light2D()
             {
                 Texture = mLightTexture,
                 Range = 500,
@@ -255,7 +258,7 @@ namespace MadNorSane.Screens
                 Y = 0,
                 Angle = (float)Math.PI * 3 / 2,
                 //Fov = (float)Math.PI / 4,
-            });
+            });*/
           
             //for (int i = -20; i <= 20;i++)
                 //addObject(i*20, 50, 20, 20);
@@ -266,7 +269,8 @@ namespace MadNorSane.Screens
             ScreenManager.Game.ResetElapsedTime();
             
         }
-      
+        TimeSpan crateCd;
+        TimeSpan crateTime;
         void addObject(float x, float y, float width, float height)
         {
             var body= BodyFactory.CreateRectangle(world,Conversions.to_meters(width),Conversions.to_meters(height),1f,new Vector2(Conversions.to_meters(x),Conversions.to_meters(y)));
@@ -347,7 +351,7 @@ namespace MadNorSane.Screens
 
         #region Update and Draw
 
-
+        Crate crate=null;
         /// <summary>
         /// Updates the state of the game. This method checks the GameScreen.IsActive
         /// property, so the game will stop updating when the pause menu is active,
@@ -367,10 +371,28 @@ namespace MadNorSane.Screens
 
             if (IsActive)
             {
-               
+
+                if (crate != null)
+                    if (crate.my_body.IsDisposed)
+                        crate = null;
+                if(crateCd<gameTime.TotalGameTime-crateTime)
+                {
+                    
+                    
+                    if(crate==null)
+                    {
+                        
+                        crate = new Crate(world, content, krypton, mLightTexture, new Vector2(0,-1));
+                    }
+
+                    crateTime = gameTime.TotalGameTime;
+                }
+
                 camera.Update(gameTime);
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     ScreenManager.Game.Exit();
+                if (crate != null)
+                    crate.Update(gameTime);
 
                 foreach (Player p in playeri)
                     p.Update(gameTime);
@@ -558,7 +580,7 @@ namespace MadNorSane.Screens
                     Console.WriteLine(direction.ToString()+"="+new Vector2(input.MouseState.X,input.MouseState.Y).ToString()+"-"+Conversions.to_pixels(player1.my_body.Position).ToString()+"+"+camera.Position.ToString()+" camera scale"+camera.Scale.ToString());
 
                     
-                   player1.atack(direction*player1.stat.projectile_speed, 1, _game_time);
+                   player1.atack(direction*player1.stat.projectile_speed, 1, _game_time,krypton,mLightTexture);
                 }
                if(input.IsNewKeyPress(Keys.N,PlayerIndex.One,out piout))
                {
@@ -573,14 +595,14 @@ namespace MadNorSane.Screens
                         Console.WriteLine(direction.ToString() + "=" + new Vector2(input.MouseState.X, input.MouseState.Y).ToString() + "-" + Conversions.to_pixels(player2.my_body.Position).ToString() + "+" + camera.Position.ToString() + " camera scale" + camera.Scale.ToString());
 
                       
-                        player2.atack(direction * 15f, 1, _game_time);
+                        player2.atack(direction * 15f, 1, _game_time,krypton,mLightTexture);
                     }
 
                 Vector2 thumbstick = input.CurrentGamePadStates[playerIndex].ThumbSticks.Left;
 
                
                 movement2.X += thumbstick.X;
-                if(thumbstick.Y > 0)
+                if(thumbstick.Y>0.15f)
                 {
                     player2.btn_jump = true;
                 }
@@ -588,6 +610,7 @@ namespace MadNorSane.Screens
                 {
                     player2.btn_jump = false;
                 }
+
                 if(thumbstick.X > 0)
                 {
                     player2.btn_move_right = true;
@@ -619,7 +642,7 @@ namespace MadNorSane.Screens
                 player2.setAngle((float)Math.Atan2(dirGamepad[playerIndex].X, -dirGamepad[playerIndex].Y));
                 if (input.CurrentGamePadStates[playerIndex].Triggers.Right!=0 && input.LastGamePadStates[playerIndex].Triggers.Right==0)
                 {
-                    player2.atack(dirGamepad[playerIndex]* player2.stat.projectile_speed, 1, _game_time);
+                    player2.atack(dirGamepad[playerIndex]* player2.stat.projectile_speed, 1, _game_time,krypton,mLightTexture);
                 }
 
                 //movement2.Y -= thumbstick.Y;
@@ -674,7 +697,8 @@ namespace MadNorSane.Screens
             //spriteBatch.Draw(background, Vector2.Zero, Color.White);
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.View);
-
+            if (crate != null)
+                crate.Draw(spriteBatch);
             player1.Draw(spriteBatch);
             foreach (var b in blocks)
                 b.Draw(spriteBatch);

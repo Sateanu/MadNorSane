@@ -94,7 +94,7 @@ namespace MadNorSane.Utilities
                 move_speed = 0,
                 primaryDamage = 20,
                 projectile_speed = 15,
-                reload_time = -0.8f,
+                reload_time = 0.8f,
             });
             for (int i = 0; i < 50; i++)
             {

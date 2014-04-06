@@ -1,5 +1,6 @@
 ﻿using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using Krypton;
 using MadNorSane.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -17,7 +18,7 @@ namespace MadNorSane.Characters
         public long last_used_energy_ball = 0;
         List<EnergyBall> my_energy_balls = new List<EnergyBall>();
 
-        public Mage(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate,List<Modifier> modifiers,Texture2D tex=null)
+        public Mage(World _new_world, ContentManager _new_content,KryptonEngine krypton ,float x_coordinate, float y_coordinate,List<Modifier> modifiers,Texture2D tex=null)
         {
             _my_content = _new_content;
             stat = new Stats();
@@ -35,7 +36,11 @@ namespace MadNorSane.Characters
             my_body = BodyFactory.CreateRectangle(my_world, width, height, 1, new Vector2(x_coordinate, y_coordinate));
             my_body.BodyType = BodyType.Dynamic;
             my_body.FixedRotation = true;
+            hull = ShadowHull.CreateRectangle(Conversions.to_pixels(new Vector2(width, height)));
 
+            hull.Position.X = Conversions.to_pixels(x_coordinate);
+            hull.Position.Y = Conversions.to_pixels(y_coordinate);
+            krypton.Hulls.Add(hull);
             my_body.CollisionGroup = -1;
             
             my_body.OnCollision += new OnCollisionEventHandler(VS_OnCollision);
@@ -68,6 +73,8 @@ namespace MadNorSane.Characters
                     last_used_energy_ball += time_to_load;
                 }
             }
+            foreach (var magic in my_energy_balls)
+                magic.Update(gameTime);
             my_attack1.update_skill_cool_down(gameTime);
 
             my_attack2.update_skill_cool_down(gameTime);
@@ -103,7 +110,7 @@ namespace MadNorSane.Characters
             }
         }
 
-        private bool atack_with_energy_ball(Vector2 direction, GameTime _game_time, Skill _my_attack)
+        private bool atack_with_energy_ball(Vector2 direction, GameTime _game_time, Skill _my_attack,KryptonEngine krypton, Texture2D tex)
         {
             if (MP >= _my_attack.used_mp)
             {
@@ -111,7 +118,7 @@ namespace MadNorSane.Characters
 
                 last_used_energy_ball = _game_time.TotalGameTime.Ticks;
                 my_attack1.use_skill(_game_time);
-                my_energy_balls.Add(new EnergyBall(my_world, _my_content, this, direction, _my_attack.damage));
+                my_energy_balls.Add(new EnergyBall(my_world, _my_content, this, direction, _my_attack.damage,krypton,tex));
                 MP -= _my_attack.used_mp;
                 //arrows.Add(new Arrow(my_world, _my_content, this, direction, _my_attack.damage));
                 //arrownr--;
@@ -120,21 +127,17 @@ namespace MadNorSane.Characters
             else
                 return false;
         }
-        
-        public override void atack(Vector2 direction, int _my_skill, GameTime _game_time)
+
+        public override void atack(Vector2 direction, int _my_skill, GameTime _game_time, KryptonEngine krypton, Texture2D tex)
         {
             if (_my_skill == 1)
             {
-                atack_with_energy_ball(direction, _game_time, my_attack1);
+                atack_with_energy_ball(direction, _game_time, my_attack1,krypton,tex);
             }
-            else
-                if (_my_skill == 2)
-                {
-                    atack_with_energy_ball(direction, _game_time, my_attack2);
-                }
+          
 
 
-            base.atack(direction, _my_skill, _game_time);
+            base.atack(direction, _my_skill, _game_time,krypton,tex);
         }
     }
 }

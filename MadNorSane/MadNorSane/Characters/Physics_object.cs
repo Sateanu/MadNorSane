@@ -1,6 +1,7 @@
 ﻿using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Dynamics.Joints;
+using Krypton;
 using MadNorSane.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -22,19 +23,13 @@ namespace MadNorSane.Characters
        public float turnMultiplier = 1;
        public float speed_float = 0.05f;
        public float angle = 0f;
+       
         public Animation animation;
         
 
         public Vector2 velocity = Vector2.Zero;
 
-        public float Get_X()
-        {
-            return my_body.Position.X;
-        }
-        public float Get_Y()
-        {
-            return my_body.Position.Y;
-        }
+    
 
         public World my_world = null;
         public Body my_body = null;
@@ -80,7 +75,7 @@ namespace MadNorSane.Characters
 
 
         
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             if (Active)
             {
@@ -94,6 +89,15 @@ namespace MadNorSane.Characters
                 //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
                 spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y),
                                                              (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height)), null, Color.White,my_body.Rotation, origin, SpriteEffects.None, 0f);
+            }
+        }
+        public void Draw(SpriteBatch spriteBatch,Color color)
+        {
+            if (Active)
+            {
+                //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
+                spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y),
+                                                             (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height)), null, color, my_body.Rotation, origin, SpriteEffects.None, 0f);
             }
         }
 

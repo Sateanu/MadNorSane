@@ -22,6 +22,7 @@ namespace MadNorSane.Utilities
             sounds.Add("laserShot", content.Load<SoundEffect>(@"Sounds\laserShot"));
             sounds.Add("button-16", content.Load<SoundEffect>(@"Sounds\button-15"));
             sounds.Add("button-15", content.Load<SoundEffect>(@"Sounds\button-16"));
+            sounds.Add("crate", content.Load<SoundEffect>(@"Sounds\crate"));
         }
         public static void playSound(string s)
         {

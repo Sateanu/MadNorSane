@@ -1,5 +1,6 @@
 ﻿using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
+using Krypton;
 using MadNorSane.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,6 +27,7 @@ namespace MadNorSane.Characters
        public int score = 0;
        public Color color;
        public SoundManager soundManager;
+       public ShadowHull hull;
        Random r = new Random((int)DateTime.Now.Ticks);
        public void setAngle(float f)
        {
@@ -67,7 +69,7 @@ namespace MadNorSane.Characters
         bool has_weapon = true;
 
 
-        public virtual void atack(Vector2 direction, int _my_skill, GameTime _game_time)
+        public virtual void atack(Vector2 direction, int _my_skill, GameTime _game_time,KryptonEngine krypthon, Texture2D tex)
         {
            
         }
@@ -100,7 +102,7 @@ namespace MadNorSane.Characters
         }
        public virtual void Update(GameTime gameTime)
        {
-
+           this.hull.Position = Conversions.to_pixels(my_body.Position);
        }
        public void DrawUI(Player player, SpriteBatch spriteBatch, int cadran, Viewport viewport)
        {
@@ -122,7 +124,7 @@ namespace MadNorSane.Characters
                             spriteBatch.Draw(heartMP, new Rectangle(i * item_width, item_width, 32, 32), Color.White);
                     if (player.GetType() == typeof(Archer))
                     for (i = 0; i < stat.arrownr; i++)
-                        spriteBatch.Draw(arrowtext, new Rectangle(i * item_width, item_width, 32, 32), Color.White);
+                        spriteBatch.Draw(arrowtext, new Rectangle(i * item_width, item_width, 32, 32), player.color);
 
                     break;
                 case 1:
@@ -134,7 +136,7 @@ namespace MadNorSane.Characters
                         spriteBatch.Draw(heartMP, new Rectangle(viewport.Width - i * item_width - item_width, item_width, 32, 32), Color.White);
                     if (player.GetType() == typeof(Archer))
                     for (i = 0; i < stat.arrownr; i++)
-                        spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * item_width - item_width, item_width, 32, 32), Color.White);
+                        spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * item_width - item_width, item_width, 32, 32), player.color);
                     break;
                 default:
                     break;
