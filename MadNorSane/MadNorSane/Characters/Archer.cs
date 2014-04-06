@@ -17,7 +17,7 @@ namespace MadNorSane.Characters
         public Skill my_attack1 = null, my_attack2 = null;
         List<Arrow> arrows = new List<Arrow>(5);
         
-        public Archer(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate,List<Modifier> modifiers)
+        public Archer(World _new_world, ContentManager _new_content, float x_coordinate, float y_coordinate,List<Modifier> modifiers,Texture2D tex=null)
         {
             _my_content = _new_content;
             stat = new Stats();
@@ -40,7 +40,10 @@ namespace MadNorSane.Characters
             my_body.CollisionGroup = -1;
             heart = _new_content.Load<Texture2D>(@"Textures\heart");
             arrowtext = _new_content.Load<Texture2D>(@"Textures\arrow");
-            set_texture("archer");
+            if (tex == null)
+                set_texture("archer");
+            else
+                my_texture = tex;
             Color[] data=new Color[my_texture.Width*my_texture.Height];
             my_texture.GetData<Color>(data);
             color = data[0];
@@ -58,7 +61,7 @@ namespace MadNorSane.Characters
             my_attack2.update_skill_cool_down(_game_time);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X) - (int)Conversions.to_pixels(width) / 2,
                                                         (int)Conversions.to_pixels(my_body.Position.Y) - (int)Conversions.to_pixels(height) / 2,
@@ -90,21 +93,20 @@ namespace MadNorSane.Characters
             else
                 return false;
         }
-
-        public bool atack(Vector2 direction, int _my_skill, GameTime _game_time)
+        public override void atack(Vector2 direction, int _my_skill, GameTime _game_time)
         {
             if(_my_skill == 1)
             {
-                return atack_with_arrows(direction, _game_time, my_attack1);
+                atack_with_arrows(direction, _game_time, my_attack1);
 
             }
             else
                 if(_my_skill == 2)
                 {
-                    return atack_with_arrows(direction, _game_time, my_attack2);
+                    atack_with_arrows(direction, _game_time, my_attack2);
                 }
 
-            return true;
+            base.atack(direction, _my_skill, _game_time);
         }
     }
 }

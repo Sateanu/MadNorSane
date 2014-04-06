@@ -62,14 +62,27 @@ namespace MadNorSane.Utilities
             });
             modifiers.Add(new Modifier()
             {
-                descriere = "MANA/ARROWS++\nMOVEMENT++\nDAMAGE++",
+                descriere = "MANA REGEN++\nMANA/ARROWS++\nMOVEMENT++\nDAMAGE++",
                 health_points = 0,
                 jump_speed = 0,
                 mana_points = 2,
-                maxArrows = 2,
+                maxArrows = 3,
                 move_speed = 3,
-                primaryDamage = 1,
+                primaryDamage = 0,
                 projectile_speed = 10,
+                reload_time=-0.3f,
+            });
+            modifiers.Add(new Modifier()
+            {
+                descriere = "MANA REGEN++++\nMANA--/ARROWS++\nPROJECTILE SPEED++",
+                health_points = 0,
+                jump_speed = 0,
+                mana_points = -6,
+                maxArrows = 2,
+                move_speed = 0,
+                primaryDamage = 0,
+                projectile_speed = 25,
+                reload_time = -0.8f,
             });
             for (int i = 0; i < 50; i++)
             {
@@ -78,7 +91,7 @@ namespace MadNorSane.Utilities
                 sizemodifiers.Add(
                     new Modifier()
                     {
-                        descriere = "Ai cazut in ceaun cand erai mic",
+                        descriere = "Ceva mai...gras ca restu",
                         health_points = 0,
                         jump_speed = 0,
                         mana_points = 0,
@@ -90,11 +103,12 @@ namespace MadNorSane.Utilities
                         width = f,
                         height = 0,
                         projectile_speed=0,
+                        
                     });
                 sizemodifiers.Add(
                     new Modifier()
                     {
-                        descriere = "Michael Jordan V2",
+                        descriere = "Ceva mai inalt ca restu",
                         health_points = 0,
                         jump_speed = 0,
                         mana_points = 0,

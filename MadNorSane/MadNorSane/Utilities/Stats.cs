@@ -19,7 +19,7 @@ namespace MadNorSane.Utilities
         public int secondaryDamage = 2;
         public float width;
         public float height;
-        public int reload_time = 1;
+        public float reload_time = 1;
 
         internal void apply(Modifier mod)
         {
@@ -34,7 +34,7 @@ namespace MadNorSane.Utilities
             width += mod.width;
             height += mod.height;
             projectile_speed += mod.projectile_speed;
-
+            reload_time += mod.reload_time;
             original_mana_points = mana_points;
             original_health_points = health_points;
             original_arrow_nr = arrownr;

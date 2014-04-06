@@ -23,6 +23,7 @@ namespace MadNorSane.Screens
         Texture2D vs;
         Player p1;
         Player p2;
+        Texture2D win1, win2;
         bool p1ready = false;
         bool p2ready = false;
         TimeSpan delay=TimeSpan.FromSeconds(1f);
@@ -48,6 +49,8 @@ namespace MadNorSane.Screens
             secondPlayer = content.Load<Texture2D>(@"Textures\mage");
             font = content.Load<SpriteFont>("menufont");
             vs = content.Load<Texture2D>(@"Textures\vs");
+            win1 = content.Load<Texture2D>(@"Textures\win1");
+            win2 = content.Load<Texture2D>(@"Textures\win2");
             ScreenManager.Game.ResetElapsedTime();
         }
         public override void UnloadContent()
@@ -128,7 +131,14 @@ namespace MadNorSane.Screens
             spriteBatch.Draw(firstPlayer, new Rectangle(0, 0, vp.Width / 2, vp.Height), Color.White);
             spriteBatch.Draw(secondPlayer, new Rectangle(vp.Width/2, 0, vp.Width , vp.Height), Color.White);
             //spriteBatch.Draw(vs, new Rectangle(vp.Width / 2, vp.Height / 2, 150, 150), null,new Color((float)r.NextDouble(),(float)r.NextDouble(),(float)r.NextDouble()) , 0f, new Vector2(vs.Width / 2f, vs.Height / 2f), SpriteEffects.None, 0f);
+            
             spriteBatch.Draw(vs, new Rectangle(vp.Width / 2, vp.Height / 2, (int)(300*scale.X), (int)(300*scale.Y)), null, Color.DarkRed, 0f, new Vector2(vs.Width / 2f, vs.Height / 2f), SpriteEffects.None, 0f);
+            if (p1Wins==1)
+            spriteBatch.Draw(win1, new Rectangle(vp.Width / 2, win1.Height/2, (int)(win1.Width*0.5f * scale.X), (int)(win2.Height*0.5f * scale.Y)), null, Color.DarkRed, 0f, new Vector2(win1.Width / 2f, win1.Height / 2f), SpriteEffects.None, 0f);
+            else
+            if(p2Wins==1)
+                spriteBatch.Draw(win2, new Rectangle(vp.Width / 2, win2.Height/2, (int)(win1.Width *0.5f* scale.X), (int)(win2.Height*0.5f * scale.Y)), null, Color.DarkRed, 0f, new Vector2(win2.Width / 2f, win2.Height / 2f), SpriteEffects.None, 0f);
+
             spriteBatch.DrawString(font, "Player 1", Vector2.Zero + new Vector2(30, 0), Color.Black,0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             if(!p1ready)
             spriteBatch.DrawString(font, "Press any button when ready", new Vector2(30 * scale.X, vp.Height - font.MeasureString("Press anybutton when ready").Y - 100), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);

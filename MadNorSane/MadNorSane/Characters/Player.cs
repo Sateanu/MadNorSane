@@ -65,11 +65,11 @@ namespace MadNorSane.Characters
             set { stat.move_speed = value; }
         }
         bool has_weapon = true;
-        
 
-        public virtual bool atack()
+
+        public virtual void atack(Vector2 direction, int _my_skill, GameTime _game_time)
         {
-            return true;
+           
         }
         public bool use_buff(String _skill)
         {
@@ -94,10 +94,14 @@ namespace MadNorSane.Characters
             SoundManager.playSound(sound);
         }
 
-       public void Draw(SpriteBatch spriteBatch)
+       public virtual void Draw(SpriteBatch spriteBatch)
         {
             //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
         }
+       public virtual void Update(GameTime gameTime)
+       {
+
+       }
        public void DrawUI(Player player, SpriteBatch spriteBatch, int cadran, Viewport viewport)
        {
            //spriteBatch.Draw(player.my_texture, new Rectangle((int)Conversions.to_pixels(player.my_body.Position.X), (int)Conversions.to_pixels(player.my_body.Position.Y), 32, 32), Color.Red);
@@ -111,6 +115,11 @@ namespace MadNorSane.Characters
                 case 0:
                     for (int i = 0; i < player.stat.health_points; i++)
                         spriteBatch.Draw(heart, new Rectangle(i * item_width, 0, 32, 32), Color.White);
+
+                    if (player.GetType() == typeof(Mage))
+                        for (int i = 0; i < stat.mana_points; i++)
+                            spriteBatch.Draw(heartMP, new Rectangle(i * item_width, item_width, 32, 32), Color.White);
+                    if (player.GetType() == typeof(Archer))
                     for (int i = 0; i < stat.arrownr; i++)
                         spriteBatch.Draw(arrowtext, new Rectangle(i * item_width, item_width, 32, 32), Color.White);
 
@@ -118,11 +127,12 @@ namespace MadNorSane.Characters
                 case 1:
                     for (int i =0; i < player.stat.health_points; i++)
                         spriteBatch.Draw(heart, new Rectangle(viewport.Width - i * item_width - item_width, 0, 32, 32), Color.White);
+                    if(player.GetType()==typeof(Mage))
                     for (int i = 0; i < player.stat.mana_points; i++)
                         spriteBatch.Draw(heartMP, new Rectangle(viewport.Width - i * item_width - item_width, item_width, 32, 32), Color.White);
-
-                    //for (int i = 0; i < arrownr; i++)
-                        //spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * 34 - 34, 34, 32, 32), Color.White);
+                    if (player.GetType() == typeof(Archer))
+                    for (int i = 0; i < stat.arrownr; i++)
+                        spriteBatch.Draw(arrowtext, new Rectangle(viewport.Width - i * item_width - item_width, item_width, 32, 32), Color.White);
                     break;
                 default:
                     break;

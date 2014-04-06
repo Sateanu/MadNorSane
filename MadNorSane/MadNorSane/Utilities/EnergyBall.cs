@@ -71,9 +71,10 @@ namespace MadNorSane.Utilities
                                 
                                 return true;
                             }
+                            else if (fixB.Body.UserData == "energy_ball" || fixB.Body.UserData == "energy_ball_used" || fixB.Body.UserData == "arrow" || fixB.Body.UserData == "arrow_dropped")
+                                return false;
                 }
-                else if (fixB.Body.UserData == "energy_ball" || fixB.Body.UserData == "energy_ball_used" || fixB.Body.UserData == "arrow" || fixB.Body.UserData == "arrow_dropped")
-                    return false;
+                
 
             }
             return true;

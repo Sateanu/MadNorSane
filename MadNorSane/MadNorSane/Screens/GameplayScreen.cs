@@ -29,6 +29,7 @@ namespace MadNorSane.Screens
         ContentManager content;
         SpriteFont gameFont;
         World world;
+        Texture2D background;
         KryptonEngine krypton;
         Vector2 playerPosition = new Vector2(100, 100);
         Vector2 enemyPosition = new Vector2(100, 100);
@@ -44,8 +45,8 @@ namespace MadNorSane.Screens
 
         GameTime _game_time = null;
 
-        Archer player1 = null;
-        Mage player2 = null;
+        Player player1 = null;
+        Player player2 = null;
 
         public Player[] playeri = new Player[2];
 
@@ -72,7 +73,7 @@ namespace MadNorSane.Screens
         void Window_ClientSizeChanged(object sender, EventArgs e)
         {
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
-            camera.position = new Vector2(0, -5);
+            camera.position = new Vector2(0, -8);
         }
         List<Block> blocks = new List<Block>();
         Random r;
@@ -95,14 +96,32 @@ namespace MadNorSane.Screens
             List<Modifier> modlist = new List<Modifier>();
             modlist.Add(list.getSizeMod());
             modlist.Add(list.getMod());
-            player1 = new Archer(world, content, -20, -10, modlist);
-            
+            if (random.NextDouble() >= 0.5f)
+            {
+                Texture2D a = content.Load<Texture2D>(@"Textures\archer");
+                player1 = new Archer(world, content, -20, -10, modlist, a);
+            }
+            else
+            {
+                Texture2D a = content.Load<Texture2D>(@"Textures\archer");
+                player1 = new Mage(world, content, -20, -10, modlist, a);
+            }
             modlist.Clear();
             modlist.Add(list.getSizeMod());
             modlist.Add(list.getMod());
-            player2 = new Mage(world, content, 20, -10, modlist);
+            if (random.NextDouble() <= 0.5f)
+            {
+                Texture2D a = content.Load<Texture2D>(@"Textures\mage");
+                player2 = new Archer(world, content, 20, -10, modlist, a);
+            }
+            else
+            {
+                Texture2D a = content.Load<Texture2D>(@"Textures\mage");
+                player2 = new Mage(world, content, 20, -10, modlist, a);
+            }
             playeri[0] = player1;
             playeri[1] = player2;
+            background = content.Load<Texture2D>(@"Textures\cave");
             
             
             ground = new Block(world,krypton, content, 0, 1,100,1,"ground");
@@ -121,7 +140,7 @@ namespace MadNorSane.Screens
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
             mouseCamera = new Camera(ScreenManager.GraphicsDevice.Viewport);
-            camera.position += new Vector2(0, -5);
+            camera.position = new Vector2(0, -8);
             
             Console.WriteLine(camera.IsFollowing);
             // A real game would probably have more content than this sample, so
@@ -326,8 +345,8 @@ namespace MadNorSane.Screens
                 player1.Update(gameTime);
                 player2.Update(gameTime);
                 
-                player1.update_archer(gameTime);
-                player2.update_mage(gameTime);
+                //player1.update_archer(gameTime);
+                //player2.update_mage(gameTime);
 
                 if (player2.my_body.ContactList == null)
                 {
@@ -502,7 +521,7 @@ namespace MadNorSane.Screens
                     Console.WriteLine(direction.ToString()+"="+new Vector2(input.MouseState.X,input.MouseState.Y).ToString()+"-"+Conversions.to_pixels(player1.my_body.Position).ToString()+"+"+camera.Position.ToString()+" camera scale"+camera.Scale.ToString());
 
                     
-                    player1.atack(direction*player1.stat.projectile_speed, 1, _game_time);
+                   player1.atack(direction*player1.stat.projectile_speed, 1, _game_time);
                 }
                if(input.IsNewKeyPress(Keys.N,PlayerIndex.One,out piout))
                {
@@ -608,6 +627,9 @@ namespace MadNorSane.Screens
 
             // ----- DRAW STUFF HERE ----- //
             // By drawing here, you ensure that your scene is properly lit by krypton.
+            spriteBatch.Begin();
+            //spriteBatch.Draw(background, Vector2.Zero, Color.White);
+            spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.View);
 
             player1.Draw(spriteBatch);
