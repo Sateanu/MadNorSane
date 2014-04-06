@@ -163,6 +163,7 @@ namespace MadNorSane.Characters
                 {
                     camera.Scale += 0.01f;
                 }
+             
         }
     }
 }

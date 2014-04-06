@@ -3,6 +3,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 #endregion
 
 namespace MadNorSane.Screens
@@ -60,7 +61,7 @@ namespace MadNorSane.Screens
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-            backgroundTexture = content.Load<Texture2D>("Etc//Background//"+backgroundName);
+            backgroundTexture = content.Load<Texture2D>(backgroundName);
         }
 
 
@@ -88,6 +89,8 @@ namespace MadNorSane.Screens
         public override void Update(GameTime gameTime, bool otherScreenHasFocus,
                                                        bool coveredByOtherScreen)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.Back))
+                this.ExitScreen();
             base.Update(gameTime, otherScreenHasFocus, false);
         }
 
@@ -100,6 +103,7 @@ namespace MadNorSane.Screens
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
             Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
             Rectangle fullscreen = new Rectangle(0, 0, viewport.Width, viewport.Height);
+            ScreenManager.GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin();
 
             switch (type)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -56,12 +57,40 @@ namespace MadNorSane
             
             spriteBatch = new SpriteBatch(GraphicsDevice);
             base.LoadContent();
+            try
+            {
+                string line;
+                StreamReader reader = new StreamReader("settings.cfg");
+                line=reader.ReadLine();
+                Global.p1Type=int.Parse(line);
+                line=reader.ReadLine();
+                Global.p2Type=int.Parse(line);
+                reader.Close();
+                reader.Dispose();
+            }
+            catch(Exception e)
+            {
+                Global.p1Type=0;
+                Global.p2Type=0;
+            }
             
         }
 
         
         protected override void UnloadContent()
         {
+            try
+            {
+                StreamWriter writer = new StreamWriter("settings.cfg");
+                writer.WriteLine(Global.p1Type.ToString());
+                writer.WriteLine(Global.p2Type.ToString());
+                writer.Close();
+                writer.Dispose();
+            }
+            catch(Exception e)
+            {
+
+            }
             base.UnloadContent();
         }
 

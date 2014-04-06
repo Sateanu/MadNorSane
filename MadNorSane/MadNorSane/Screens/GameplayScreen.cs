@@ -163,6 +163,10 @@ namespace MadNorSane.Screens
             blocks.Add(new Block(world, krypton, content, -15, -3, 15, 1, "wall"));
             blocks.Add(new Block(world, krypton, content, 15, -3, 15, 1, "wall"));
             blocks.Add(new Block(world, krypton, content, 0, -8.5f, 30, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, 30, -6f, 7, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, -30, -6f, 7, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, 30, -12f, 9, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, -30, -12f, 9, 1, "wall"));
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
             mouseCamera = new Camera(ScreenManager.GraphicsDevice.Viewport);
@@ -201,7 +205,7 @@ namespace MadNorSane.Screens
             {
                 Texture = mLightTexture,
                 Range = 750,
-                Color = Color.White,
+                Color = new Color((float)r.NextDouble(),(float)r.NextDouble(),(float)r.NextDouble()),
                 Intensity = 0.8f,
                 X = -300,
                 Y = -615,
@@ -212,7 +216,7 @@ namespace MadNorSane.Screens
             {
                 Texture = mLightTexture,
                 Range = 750,
-                Color = Color.White,
+                Color = new Color((float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble()),
                 Intensity = 0.8f,
                 X = 300,
                 Y = -615,

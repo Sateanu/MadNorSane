@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MadNorSane.Utilities;
 #endregion
 
 namespace MadNorSane
@@ -99,6 +100,7 @@ namespace MadNorSane
             // Move to the previous menu entry?
             if (input.IsMenuUp(ControllingPlayer, MenuInputDelay) && menuEntries.Count > 0)
             {
+                SoundManager.playSound("button-15");
                 startResetDelay = false;
                 ticksReset = nrTicks;
                 MenuInputDelay -= 0.01f;
@@ -113,6 +115,7 @@ namespace MadNorSane
             } else
                 if (input.IsMenuDown(ControllingPlayer, MenuInputDelay) && menuEntries.Count > 0)
                 {
+                    SoundManager.playSound("button-15");
                     startResetDelay = false;
                     ticksReset = nrTicks; 
                     selectedEntry++;
@@ -144,8 +147,13 @@ namespace MadNorSane
 
             if (input.IsMenuSelect(ControllingPlayer, out playerIndex) && menuEntries.Count>0)
             {
-                if(selectedEntry<menuEntries.Count)
-                OnSelectEntry(selectedEntry, playerIndex);
+
+                if (selectedEntry < menuEntries.Count)
+                {
+                    SoundManager.playSound("button-15");
+
+                    OnSelectEntry(selectedEntry, playerIndex);
+                }
             }
             if (input.IsMenuLeft(ControllingPlayer, MenuInputDelay) && menuEntries.Count > 0)
             {
@@ -172,6 +180,7 @@ namespace MadNorSane
             else if (input.IsMenuCancel(ControllingPlayer, out playerIndex) && !noCancel)
             {
                 OnCancel(playerIndex);
+                SoundManager.playSound("button-15");
             }
             for (int i = 0; i < menuEntries.Count; i++)
             {

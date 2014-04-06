@@ -19,7 +19,8 @@ namespace MadNorSane.Utilities
             sounds.Add("pain3", content.Load<SoundEffect>(@"Sounds\pain3"));
             sounds.Add("jump",content.Load<SoundEffect>(@"Sounds\jump"));
             sounds.Add("loot", content.Load<SoundEffect>(@"Sounds\loot"));
-            sounds.Add("laserShot", content.Load<SoundEffect>(@"Sounds\laserShot"));
+            sounds.Add("button-16", content.Load<SoundEffect>(@"Sounds\button-15"));
+            sounds.Add("button-15", content.Load<SoundEffect>(@"Sounds\button-16"));
         }
         public static void playSound(string s)
         {

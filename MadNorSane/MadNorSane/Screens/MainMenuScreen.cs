@@ -22,20 +22,23 @@ namespace MadNorSane.Screens
         /// Constructor fills in the menu contents.
         /// </summary>
         public MainMenuScreen()
-            : base("Main Menu")
+            : base("Mad Nor Sane")
         {
             // Create our menu entries.
             MenuEntry playGameMenuEntry = new MenuEntry("Play");
             MenuEntry optionMenuEntry = new MenuEntry("Options");
+            MenuEntry control = new MenuEntry("Controlls");
             MenuEntry exit = new MenuEntry("Exit");
             // Hook up menu event handlers.
             playGameMenuEntry.Selected+=playGameMenuEntry_Selected;
             optionMenuEntry.Selected += OptionsMenuEntrySelected;
             exit.Selected+=exit_Selected;
+            control.Selected+=control_Selected;
             // Add entries to the menu.
             //MenuEntries.Add(playGameMenuEntry);
             //MenuEntries.Add(playGameMenuEntry4);
             MenuEntries.Add(playGameMenuEntry);
+          //  MenuEntries.Add(control);
             MenuEntries.Add(optionMenuEntry);
             MenuEntries.Add(exit);
         }
@@ -54,6 +57,10 @@ namespace MadNorSane.Screens
         /// <summary>
         /// Event handler for when the Options menu entry is selected.
         /// </summary>
+        void control_Selected(object sender, PlayerIndexEventArgs e)
+        {
+            ScreenManager.AddScreen(new BackgroundScreen(@"Textures\controllerhelp", BackgroundScreen.BackgroundType.Full, Vector2.Zero),e.PlayerIndex);
+        }
         void OptionsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.AddScreen(new OptionsMenuScreen(), e.PlayerIndex);
