@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MadNorSane.Screens;
 using System.Threading;
+using MadNorSane.Characters;
 #endregion
 
 namespace MadNorSane.Screens
@@ -59,7 +60,10 @@ namespace MadNorSane.Screens
         }
         void playGameMenuEntry_Selected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new GameplayScreen(), e.PlayerIndex);
+            Player[] playeri=new Player[2];
+            GameplayScreen gps = new GameplayScreen();
+            ScreenManager.AddScreen(gps, e.PlayerIndex);
+            ScreenManager.AddScreen(new VersusScreen(gps.playeri), 0);
         }
         void exit_Selected(object sender, PlayerIndexEventArgs e)
         {

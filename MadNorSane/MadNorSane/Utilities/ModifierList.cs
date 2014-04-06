@@ -18,9 +18,9 @@ namespace MadNorSane.Utilities
             r = new Random((int)DateTime.Now.Ticks);
             modifiers.Add(new Modifier()
                 {
-                    descriere = "Shukarime",
+                    descriere = "HP+++\nJUMP++\nMANA/ARROWS++\nMOVEMENT--\nDAMAGE++",
                     health_points = 3,
-                    jump_speed = +1.5f,
+                    jump_speed = -1.5f,
                     mana_points = 1,
                     maxArrows=1,
                     move_speed = -1.5f,
@@ -28,7 +28,7 @@ namespace MadNorSane.Utilities
                 });
             modifiers.Add(new Modifier()
             {
-                descriere = "Valoare",
+                descriere = "HP-\nJUMP++\nMANA/ARROWS+\nMOVEMENT++\n",
                 health_points = -1,
                 jump_speed = -1.5f,
                 mana_points = 2,
@@ -38,12 +38,32 @@ namespace MadNorSane.Utilities
             });
             modifiers.Add(new Modifier()
             {
-                descriere = "Bo$$",
+                descriere = "JUMP+++\nMOVEMENT---",
                 health_points = 0,
                 jump_speed = -5,
                 mana_points = 0,
-                maxArrows=2,
+                maxArrows=0,
                 move_speed = -5,
+            });
+            modifiers.Add(new Modifier()
+            {
+                descriere = "HP+++\nJUMP--\nMOVEMENT++\nDAMAGE--",
+                health_points = 2,
+                jump_speed = +1.5f,
+                mana_points = 0,
+                maxArrows = 0,
+                move_speed = 3,
+                primaryDamage=-1,
+            });
+            modifiers.Add(new Modifier()
+            {
+                descriere = "MANA/ARROWS++\nMOVEMENT++\nDAMAGE++",
+                health_points = 0,
+                jump_speed = 0,
+                mana_points = 2,
+                maxArrows = 2,
+                move_speed = 3,
+                primaryDamage = 1,
             });
             for (int i = 0; i < 50; i++)
             {
@@ -67,7 +87,7 @@ namespace MadNorSane.Utilities
                 sizemodifiers.Add(
                     new Modifier()
                     {
-                        descriere = "Ai cazut in ceaun cand erai mic",
+                        descriere = "Michael Jordan V2",
                         health_points = 0,
                         jump_speed = 0,
                         mana_points = 0,
@@ -79,6 +99,7 @@ namespace MadNorSane.Utilities
                         width = 0,
                         height = f
                     });
+
             }
         }
         public Modifier getMod()

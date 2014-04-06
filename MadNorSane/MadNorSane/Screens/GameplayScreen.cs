@@ -22,7 +22,7 @@ namespace MadNorSane.Screens
     /// placeholder to get the idea across: you'll probably want to
     /// put some more interesting gameplay in here!
     /// </summary>
-    class GameplayScreen : GameScreen
+   public class GameplayScreen : GameScreen
     {
         #region Fields
 
@@ -47,7 +47,7 @@ namespace MadNorSane.Screens
         Archer player1 = null;
         Mage player2 = null;
 
-        Player[] playeri = new Player[2];
+        public Player[] playeri = new Player[2];
 
         private DebugViewXNA debug;
         private bool IsDebug=false;
@@ -102,7 +102,8 @@ namespace MadNorSane.Screens
             player2 = new Mage(world, content, 20, -10, modlist);
             playeri[0] = player1;
             playeri[1] = player2;
-
+            
+            
             ground = new Block(world,krypton, content, 0, 1,100,1,"ground");
             //ground2 = new Block(world, krypton, content, -3, -3,1,2.5f,"wall");
             ground3 = new Block(world, krypton, content, -30, -10, 2, 21, "wall");
@@ -115,7 +116,7 @@ namespace MadNorSane.Screens
             blocks.Add(ground5);
             blocks.Add(new Block(world, krypton, content, -15, -3, 15, 1, "wall"));
             blocks.Add(new Block(world, krypton, content, 15, -3, 15, 1, "wall"));
-            blocks.Add(new Block(world, krypton, content, 0, -8, 30, 1, "wall"));
+            blocks.Add(new Block(world, krypton, content, 0, -8.5f, 30, 1, "wall"));
             this.krypton.Initialize();
             camera = new Camera(ScreenManager.GraphicsDevice.Viewport);
             mouseCamera = new Camera(ScreenManager.GraphicsDevice.Viewport);
@@ -144,7 +145,7 @@ namespace MadNorSane.Screens
                 Color = Color.White,
                 Intensity = 0.8f,
                 X = 0,
-                Y = -600,
+                Y = -615,
                 Angle=-(float)Math.PI*3/2,
                 Fov=(float)Math.PI/4,
                
@@ -157,7 +158,7 @@ namespace MadNorSane.Screens
                 Color = Color.Gold,
                 Intensity = 0.8f,
                 X = -300,
-                Y = -600,
+                Y = -615,
                 Angle = -(float)Math.PI * 3 / 2,
                 Fov = (float)Math.PI / 4,
             });
@@ -168,7 +169,7 @@ namespace MadNorSane.Screens
                 Color = Color.Gold,
                 Intensity = 0.8f,
                 X = 300,
-                Y = -600,
+                Y = -615,
                 Angle = -(float)Math.PI * 3 / 2,
                 Fov = (float)Math.PI / 4,
             });
@@ -179,7 +180,7 @@ namespace MadNorSane.Screens
                 Color = Color.Silver,
                 Intensity = 0.8f,
                 X = -600,
-                Y = -600,
+                Y = -615,
                 Angle = -(float)Math.PI * 3 / 2,
                 Fov = (float)Math.PI / 4,
             });
@@ -190,7 +191,7 @@ namespace MadNorSane.Screens
                 Color = Color.Silver,
                 Intensity = 0.8f,
                 X = 600,
-                Y = -600,
+                Y = -615,
                 Angle = -(float)Math.PI * 3 / 2,
                 Fov = (float)Math.PI / 4,
             });
@@ -200,8 +201,9 @@ namespace MadNorSane.Screens
             // Create some lights and hulls
           //  this.CreateLights(mLightTexture, this.mNumLights);
            // this.CreateHulls(this.mNumHorzontalHulls, this.mNumVerticalHulls);
-           
+            
             ScreenManager.Game.ResetElapsedTime();
+            
         }
       
         void addObject(float x, float y, float width, float height)
@@ -326,12 +328,17 @@ namespace MadNorSane.Screens
                 if(player1.HP<=0&&player2.HP>0)
                 {
                     this.ExitScreen();
-                    ScreenManager.AddScreen(new GameplayScreen(), PlayerIndex.One);
+                    GameplayScreen gps = new GameplayScreen();
+                    ScreenManager.AddScreen(gps, 0);
+                    
+                    ScreenManager.AddScreen(new VersusScreen(gps.playeri,0,1), 0);
                 }
                 else if(player2.HP<=0&&player1.HP>0)
                 {
                     this.ExitScreen();
-                    ScreenManager.AddScreen(new GameplayScreen(), PlayerIndex.One);
+                    GameplayScreen gps = new GameplayScreen();
+                    ScreenManager.AddScreen(gps,0);
+                    ScreenManager.AddScreen(new VersusScreen(gps.playeri,1,0), 0);
                 }
 
                 world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
@@ -407,7 +414,7 @@ namespace MadNorSane.Screens
 
             if (input.IsPauseGame(ControllingPlayer) || gamePadDisconnected)
             {
-                ScreenManager.AddScreen(new OptionsMenuScreen(),0);
+                ScreenManager.AddScreen(new VersusScreen(playeri),0);
             }
             else
             {
@@ -483,12 +490,14 @@ namespace MadNorSane.Screens
                     Console.WriteLine(direction.ToString()+"="+new Vector2(input.MouseState.X,input.MouseState.Y).ToString()+"-"+Conversions.to_pixels(player1.my_body.Position).ToString()+"+"+camera.Position.ToString()+" camera scale"+camera.Scale.ToString());
 
                     
-                    player1.atack(direction*15f, 1, _game_time);
+                    player1.atack(direction*player1.stat.projectile_speed, 1, _game_time);
                 }
                if(input.IsNewKeyPress(Keys.N,PlayerIndex.One,out piout))
                {
                    this.ExitScreen();
-                   ScreenManager.AddScreen(new GameplayScreen(), PlayerIndex.One);
+                   GameplayScreen gps = new GameplayScreen();
+                   ScreenManager.AddScreen(gps,0);
+                   ScreenManager.AddScreen(new VersusScreen(gps.playeri), 0);
                }
                     if (input.CurrentKeyboardStates[playerIndex].IsKeyDown(Keys.X) && input.LastKeyboardStates[playerIndex].IsKeyUp(Keys.X))
                     {
@@ -542,7 +551,7 @@ namespace MadNorSane.Screens
                 player2.setAngle((float)Math.Atan2(dirGamepad[playerIndex].X, -dirGamepad[playerIndex].Y));
                 if (input.CurrentGamePadStates[playerIndex].Triggers.Right!=0 && input.LastGamePadStates[playerIndex].Triggers.Right==0)
                 {
-                    player2.atack(dirGamepad[playerIndex]* 15f, 1, _game_time);
+                    player2.atack(dirGamepad[playerIndex]* player2.stat.projectile_speed, 1, _game_time);
                 }
 
                 //movement2.Y -= thumbstick.Y;

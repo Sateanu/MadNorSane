@@ -22,8 +22,13 @@ namespace MadNorSane.Characters
             _my_content = _new_content;
             stat = new Stats();
 
+            this.modifiers = new List<Modifier>();
             foreach (var mod in modifiers)
+            {
                 stat.apply(mod);
+                this.modifiers.Add(mod);
+            }
+            
             width += stat.width;
             height += stat.height;
             my_world = _new_world;
@@ -39,6 +44,9 @@ namespace MadNorSane.Characters
             heart = _new_content.Load<Texture2D>(@"Textures\heart");
             heartMP = _new_content.Load<Texture2D>(@"Textures\heartMP");
             set_texture("mage");
+            Color[] data = new Color[my_texture.Width * my_texture.Height];
+            my_texture.GetData<Color>(data);
+            color = data[0];
             health_color = _new_content.Load<Texture2D>(@"Textures\red");
             tinta = _new_content.Load<Texture2D>(@"Textures\direction");
 
