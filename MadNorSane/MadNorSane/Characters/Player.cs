@@ -25,6 +25,8 @@ namespace MadNorSane.Characters
        public List<Modifier> modifiers;
        public int score = 0;
        public Color color;
+       public SoundManager soundManager;
+       Random r = new Random((int)DateTime.Now.Ticks);
        public void setAngle(float f)
        {
            tintaAngle = f;
@@ -89,7 +91,7 @@ namespace MadNorSane.Characters
 
        public void playSound(String sound)
         {
-
+            SoundManager.playSound(sound);
         }
 
        public void Draw(SpriteBatch spriteBatch)
@@ -132,7 +134,7 @@ namespace MadNorSane.Characters
 
         public void TakeDamage(int damage)
         {
-            playSound("damage");
+            playSound("pain"+r.Next(1,4).ToString());
 
             this.HP -= damage;
         }

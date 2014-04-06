@@ -13,6 +13,7 @@ using FarseerPhysics.Dynamics;
 using Krypton;
 using Krypton.Lights;
 using MadNorSane.Screens;
+using MadNorSane.Utilities;
 namespace MadNorSane
 {
     
@@ -22,7 +23,7 @@ namespace MadNorSane
         SpriteBatch spriteBatch;
         
         ScreenManager screenManager;
-
+        public static SoundManager soundManager;
         private Texture2D mLightTexture;
         private int mNumLights = 4;
         private int mNumHorzontalHulls = 20;
@@ -47,6 +48,7 @@ namespace MadNorSane
         {
 
             base.Initialize();
+            soundManager = new SoundManager(Content);
         }
 
         protected override void LoadContent()

@@ -93,6 +93,7 @@
     <Compile Include="Utilities\ModifierList.cs" />
     <Compile Include="Utilities\Score.cs" />
     <Compile Include="Utilities\Skill.cs" />
+    <Compile Include="Utilities\SoundManager.cs" />
     <Compile Include="Utilities\Stats.cs" />
     <Compile Include="Utilities\VS_Body.cs" />
     <Compile Include="ScreenManager\GameScreen.cs" />

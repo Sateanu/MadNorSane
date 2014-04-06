@@ -29,7 +29,7 @@ namespace MadNorSane.Utilities
             my_body.OnCollision += my_body_OnCollision;
             my_body.BodyType = BodyType.Dynamic;
             my_body.IgnoreGravity = true;
-            my_body.GravityScale = 0.05f;
+            //my_body.GravityScale = 0.05f;
             my_body.Mass = 1f;
             my_body.ApplyLinearImpulse(direction);
             set_texture("arrow");
@@ -80,6 +80,7 @@ namespace MadNorSane.Utilities
                             Active = false;
                             Player pl = (Player)(fixB.Body.UserData);
                             pl.stat.arrownr++;
+                            SoundManager.playSound("loot");
                         }
                         else
                             if (fixB.Body.UserData.GetType().IsSubclassOf(typeof(Player)))

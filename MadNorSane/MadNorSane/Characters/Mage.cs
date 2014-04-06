@@ -67,6 +67,7 @@ namespace MadNorSane.Characters
                 }
             }
             my_attack1.update_skill_cool_down(_game_time);
+            
             my_attack2.update_skill_cool_down(_game_time);
         }
 
@@ -99,7 +100,7 @@ namespace MadNorSane.Characters
         {
             if (MP >= _my_attack.used_mp)
             {
-                playSound("maje_atack");
+                playSound("laserShot");
 
                 last_used_energy_ball = _game_time.TotalGameTime.Ticks;
                 my_attack1.use_skill(_game_time);

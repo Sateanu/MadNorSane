@@ -96,6 +96,7 @@ namespace MadNorSane.Screens
             modlist.Add(list.getSizeMod());
             modlist.Add(list.getMod());
             player1 = new Archer(world, content, -20, -10, modlist);
+            
             modlist.Clear();
             modlist.Add(list.getSizeMod());
             modlist.Add(list.getMod());
