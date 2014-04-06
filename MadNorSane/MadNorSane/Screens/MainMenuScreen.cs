@@ -76,7 +76,7 @@ namespace MadNorSane.Screens
         /// </summary>
         protected override void OnCancel(PlayerIndex playerIndex)
         {
-            const string message = "Are you sure you want to exit Project Bot?";
+            const string message = "Are you sure you want to exit MadNorSane?";
 
             MessageBoxScreen confirmExitMessageBox = new MessageBoxScreen(message);
 

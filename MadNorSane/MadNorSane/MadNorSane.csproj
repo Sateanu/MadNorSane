@@ -89,6 +89,7 @@
     <Compile Include="Utilities\Camera.cs" />
     <Compile Include="Utilities\Damage.cs" />
     <Compile Include="Utilities\EnergyBall.cs" />
+    <Compile Include="Utilities\Global.cs" />
     <Compile Include="Utilities\Modifier.cs" />
     <Compile Include="Utilities\ModifierList.cs" />
     <Compile Include="Utilities\Score.cs" />

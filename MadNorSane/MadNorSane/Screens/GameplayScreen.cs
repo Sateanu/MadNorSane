@@ -96,12 +96,25 @@ namespace MadNorSane.Screens
             List<Modifier> modlist = new List<Modifier>();
             modlist.Add(list.getSizeMod());
             modlist.Add(list.getMod());
-            if (random.NextDouble() >= 0.5f)
+            if (Global.p1Type == 0)
+            {
+                if (random.NextDouble() >= 0.5f)
+                {
+                    Texture2D a = content.Load<Texture2D>(@"Textures\archer");
+                    player1 = new Archer(world, content, -20, -10, modlist, a);
+                }
+                else
+                {
+                    Texture2D a = content.Load<Texture2D>(@"Textures\archer");
+                    player1 = new Mage(world, content, -20, -10, modlist, a);
+                }
+            }
+            else if(Global.p1Type==1)
             {
                 Texture2D a = content.Load<Texture2D>(@"Textures\archer");
                 player1 = new Archer(world, content, -20, -10, modlist, a);
             }
-            else
+            else if(Global.p1Type==2)
             {
                 Texture2D a = content.Load<Texture2D>(@"Textures\archer");
                 player1 = new Mage(world, content, -20, -10, modlist, a);
@@ -109,12 +122,25 @@ namespace MadNorSane.Screens
             modlist.Clear();
             modlist.Add(list.getSizeMod());
             modlist.Add(list.getMod());
-            if (random.NextDouble() <= 0.5f)
+            if (Global.p2Type == 0)
+            {
+                if (random.NextDouble() <= 0.5f)
+                {
+                    Texture2D a = content.Load<Texture2D>(@"Textures\mage");
+                    player2 = new Archer(world, content, 20, -10, modlist, a);
+                }
+                else
+                {
+                    Texture2D a = content.Load<Texture2D>(@"Textures\mage");
+                    player2 = new Mage(world, content, 20, -10, modlist, a);
+                }
+            }
+            else if (Global.p2Type==1)
             {
                 Texture2D a = content.Load<Texture2D>(@"Textures\mage");
                 player2 = new Archer(world, content, 20, -10, modlist, a);
             }
-            else
+            else if (Global.p2Type==2)
             {
                 Texture2D a = content.Load<Texture2D>(@"Textures\mage");
                 player2 = new Mage(world, content, 20, -10, modlist, a);
@@ -175,7 +201,7 @@ namespace MadNorSane.Screens
             {
                 Texture = mLightTexture,
                 Range = 750,
-                Color = Color.Gold,
+                Color = Color.White,
                 Intensity = 0.8f,
                 X = -300,
                 Y = -615,
@@ -186,7 +212,7 @@ namespace MadNorSane.Screens
             {
                 Texture = mLightTexture,
                 Range = 750,
-                Color = Color.Gold,
+                Color = Color.White,
                 Intensity = 0.8f,
                 X = 300,
                 Y = -615,
@@ -342,8 +368,8 @@ namespace MadNorSane.Screens
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     ScreenManager.Game.Exit();
 
-                player1.Update(gameTime);
-                player2.Update(gameTime);
+                foreach (Player p in playeri)
+                    p.Update(gameTime);
                 
                 //player1.update_archer(gameTime);
                 //player2.update_mage(gameTime);
@@ -445,10 +471,17 @@ namespace MadNorSane.Screens
 
             if (input.IsPauseGame(ControllingPlayer) || gamePadDisconnected)
             {
-                ScreenManager.AddScreen(new VersusScreen(playeri),0);
+                const string message = "Are you sure you want to exit to main menu?";
+
+                MessageBoxScreen confirmExitMessageBox = new MessageBoxScreen(message);
+
+                confirmExitMessageBox.Accepted += ConfirmExitMessageBoxAccepted;
+
+                ScreenManager.AddScreen(confirmExitMessageBox, 0);
             }
             else
             {
+                
                 // Otherwise move the player position.
                 Vector2 movement = Vector2.Zero;
                 Vector2 movement2 = Vector2.Zero;
@@ -601,6 +634,12 @@ namespace MadNorSane.Screens
                 }
                // my_archer2.my_body.ApplyLinearImpulse(movement2);*/
             }
+        }
+
+        private void ConfirmExitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
+        {
+            this.ExitScreen();
+            ScreenManager.AddScreen(new MainMenuScreen(), e.PlayerIndex);
         }
 
 
