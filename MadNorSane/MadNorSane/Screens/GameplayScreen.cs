@@ -449,6 +449,7 @@ namespace MadNorSane.Screens
                 }
                 if(player1.HP<=0&&player2.HP>0)
                 {
+                GamePad.SetVibration(0, 0f, 0f);
                     this.ExitScreen();
                     GameplayScreen gps = new GameplayScreen();
                     ScreenManager.AddScreen(gps, 0);
@@ -457,6 +458,7 @@ namespace MadNorSane.Screens
                 }
                 else if(player2.HP<=0&&player1.HP>0)
                 {
+                    GamePad.SetVibration(0, 0f, 0f);
                     this.ExitScreen();
                     GameplayScreen gps = new GameplayScreen();
                     ScreenManager.AddScreen(gps,0);

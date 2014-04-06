@@ -134,10 +134,10 @@ namespace MadNorSane.Screens
             
             spriteBatch.Draw(vs, new Rectangle(vp.Width / 2, vp.Height / 2, (int)(300*scale.X), (int)(300*scale.Y)), null, Color.DarkRed, 0f, new Vector2(vs.Width / 2f, vs.Height / 2f), SpriteEffects.None, 0f);
             if (p1Wins==1)
-            spriteBatch.Draw(win1, new Rectangle(vp.Width / 2, win1.Height/2, (int)(win1.Width*0.5f * scale.X), (int)(win2.Height*0.5f * scale.Y)), null, Color.DarkRed, 0f, new Vector2(win1.Width / 2f, win1.Height / 2f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(win1, new Rectangle(vp.Width / 2, win1.Height/2+100, (int)(win1.Width*0.5f * scale.X), (int)(win2.Height*0.5f * scale.Y)), null, Color.DarkRed, 0f, new Vector2(win1.Width / 2f, win1.Height / 2f), SpriteEffects.None, 0f);
             else
             if(p2Wins==1)
-                spriteBatch.Draw(win2, new Rectangle(vp.Width / 2, win2.Height/2, (int)(win1.Width *0.5f* scale.X), (int)(win2.Height*0.5f * scale.Y)), null, Color.DarkRed, 0f, new Vector2(win2.Width / 2f, win2.Height / 2f), SpriteEffects.None, 0f);
+                spriteBatch.Draw(win2, new Rectangle(vp.Width / 2, win2.Height/2+100, (int)(win1.Width *0.5f* scale.X), (int)(win2.Height*0.5f * scale.Y)), null, Color.DarkRed, 0f, new Vector2(win2.Width / 2f, win2.Height / 2f), SpriteEffects.None, 0f);
             string type1 = p1.GetType() == typeof(Archer) ? "Archer" : "Mage";
             spriteBatch.DrawString(font, "Player 1 - "+type1, Vector2.Zero + new Vector2(30, 0), Color.Black,0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             if(type1=="Archer")
