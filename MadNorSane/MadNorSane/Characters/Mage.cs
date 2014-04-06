@@ -38,7 +38,8 @@ namespace MadNorSane.Characters
             my_body.CollisionGroup = -1;
             heart = _new_content.Load<Texture2D>(@"Textures\heart");
             heartMP = _new_content.Load<Texture2D>(@"Textures\heartMP");
-            set_texture("archeranim");
+            set_texture("mage");
+            health_color = _new_content.Load<Texture2D>(@"Textures\red");
             tinta = _new_content.Load<Texture2D>(@"Textures\direction");
 
             my_attack1 = new Skill(stat.primaryDamage, 0, 0, 3, 1);
@@ -48,7 +49,7 @@ namespace MadNorSane.Characters
 
         public void update_mage(GameTime _game_time)
         {
-            long time_to_load = 10000000;
+            long time_to_load = 10000000 * stat.reload_time;
             if (_game_time.TotalGameTime.Ticks - last_used_energy_ball > time_to_load)
             {
                 if (stat.original_mana_points > stat.mana_points)
@@ -63,7 +64,19 @@ namespace MadNorSane.Characters
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
+            spriteBatch.Draw(my_texture, new Rectangle((int)Conversions.to_pixels(my_body.Position.X) - (int)Conversions.to_pixels(width) / 2,
+                                                        (int)Conversions.to_pixels(my_body.Position.Y) - (int)Conversions.to_pixels(height) / 2,
+                                                        (int)Conversions.to_pixels(width), (int)Conversions.to_pixels(height)), Color.White);
+
+            int health_size = (int)Conversions.to_pixels(height) * ((int)stat.original_health_points - (int)stat.health_points) / (int)stat.original_health_points;
+            if ((int)stat.health_points <= 0)
+            {
+                health_size = (int)Conversions.to_pixels(height);
+            }
+            spriteBatch.Draw(health_color, new Rectangle((int)Conversions.to_pixels(my_body.Position.X) - (int)Conversions.to_pixels(width) / 2,
+                                                        (int)Conversions.to_pixels(my_body.Position.Y) - (int)Conversions.to_pixels(height) / 2,
+                                                        (int)Conversions.to_pixels(width), health_size), Color.Red);
+            //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
             foreach (var arr in my_energy_balls)
             {
 
