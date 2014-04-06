@@ -80,6 +80,8 @@ namespace MadNorSane.Characters
         {
             if (stat.arrownr > 0)
             {
+                playSound("archer_atack");
+
                 my_attack1.use_skill(_game_time);
                 arrows.Add(new Arrow(my_world, _my_content, this, direction, _my_attack.damage));
                 stat.arrownr--;

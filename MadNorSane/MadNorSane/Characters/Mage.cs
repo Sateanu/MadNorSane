@@ -99,6 +99,8 @@ namespace MadNorSane.Characters
         {
             if (MP >= _my_attack.used_mp)
             {
+                playSound("maje_atack");
+
                 last_used_energy_ball = _game_time.TotalGameTime.Ticks;
                 my_attack1.use_skill(_game_time);
                 my_energy_balls.Add(new EnergyBall(my_world, _my_content, this, direction, _my_attack.damage));

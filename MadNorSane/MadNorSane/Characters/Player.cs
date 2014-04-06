@@ -87,6 +87,11 @@ namespace MadNorSane.Characters
             MoveClass.controlAir(this, 0.95f);
         }
 
+       public void playSound(String sound)
+        {
+
+        }
+
        public void Draw(SpriteBatch spriteBatch)
         {
             //animation.Draw(spriteBatch, new Vector2((int)Conversions.to_pixels(my_body.Position.X), (int)Conversions.to_pixels(my_body.Position.Y)), (int)Conversions.to_pixels(Width), (int)Conversions.to_pixels(Height));
@@ -127,6 +132,8 @@ namespace MadNorSane.Characters
 
         public void TakeDamage(int damage)
         {
+            playSound("damage");
+
             this.HP -= damage;
         }
         public bool VS_OnCollision(Fixture fixA, Fixture fixB, Contact contact)
