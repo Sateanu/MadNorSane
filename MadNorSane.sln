@@ -1,17 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadNorSane", "MadNorSane\MadNorSane\MadNorSane.csproj", "{A67F3EF4-8C79-4674-9DB3-1DC9C2859033}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadNorSaneContent", "MadNorSane\MadNorSaneContent\MadNorSaneContent.contentproj", "{19AD89FA-B862-4713-88F4-FCF747DA27BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics XNA", "Farseer Physics Engine 3.5\Farseer Physics XNA.csproj", "{0A850700-1ABB-4288-A391-6726B90EBEB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton", "Krypton\Krypton.csproj", "{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugView XNA", "Farseer Physics DebugView 3.5\DebugView XNA.csproj", "{FC7845FA-13FE-4FF8-822A-A577F3F59B00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton", "Krypton\Krypton.csproj", "{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,14 +27,14 @@ Global
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Debug|x86.Build.0 = Debug|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|x86.ActiveCfg = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|x86.Build.0 = Release|x86
-		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Debug|x86.ActiveCfg = Debug|x86
-		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Debug|x86.Build.0 = Debug|x86
-		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Release|x86.ActiveCfg = Release|x86
-		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Release|x86.Build.0 = Release|x86
 		{FC7845FA-13FE-4FF8-822A-A577F3F59B00}.Debug|x86.ActiveCfg = Debug|x86
 		{FC7845FA-13FE-4FF8-822A-A577F3F59B00}.Debug|x86.Build.0 = Debug|x86
 		{FC7845FA-13FE-4FF8-822A-A577F3F59B00}.Release|x86.ActiveCfg = Release|x86
 		{FC7845FA-13FE-4FF8-822A-A577F3F59B00}.Release|x86.Build.0 = Release|x86
+		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Debug|x86.ActiveCfg = Debug|x86
+		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Debug|x86.Build.0 = Debug|x86
+		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Release|x86.ActiveCfg = Release|x86
+		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

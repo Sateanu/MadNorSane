@@ -91,6 +91,7 @@ namespace MadNorSane.Screens
             this.krypton = new KryptonEngine(ScreenManager.Game, "KryptonEffect");
             krypton.SpriteBatchCompatablityEnabled = true;
             krypton.CullMode = CullMode.None;
+            krypton.AmbientColor = new Color(30, 30, 30);
             ModifierList list=new ModifierList();
             world = new World(new Vector2(0, 40.8f));
             List<Modifier> modlist = new List<Modifier>();
@@ -193,6 +194,7 @@ namespace MadNorSane.Screens
             // timing mechanism that we have just finished a very long frame, and that
             // it should not try to catch up.
             debug = new DebugViewXNA(world);
+            ShadowType sType = ShadowType.Occluded;
             debug.LoadContent(ScreenManager.GraphicsDevice, content);
             this.mLightTexture = LightTextureBuilder.CreatePointLight(ScreenManager.GraphicsDevice, 512);
             Light2D light = new Light2D()
@@ -205,7 +207,7 @@ namespace MadNorSane.Screens
                 Y = -615,
                 Angle=-(float)Math.PI*3/2,
                 Fov=(float)Math.PI/4,
-               
+
             };
             krypton.Lights.Add(light);
             krypton.Lights.Add(new Light2D()
@@ -269,10 +271,12 @@ namespace MadNorSane.Screens
             // Create some lights and hulls
           //  this.CreateLights(mLightTexture, this.mNumLights);
            // this.CreateHulls(this.mNumHorzontalHulls, this.mNumVerticalHulls);
-            
+            foreach (Light2D l in krypton.Lights)
+                l.ShadowType = sType;
             ScreenManager.Game.ResetElapsedTime();
             
         }
+       
         TimeSpan crateCd;
         TimeSpan crateTime;
         TimeSpan waveOfLights1;
@@ -725,7 +729,7 @@ namespace MadNorSane.Screens
            // camera.position = new Vector2(20, 20);
            
             this.krypton.Matrix = camera.View;
-            this.krypton.Bluriness = 3;
+            this.krypton.Bluriness = 1;
             //krypton.AmbientColor = Color.White;
             this.krypton.LightMapPrepare();
 
