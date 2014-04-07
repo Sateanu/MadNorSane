@@ -111,6 +111,8 @@ namespace MadNorSane.Screens
                 {
                     p2ready = true;
                 }
+                if (!input.GamePadWasConnected[0])
+                    p2ready = true;
                 foreach (Buttons b in (Buttons[])Enum.GetValues(typeof(Buttons)))
                     if (gp.IsButtonDown(b))
                         p2ready = true;

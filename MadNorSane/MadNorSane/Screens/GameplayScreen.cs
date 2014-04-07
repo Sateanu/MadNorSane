@@ -387,7 +387,7 @@ namespace MadNorSane.Screens
                             l.Color = Color.White;
                             l.Intensity = 0.8f;
                         }
-                        crateCd = gameTime.TotalGameTime;
+                        //crateCd = gameTime.TotalGameTime;
                     }
                 if (crate == null)
                 {
