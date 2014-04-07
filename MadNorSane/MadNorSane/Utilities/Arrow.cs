@@ -19,6 +19,7 @@ namespace MadNorSane.Utilities
         int damage = 0;
         Light2D light;
         KryptonEngine kryp;
+        ShadowHull hull;
         public Arrow(World _new_world, ContentManager _new_content,KryptonEngine krypton,Texture2D tex ,Player owner, Vector2 direction, int _damage)
         {
             kryp = krypton;
@@ -50,11 +51,17 @@ namespace MadNorSane.Utilities
                 //Fov = (float)Math.PI / 4,
 
             };
+            hull = ShadowHull.CreateRectangle(new Vector2(16));
+            hull.Position = Conversions.to_pixels(my_body.Position);
+            hull.Angle = my_body.Rotation;
             krypton.Lights.Add(light);
+            krypton.Hulls.Add(hull);
             damage = _damage;
         }
         public override void Update(GameTime gameTime)
         {
+            hull.Position = Conversions.to_pixels(my_body.Position);
+            hull.Angle = my_body.Rotation;
             light.Position = Conversions.to_pixels(my_body.Position);
             base.Update(gameTime);
         }
@@ -101,7 +108,7 @@ namespace MadNorSane.Utilities
                             fixA.Dispose();
                             Active = false;
                             kryp.Lights.Remove(light);
-
+                            kryp.Hulls.Remove(hull);
                             Player pl = (Player)(fixB.Body.UserData);
                             pl.stat.arrownr++;
                             SoundManager.playSound("loot");

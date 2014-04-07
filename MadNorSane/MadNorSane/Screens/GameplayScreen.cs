@@ -202,7 +202,7 @@ namespace MadNorSane.Screens
                 Texture = mLightTexture,
                 Range = 750,
                 Color = Color.White,
-                Intensity = 0.8f,
+                Intensity = 1f,
                 X = 0,
                 Y = -615,
                 Angle=-(float)Math.PI*3/2,
@@ -215,7 +215,7 @@ namespace MadNorSane.Screens
                 Texture = mLightTexture,
                 Range = 750,
                 Color = new Color((float)r.NextDouble(),(float)r.NextDouble(),(float)r.NextDouble()),
-                Intensity = 0.8f,
+                Intensity = 1f,
                 X = -300,
                 Y = -615,
                 Angle = -(float)Math.PI * 3 / 2,
@@ -237,7 +237,7 @@ namespace MadNorSane.Screens
                 Texture = mLightTexture,
                 Range = 750,
                 Color = Color.Silver,
-                Intensity = 0.8f,
+                Intensity = 1f,
                 X = -600,
                 Y = -615,
                 Angle = -(float)Math.PI * 3 / 2,
@@ -248,7 +248,7 @@ namespace MadNorSane.Screens
                 Texture = mLightTexture,
                 Range = 750,
                 Color = Color.Silver,
-                Intensity = 0.8f,
+                Intensity = 1f,
                 X = 600,
                 Y = -615,
                 Angle = -(float)Math.PI * 3 / 2,
@@ -286,7 +286,7 @@ namespace MadNorSane.Screens
             var body= BodyFactory.CreateRectangle(world,Conversions.to_meters(width),Conversions.to_meters(height),1f,new Vector2(Conversions.to_meters(x),Conversions.to_meters(y)));
             body.BodyType = BodyType.Static;
              var hull = ShadowHull.CreateRectangle(new Vector2(width,height));
-             hull = ShadowHull.CreateRectangle(new Vector2(width, height));
+             //hull = ShadowHull.CreateRectangle(new Vector2(width, height));
              hull.Position.X = x;
              hull.Position.Y = y;
 
@@ -437,8 +437,7 @@ namespace MadNorSane.Screens
                 if (crate != null)
                     crate.Update(gameTime);
 
-                foreach (Player p in playeri)
-                    p.Update(gameTime);
+                
                 
                 //player1.update_archer(gameTime);
                 //player2.update_mage(gameTime);
@@ -471,7 +470,8 @@ namespace MadNorSane.Screens
 
                 world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
                 var t = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+                foreach (Player p in playeri)
+                    p.Update(gameTime);
                 var speed = 5;
 
                 // Allow for randomization of lights and hulls, to demonstrait that each hull and light is individually rendered
@@ -729,7 +729,7 @@ namespace MadNorSane.Screens
            // camera.position = new Vector2(20, 20);
            
             this.krypton.Matrix = camera.View;
-            this.krypton.Bluriness = 1;
+            this.krypton.Bluriness = 3;
             //krypton.AmbientColor = Color.White;
             this.krypton.LightMapPrepare();
 
